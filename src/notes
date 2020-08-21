@@ -1,0 +1,2 @@
+npx create-react-app social-family-update --use-npm
+npm install semantic-ui-react semantic-ui-css
