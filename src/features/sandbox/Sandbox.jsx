@@ -10,7 +10,7 @@ export default function Sandbox() {
   const dispatch = useDispatch();
   const [target, setTarget] = useState(null);
   const data = useSelector((state) => state.test.data);
-  // const { loading } = useSelector((state) => state.async);
+  const { loading } = useSelector((state) => state.async);
   const defaultProps = {
     center: {
       lat: 59.95,
@@ -30,7 +30,7 @@ export default function Sandbox() {
       <h3>The data is: {data}</h3>
       <Button
         name='increment'
-        // loading={loading && target === 'increment'}
+        loading={loading && target === 'increment'}
         onClick={(e) => {
           dispatch(increment(20));
           setTarget(e.target.name);
@@ -40,7 +40,7 @@ export default function Sandbox() {
       />
       <Button
         name='decrement'
-        // loading={loading && target === 'decrement'}
+        loading={loading && target === 'decrement'}
         onClick={(e) => {
           dispatch(decrement(10));
           setTarget(e.target.name);
