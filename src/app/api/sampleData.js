@@ -21,7 +21,7 @@ export const sampleData = [
       },
     },
     hostedBy: 'Bob',
-    hostPhotoURL: 'https://randomuser.me/api/portraits/men/20.jpg',
+    hostPhotoURL: 'https://randomuser.me/api/portraits/men/42.jpg',
     attendees: [
       {
         id: 'a',

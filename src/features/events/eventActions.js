@@ -3,6 +3,7 @@ import {
   UPDATE_EVENT,
   DELETE_EVENT,
   FETCH_EVENTS,
+  LISTEN_TO_SELECTED_EVENT,
 } from './eventConstants';
 import {
   asyncActionStart,
@@ -21,6 +22,20 @@ export function loadEvents() {
     } catch (error) {
       dispatch(asyncActionError(error));
     }
+  };
+}
+
+export function listenToSelectedEvent(event) {
+  return {
+    type: LISTEN_TO_SELECTED_EVENT,
+    payload: event,
+  };
+}
+
+export function listenToEvents(events) {
+  return {
+    type: FETCH_EVENTS,
+    payload: events,
   };
 }
 
