@@ -1,18 +1,26 @@
 import React from 'react';
-import NavBar from '../../features/nav/NavBar';
+import { useSelector } from 'react-redux';
 import { Container } from 'semantic-ui-react';
-import EventDashboard from '../../features/events/eventDashboard/EventDashboard';
+import { ToastContainer } from 'react-toastify';
 import { Route, useLocation } from 'react-router-dom';
+import NavBar from '../../features/nav/NavBar';
+import EventDashboard from '../../features/events/eventDashboard/EventDashboard';
 import HomePage from '../../features/home/HomePage';
 import EventDetailedPage from '../../features/events/eventDetailed/EventDetailedPage';
 import EventForm from '../../features/events/eventForm/EventForm';
 import Sandbox from '../../features/sandbox/Sandbox';
 import ModalManager from '../common/modals/ModalManager';
-import { ToastContainer } from 'react-toastify';
 import ErrorComponent from '../common/errors/ErrorComponent';
+import FamilyDashboard from '../../features/family/FamilyDashboard/FamilyDashboard';
+import AccountPage from '../../features/auth/AccountPage';
+import LoadingComponent from './LoadingComponent';
+import ProfilePage from '../../features/profiles/profilePage/ProfilePage';
 
 export default function App() {
   const { key } = useLocation();
+  const { initialized } = useSelector((state) => state.async);
+
+  if (!initialized) return <LoadingComponent content='Loading app...' />;
 
   return (
     <>
@@ -34,6 +42,9 @@ export default function App() {
                 component={EventForm}
                 key={key}
               />
+              <Route path='/family-tree' component={FamilyDashboard} />
+              <Route path='/account' component={AccountPage} />
+              <Route path='/profile/:id' component={ProfilePage} />
               <Route path='/error' component={ErrorComponent} />
             </Container>
           </>
@@ -42,5 +53,3 @@ export default function App() {
     </>
   );
 }
-
-// export default App;

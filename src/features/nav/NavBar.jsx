@@ -15,6 +15,9 @@ export default function NavBar() {
           <img src='/assets/logo.png' alt='logo' />
         </Menu.Item>
         <Menu.Item as={NavLink} to='/events' name='Events' />
+        {/* <Menu.Item as={NavLink} exact to='/screams' name='Social' /> */}
+        <Menu.Item as={NavLink} to='/family-tree' name='Family Tree' />
+        {/* <Menu.Item as={NavLink} exact to='/recipes' name='Recipes' /> */}
         <Menu.Item as={NavLink} to='/sandbox' name='Sandbox' />
         {authenticated && (
           <Menu.Item as={NavLink} to='/createEvent'>

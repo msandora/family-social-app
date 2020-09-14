@@ -2,14 +2,8 @@ import { SIGN_IN_USER, SIGN_OUT_USER } from './authConstants';
 // import { LOCATION_CHANGE } from 'connected-react-router';
 
 const initialState = {
-  authenticated: true,
-  // currentUser: null,
-  currentUser: {
-    email: 'bob@test.com',
-    photoURL: '/assets/user.png',
-  },
-  prevLocation: null,
-  currentLocation: null,
+  authenticated: false,
+  currentUser: null,
 };
 
 export default function authReducer(state = initialState, { type, payload }) {
@@ -22,10 +16,10 @@ export default function authReducer(state = initialState, { type, payload }) {
         authenticated: true,
         currentUser: {
           email: payload.email,
-          photoURL: '/assets/user.png',
-          // uid: payload.uid,
-          // displayName: payload.displayName,
-          // providerId: payload.providerData[0].providerId,
+          photoURL: payload.photoURL,
+          uid: payload.uid,
+          displayName: payload.displayName,
+          providerId: payload.providerData[0].providerId,
         },
       };
     case SIGN_OUT_USER:
