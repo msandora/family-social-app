@@ -67,7 +67,7 @@ export default function PhotosTab({ profile, isCurrentUser }) {
           {editMode ? (
             <PhotoUploadWidget setEditMode={setEditMode} />
           ) : (
-            <Card.Group itemsPerRow={5}>
+            <Card.Group itemsPerRow={3}>
               {photos.map((photo) => (
                 <Card key={photo.id}>
                   <Image src={photo.url} />

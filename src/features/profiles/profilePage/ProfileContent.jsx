@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Tab } from 'semantic-ui-react';
 import AboutTab from './AboutTab';
-// import PhotosTab from './PhotosTab';
+import PhotosTab from './PhotosTab';
 import EventsTab from './EventsTab';
 import FollowingTab from './FollowingTab';
 
@@ -14,12 +14,12 @@ export default function ProfileContent({ profile, isCurrentUser }) {
         <AboutTab profile={profile} isCurrentUser={isCurrentUser} />
       ),
     },
-    // {
-    //   menuItem: 'Photos',
-    //   render: () => (
-    //     <PhotosTab profile={profile} isCurrentUser={isCurrentUser} />
-    //   ),
-    // },
+    {
+      menuItem: 'Photos',
+      render: () => (
+        <PhotosTab profile={profile} isCurrentUser={isCurrentUser} />
+      ),
+    },
     { menuItem: 'Events', render: () => <EventsTab profile={profile} /> },
     {
       menuItem: 'Followers',
