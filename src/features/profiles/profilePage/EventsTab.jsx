@@ -24,6 +24,7 @@ export default function EventsTab({ profile }) {
     { menuItem: 'Past Events', pane: { key: 'past' } },
     { menuItem: 'Hosting', pane: { key: 'hosting' } },
   ];
+
   return (
     <Tab.Pane loading={loading}>
       <Grid>
@@ -36,7 +37,7 @@ export default function EventsTab({ profile }) {
             panes={panes}
             menu={{ secondary: true, pointing: true }}
           />
-          <Card.Group itemsPerRow={5} style={{ marginTop: 10 }}>
+          <Card.Group itemsPerRow={3} style={{ marginTop: 10 }}>
             {profileEvents.map((event) => (
               <Card as={Link} to={`/events/${event.id}`} key={event.id}>
                 <Image

@@ -23,9 +23,9 @@ export default function SignedInMenu({ signOut }) {
       <Image
         avatar
         spaced='right'
-        src={currentUserProfile.photoURL || '/assets/user.png'}
+        src={currentUserProfile?.photoURL || '/assets/user.png'}
       />
-      <Dropdown pointing='top right' text={currentUserProfile.displayName}>
+      <Dropdown pointing='top right' text={currentUserProfile?.displayName}>
         <Dropdown.Menu>
           <Dropdown.Item text='My Events' icon='calendar' />
           <Dropdown.Item
@@ -36,7 +36,7 @@ export default function SignedInMenu({ signOut }) {
           />
           <Dropdown.Item
             as={Link}
-            to={`/profile/${currentUserProfile.id}`}
+            to={`/profile/${currentUserProfile?.id}`}
             text='My Profile'
             icon='user'
           />

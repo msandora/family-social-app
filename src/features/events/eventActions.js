@@ -3,7 +3,12 @@ import {
   UPDATE_EVENT,
   DELETE_EVENT,
   FETCH_EVENTS,
+  LISTEN_TO_EVENT_CHAT,
   LISTEN_TO_SELECTED_EVENT,
+  CLEAR_EVENTS,
+  SET_FILTER,
+  SET_START_DATE,
+  CLEAR_SELECTED_EVENT,
 } from './eventConstants';
 import {
   asyncActionStart,
@@ -58,5 +63,27 @@ export function deleteEvent(eventId) {
   return {
     type: DELETE_EVENT,
     payload: eventId,
+  };
+}
+
+export function setFilter(value) {
+  console.log('value', value);
+  return function (dispatch) {
+    dispatch(clearEvents());
+    dispatch({ type: SET_FILTER, payload: value });
+  };
+}
+
+export function setStartDate(date) {
+  console.log('date', date);
+  return function (dispatch) {
+    dispatch(clearEvents());
+    dispatch({ type: SET_START_DATE, payload: date });
+  };
+}
+
+export function clearEvents() {
+  return {
+    type: CLEAR_EVENTS,
   };
 }
