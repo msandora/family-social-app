@@ -81,11 +81,11 @@ export function addEventChatComment(eventId, values) {
     date: Date.now(),
     parentId: values.parentId,
   };
-  return firebase.database().ref(`chat/${eventId}`).push(newComment);
+  return firebase.database().ref(`event_chat/${eventId}`).push(newComment);
 }
 
 export function getEventChatRef(eventId) {
-  return firebase.database().ref(`chat/${eventId}`).orderByKey();
+  return firebase.database().ref(`event_chat/${eventId}`).orderByKey();
 }
 
 export function getUserFeedRef() {

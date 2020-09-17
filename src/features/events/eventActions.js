@@ -8,7 +8,7 @@ import {
   CLEAR_EVENTS,
   SET_FILTER,
   SET_START_DATE,
-  CLEAR_SELECTED_EVENT,
+  // CLEAR_SELECTED_EVENT,
 } from './eventConstants';
 import {
   asyncActionStart,
@@ -58,14 +58,6 @@ export function updateEvent(event) {
   };
 }
 
-export function deleteEvent(eventId) {
-  console.log('click', eventId);
-  return {
-    type: DELETE_EVENT,
-    payload: eventId,
-  };
-}
-
 export function setFilter(value) {
   console.log('value', value);
   return function (dispatch) {
@@ -79,6 +71,20 @@ export function setStartDate(date) {
   return function (dispatch) {
     dispatch(clearEvents());
     dispatch({ type: SET_START_DATE, payload: date });
+  };
+}
+
+export function deleteEvent(eventId) {
+  return {
+    type: DELETE_EVENT,
+    payload: eventId,
+  };
+}
+
+export function listenToEventChat(comments) {
+  return {
+    type: LISTEN_TO_EVENT_CHAT,
+    payload: comments,
   };
 }
 
