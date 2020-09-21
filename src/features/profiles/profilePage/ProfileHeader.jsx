@@ -5,8 +5,7 @@ import {
   Item,
   Header,
   Statistic,
-  Divider,
-  Reveal,
+  // Reveal,
   Button,
 } from 'semantic-ui-react';
 import { useState } from 'react';
@@ -27,7 +26,7 @@ export default function ProfileHeader({ profile, isCurrentUser }) {
   const { followingUser } = useSelector((state) => state.profile);
 
   useEffect(() => {
-    if (isCurrentUser) return;
+    if (isCurrentUser) return; // Dont need the code below if its currentUser
     setLoading(true);
     async function fetchFollowingDoc() {
       try {
@@ -91,36 +90,31 @@ export default function ProfileHeader({ profile, isCurrentUser }) {
           </Item.Group>
         </Grid.Column>
         <Grid.Column width={4}>
-          <Statistic.Group>
+          <Statistic.Group horizontal>
             <Statistic label='Followers' value={profile.followerCount || 0} />
             <Statistic label='Following' value={profile.followingCount || 0} />
           </Statistic.Group>
           {!isCurrentUser && (
             <>
-              <Divider />
-              <Reveal animated='move'>
-                <Reveal.Content visible style={{ width: '100%' }}>
-                  <Button
-                    fluid
-                    color='teal'
-                    content={followingUser ? 'Following' : 'Not following'}
-                  />
-                </Reveal.Content>
-                <Reveal.Content hidden style={{ width: '100%' }}>
-                  <Button
-                    onClick={
-                      followingUser
-                        ? () => handleUnfollowUser()
-                        : () => handleFollowUser()
-                    }
-                    loading={loading}
-                    basic
-                    fluid
-                    color={followingUser ? 'red' : 'green'}
-                    content={followingUser ? 'Unfollow' : 'Follow'}
-                  />
-                </Reveal.Content>
-              </Reveal>
+              {followingUser ? (
+                <Button
+                  onClick={() => handleUnfollowUser()}
+                  loading={loading}
+                  basic
+                  fluid
+                  color={'red'}
+                  content={'Unfollow'}
+                />
+              ) : (
+                <Button
+                  onClick={() => handleFollowUser()}
+                  loading={loading}
+                  basic
+                  fluid
+                  color={'green'}
+                  content={'Follow'}
+                />
+              )}
             </>
           )}
         </Grid.Column>
