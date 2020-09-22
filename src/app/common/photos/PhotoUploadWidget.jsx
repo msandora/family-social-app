@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { toast } from 'react-toastify';
 import cuid from 'cuid';
-import { Grid, Header, Button } from 'semantic-ui-react';
+import { Grid, Header, Button, Step, Icon } from 'semantic-ui-react';
 import PhotoWidgetDropzone from './PhotoWidgetDropzone';
 import PhotoWidgetCropper from './PhotoWidgetCropper';
 import { getFileExtension } from '../util/util';
@@ -50,48 +50,77 @@ export default function PhotoUploadWidget({ setEditMode }) {
   }
 
   return (
-    <Grid>
-      <Grid.Column width={4}>
-        <Header color='teal' sub content='Step 1 - Add Photo' />
-        <PhotoWidgetDropzone setFiles={setFiles} />
-      </Grid.Column>
-      <Grid.Column width={1} />
-      <Grid.Column width={4}>
-        <Header color='teal' sub content='Step 2 - Resize' />
-        {files.length > 0 && (
-          <PhotoWidgetCropper
-            setImage={setImage}
-            imagePreview={files[0].preview}
-          />
-        )}
-      </Grid.Column>
-      <Grid.Column width={1} />
-      <Grid.Column width={4}>
-        <Header color='teal' sub content='Step 3 - Preview & upload' />
-        {files.length > 0 && (
-          <>
-            <div
-              className='img-preview'
-              style={{ minHeight: 200, minWidth: 200, overflow: 'hidden' }}
+    <>
+      <Grid>
+        <Grid.Column width={16}>
+          <Step.Group vertical>
+            <Step active>
+              <Icon name='add' />
+              <Step.Content>
+                <Step.Title>Add Photo</Step.Title>
+                <Step.Description>Choose a photo</Step.Description>
+              </Step.Content>
+            </Step>
+            <Step disabled>
+              <Icon name='crop' />
+              <Step.Content>
+                <Step.Title>Crop Photo</Step.Title>
+                <Step.Description>Larger the better</Step.Description>
+              </Step.Content>
+            </Step>
+            <Step disabled>
+              <Icon name='cloud upload' />
+              <Step.Content>
+                <Step.Title>Confirm Upload</Step.Title>
+              </Step.Content>
+            </Step>
+          </Step.Group>
+        </Grid.Column>
+      </Grid>
+
+      <Grid>
+        <Grid.Column width={4}>
+          <Header color='teal' sub content='Step 1 - Add Photo' />
+          <PhotoWidgetDropzone setFiles={setFiles} />
+        </Grid.Column>
+        <Grid.Column width={1} />
+        <Grid.Column width={4}>
+          <Header color='teal' sub content='Step 2 - Resize' />
+          {files.length > 0 && (
+            <PhotoWidgetCropper
+              setImage={setImage}
+              imagePreview={files[0].preview}
             />
-            <Button.Group>
-              <Button
-                loading={loading}
-                onClick={handleUploadImage}
-                style={{ width: 100 }}
-                positive
-                icon='check'
+          )}
+        </Grid.Column>
+        <Grid.Column width={1} />
+        <Grid.Column width={4}>
+          <Header color='teal' sub content='Step 3 - Preview & upload' />
+          {files.length > 0 && (
+            <>
+              <div
+                className='img-preview'
+                style={{ minHeight: 200, minWidth: 200, overflow: 'hidden' }}
               />
-              <Button
-                disabled={loading}
-                onClick={handleCancelCrop}
-                style={{ width: 100 }}
-                icon='close'
-              />
-            </Button.Group>
-          </>
-        )}
-      </Grid.Column>
-    </Grid>
+              <Button.Group>
+                <Button
+                  loading={loading}
+                  onClick={handleUploadImage}
+                  style={{ width: 100 }}
+                  positive
+                  icon='check'
+                />
+                <Button
+                  disabled={loading}
+                  onClick={handleCancelCrop}
+                  style={{ width: 100 }}
+                  icon='close'
+                />
+              </Button.Group>
+            </>
+          )}
+        </Grid.Column>
+      </Grid>
+    </>
   );
 }

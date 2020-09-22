@@ -100,6 +100,7 @@ export function cancelEventToggle(event) {
 }
 
 export function setUserProfileData(user) {
+  console.log('New User?', user.displayName);
   return db
     .collection('users')
     .doc(user.uid)
@@ -279,54 +280,38 @@ export async function followUser(profile) {
   const user = firebase.auth().currentUser;
   const batch = db.batch();
   try {
-    await db
-      .collection('following')
-      .doc(user.uid)
-      .collection('userFollowing')
-      .doc(profile.id)
-      .set({
+    batch.set(
+      db
+        .collection('following')
+        .doc(user.uid)
+        .collection('userFollowing')
+        .doc(profile.id),
+      {
         displayName: profile.displayName,
         photoURL: profile.photoURL,
         uid: profile.id,
-      });
-    await db
-      .collection('following')
-      .doc(profile.id)
-      .collection('userFollowers')
-      .doc(user.uid)
-      .set({
-        displayName: user.displayName,
-        photoURL: user.photoURL,
-        uid: user.uid,
-      });
-    await db
-      .collection('users')
-      .doc(user.uid)
-      .update({
-        followingCount: firebase.firestore.FieldValue.increment(1),
-      });
-    return await db
-      .collection('users')
-      .doc(profile.id)
-      .update({
-        followerCount: firebase.firestore.FieldValue.increment(1),
-      });
+      }
+    );
     // batch.set(
     //   db
     //     .collection('following')
-    //     .doc(user.uid)
-    //     .collection('userFollowing')
-    //     .doc(profile.id),
+    //     .doc(profile.id)
+    //     .collection('userFollowers')
+    //     .doc(user.uid),
     //   {
-    //     displayName: profile.displayName,
-    //     photoURL: profile.photoURL,
-    //     uid: profile.id,
+    //     displayName: user.displayName,
+    //     photoURL: user.photoURL,
+    //     uid: user.uid,
     //   }
     // );
-    // batch.update(db.collection('users').doc(user.uid), {
-    //   followingCount: firebase.firestore.FieldValue.increment(1),
+    batch.update(db.collection('users').doc(user.uid), {
+      followingCount: firebase.firestore.FieldValue.increment(1),
+    });
+    // batch.update(db.collection('users').doc(profile.id), {
+    //   followerCount: firebase.firestore.FieldValue.increment(1),
     // });
-    // return await batch.commit();
+
+    return await batch.commit();
   } catch (error) {
     throw error;
   }
@@ -334,55 +319,24 @@ export async function followUser(profile) {
 
 export async function unfollowUser(profile) {
   const user = firebase.auth().currentUser;
+  const batch = db.batch();
   try {
-    await db
-      .collection('following')
-      .doc(user.uid)
-      .collection('userFollowing')
-      .doc(profile.id)
-      .delete();
-    await db
-      .collection('following')
-      .doc(profile.id)
-      .collection('userFollowers')
-      .doc(user.uid)
-      .delete();
+    batch.delete(
+      db
+        .collection('following')
+        .doc(user.uid)
+        .collection('userFollowing')
+        .doc(profile.id)
+    );
 
-    await db
-      .collection('users')
-      .doc(user.uid)
-      .update({
-        followingCount: firebase.firestore.FieldValue.increment(-1),
-      });
-    return await db
-      .collection('users')
-      .doc(profile.id)
-      .update({
-        followerCount: firebase.firestore.FieldValue.increment(-1),
-      });
+    batch.update(db.collection('users').doc(user.uid), {
+      followingCount: firebase.firestore.FieldValue.increment(-1),
+    });
+
+    return await batch.commit();
   } catch (error) {
     throw error;
   }
-
-  // const user = firebase.auth().currentUser;
-  // const batch = db.batch();
-  // try {
-  //   batch.delete(
-  //     db
-  //       .collection('following')
-  //       .doc(user.uid)
-  //       .collection('userFollowing')
-  //       .doc(profile.id)
-  //   );
-
-  //   batch.update(db.collection('users').doc(user.uid), {
-  //     followingCount: firebase.firestore.FieldValue.increment(-1),
-  //   });
-
-  //   return await batch.commit();
-  // } catch (error) {
-  //   throw error;
-  // }
 }
 
 export function getFollowersCollection(profileId) {

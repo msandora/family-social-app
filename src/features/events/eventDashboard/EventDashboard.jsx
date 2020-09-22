@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Grid, Loader } from 'semantic-ui-react';
 import EventList from './EventList';
+import EventFeed from './EventFeed';
 import { useSelector, useDispatch } from 'react-redux';
 import EventListItemPlaceholder from './EventListItemPlaceholder';
 import EventFilters from './EventFilters';
@@ -12,6 +13,8 @@ export default function EventDashboard() {
   const dispatch = useDispatch();
   const { events } = useSelector((state) => state.event);
   const { loading } = useSelector((state) => state.async);
+  const { authenticated } = useSelector((state) => state.auth);
+
   const [predicate, setPredicate] = useState(
     new Map([
       ['startDate', new Date()],
@@ -41,6 +44,8 @@ export default function EventDashboard() {
         <EventList events={events} />
       </Grid.Column>
       <Grid.Column width={6}>
+        {authenticated && <EventFeed />}
+
         <EventFilters
           predicate={predicate}
           setPredicate={handleSetPredicate}

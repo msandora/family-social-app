@@ -36,7 +36,7 @@ export default function FollowingTab({ profile, activeTab }) {
           />
         </Grid.Column>
         <Grid.Column width={16}>
-          <Card.Group itemsPerRow={5}>
+          <Card.Group itemsPerRow={4}>
             {activeTab === 3 &&
               followers.map((profile) => (
                 <ProfileCard profile={profile} key={profile.id} />
