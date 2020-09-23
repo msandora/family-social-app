@@ -5,6 +5,7 @@ import modalReducer from '../common/modals/modalReducer';
 import authReducer from '../../features/auth/authReducer';
 import asyncReducer from '../async/asyncReducer';
 import profileReducer from '../../features/profiles/profileReducer';
+import familyReducer from '../../features/family/familyReducer';
 
 const rootReducer = combineReducers({
   test: testReducer,
@@ -13,6 +14,7 @@ const rootReducer = combineReducers({
   auth: authReducer,
   async: asyncReducer,
   profile: profileReducer,
+  family: familyReducer,
 });
 
 export default rootReducer;

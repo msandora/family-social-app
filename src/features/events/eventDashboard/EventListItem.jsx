@@ -6,6 +6,7 @@ import { format } from 'date-fns';
 import { deleteEventInFirestore } from '../../../app/firestore/firestoreService';
 
 export default function EventListItem({ event }) {
+  // console.log(event);
   return (
     <Segment.Group>
       <Segment>

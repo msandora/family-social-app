@@ -1,4 +1,11 @@
 // Any Random functions that do not have a place to go
+export const objectToArray = (object) => {
+  if (object) {
+    return Object.entries(object).map((e) =>
+      Object.assign({}, e[1], { id: e[0] })
+    );
+  }
+};
 
 export function delay(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));

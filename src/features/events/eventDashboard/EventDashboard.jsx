@@ -2,9 +2,10 @@ import React, { useState } from 'react';
 import { Grid, Loader } from 'semantic-ui-react';
 import EventList from './EventList';
 import EventFeed from './EventFeed';
-import { useSelector, useDispatch } from 'react-redux';
 import EventListItemPlaceholder from './EventListItemPlaceholder';
 import EventFilters from './EventFilters';
+
+import { useSelector, useDispatch } from 'react-redux';
 import { listenToEventsFromFirestore } from '../../../app/firestore/firestoreService';
 import { listenToEvents } from '../eventActions';
 import useFirestoreCollection from '../../../app/hooks/useFirestoreCollection';

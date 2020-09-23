@@ -3,6 +3,15 @@ import firebase from '../config/firebase';
 const db = firebase.firestore();
 
 // Test Firestore
+// export function listenToFamilyFromFirestore(observer) {
+//   return db.collection('family').onSnapshot(observer);
+// }
+export function listenToFamilyFromFirestore() {
+  let familyRef = db.collection('family');
+
+  return familyRef;
+}
+
 export function listenToEventsFromFirestore(predicate) {
   const user = firebase.auth().currentUser;
   let eventsRef = db.collection('events').orderBy('date');
