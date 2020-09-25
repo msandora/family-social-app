@@ -8,25 +8,53 @@ import {
   CLEAR_EVENTS,
   SET_FILTER,
   SET_START_DATE,
-  // CLEAR_SELECTED_EVENT,
+  CLEAR_SELECTED_EVENT,
 } from './eventConstants';
 import {
   asyncActionStart,
   asyncActionFinish,
   asyncActionError,
 } from '../../app/async/asyncReducer';
-import { fetchSampleData } from '../../app/api/mockApi';
+import {
+  fetchEventsFromFirestore,
+  dataFromSnapshot,
+} from '../../app/firestore/firestoreService';
 
-export function loadEvents() {
+export function fetchEvents(filter, startDate, limit, lastDocSnapshot) {
   return async function (dispatch) {
     dispatch(asyncActionStart());
     try {
-      const events = await fetchSampleData();
-      dispatch({ type: FETCH_EVENTS, payload: events });
+      const snapshot = await fetchEventsFromFirestore(
+        filter,
+        startDate,
+        limit,
+        lastDocSnapshot
+      ).get();
+      const lastVisible = snapshot.docs[snapshot.docs.length - 1];
+      const moreEvents = snapshot.docs.length >= limit;
+      const events = snapshot.docs.map((doc) => dataFromSnapshot(doc));
+      dispatch({
+        type: FETCH_EVENTS,
+        payload: { events, moreEvents, lastVisible },
+      });
       dispatch(asyncActionFinish());
     } catch (error) {
       dispatch(asyncActionError(error));
     }
+  };
+}
+
+export function setFilter(value) {
+  return function (dispatch) {
+    dispatch(clearEvents());
+    dispatch({ type: SET_FILTER, payload: value });
+  };
+}
+
+export function setStartDate(date) {
+  return function (dispatch) {
+    dispatch(clearEvents());
+    dispatch({ type: SET_START_DATE, payload: date });
   };
 }
 
@@ -37,10 +65,9 @@ export function listenToSelectedEvent(event) {
   };
 }
 
-export function listenToEvents(events) {
+export function clearSelectedEvent() {
   return {
-    type: FETCH_EVENTS,
-    payload: events,
+    type: CLEAR_SELECTED_EVENT,
   };
 }
 
@@ -55,22 +82,6 @@ export function updateEvent(event) {
   return {
     type: UPDATE_EVENT,
     payload: event,
-  };
-}
-
-export function setFilter(value) {
-  console.log('value', value);
-  return function (dispatch) {
-    dispatch(clearEvents());
-    dispatch({ type: SET_FILTER, payload: value });
-  };
-}
-
-export function setStartDate(date) {
-  console.log('date', date);
-  return function (dispatch) {
-    dispatch(clearEvents());
-    dispatch({ type: SET_START_DATE, payload: date });
   };
 }
 

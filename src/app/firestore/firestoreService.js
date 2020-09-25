@@ -12,24 +12,6 @@ export function listenToFamilyFromFirestore() {
   return familyRef;
 }
 
-export function listenToEventsFromFirestore(predicate) {
-  const user = firebase.auth().currentUser;
-  let eventsRef = db.collection('events').orderBy('date');
-  switch (predicate.get('filter')) {
-    case 'isGoing':
-      return eventsRef
-        .where('attendeeIds', 'array-contains', user.uid)
-        .where('date', '>=', predicate.get('startDate'));
-    case 'isHost':
-      return eventsRef
-        .where('hostUid', '==', user.uid)
-        .where('date', '>=', predicate.get('startDate'));
-    default:
-      return eventsRef.where('date', '>=', predicate.get('startDate'));
-  }
-}
-
-// Shape the data
 export function dataFromSnapshot(snapshot) {
   if (!snapshot.exists) return undefined;
   const data = snapshot.data();
@@ -109,7 +91,6 @@ export function cancelEventToggle(event) {
 }
 
 export function setUserProfileData(user) {
-  console.log('New User?', user.displayName);
   return db
     .collection('users')
     .doc(user.uid)
@@ -219,7 +200,7 @@ export async function setMainPhoto(photo) {
       photoURL: photo.url,
     });
   } catch (error) {
-    console.log(error);
+    throw error;
   }
 }
 
@@ -301,25 +282,9 @@ export async function followUser(profile) {
         uid: profile.id,
       }
     );
-    // batch.set(
-    //   db
-    //     .collection('following')
-    //     .doc(profile.id)
-    //     .collection('userFollowers')
-    //     .doc(user.uid),
-    //   {
-    //     displayName: user.displayName,
-    //     photoURL: user.photoURL,
-    //     uid: user.uid,
-    //   }
-    // );
     batch.update(db.collection('users').doc(user.uid), {
       followingCount: firebase.firestore.FieldValue.increment(1),
     });
-    // batch.update(db.collection('users').doc(profile.id), {
-    //   followerCount: firebase.firestore.FieldValue.increment(1),
-    // });
-
     return await batch.commit();
   } catch (error) {
     throw error;

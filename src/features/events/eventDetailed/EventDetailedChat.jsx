@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { Segment, Comment, Header } from 'semantic-ui-react';
 import EventDetailedChatForm from './EventDetailedChatForm';
 import { useDispatch, useSelector } from 'react-redux';
@@ -10,6 +10,7 @@ import { listenToEventChat } from '../eventActions';
 import { Link } from 'react-router-dom';
 import { formatDistance } from 'date-fns';
 import { CLEAR_COMMENTS } from '../eventConstants';
+import { useState } from 'react';
 import { createDataTree } from '../../../app/common/util/util';
 
 export default function EventDetailedChat({ eventId }) {
