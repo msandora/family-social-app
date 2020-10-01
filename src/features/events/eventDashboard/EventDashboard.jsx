@@ -1,14 +1,13 @@
-import React from 'react';
-import { Grid, Loader } from 'semantic-ui-react';
+import React, { useEffect, useState } from 'react';
+import { Button, Grid, Loader, Menu, Segment } from 'semantic-ui-react';
 import EventList from './EventList';
 import { useSelector, useDispatch } from 'react-redux';
 import EventListItemPlaceholder from './EventListItemPlaceholder';
 import EventFilters from './EventFilters';
 import { fetchEvents } from '../eventActions';
-import { useState } from 'react';
 import EventFeed from './EventFeed';
-import { useEffect } from 'react';
 import { RETAIN_STATE } from '../eventConstants';
+import { NavLink } from 'react-router-dom';
 
 export default function EventDashboard() {
   const limit = 2;
@@ -57,7 +56,16 @@ export default function EventDashboard() {
         />
       </Grid.Column>
       <Grid.Column width={6}>
-        {authenticated && <EventFeed />}
+        {authenticated && (
+          <>
+            <Segment>
+              <Menu.Item as={NavLink} to='/createEvent'>
+                <Button fluid positive inverted content='Create Event' />
+              </Menu.Item>
+            </Segment>
+            <EventFeed />
+          </>
+        )}
         <EventFilters loading={loading} />
       </Grid.Column>
       <Grid.Column width={10}>

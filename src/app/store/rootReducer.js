@@ -7,6 +7,8 @@ import authReducer from '../../features/auth/authReducer';
 import asyncReducer from '../async/asyncReducer';
 import profileReducer from '../../features/profiles/profileReducer';
 import familyReducer from '../../features/family/familyReducer';
+import screamReducer from '../../features/screams/screamReducer';
+import recipeReducer from '../../features/recipes/recipeReducer';
 
 const rootReducer = (history) =>
   combineReducers({
@@ -18,6 +20,8 @@ const rootReducer = (history) =>
     async: asyncReducer,
     profile: profileReducer,
     family: familyReducer,
+    scream: screamReducer,
+    recipe: recipeReducer,
   });
 
 export default rootReducer;
