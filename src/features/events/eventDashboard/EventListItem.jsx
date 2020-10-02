@@ -37,7 +37,7 @@ export default function EventListItem({ event }) {
           ))}
         </List>
       </Segment>
-      <Segment clearing>
+      <Segment clearing attached='bottom'>
         <div>{event.description}</div>
         <Button
           as={Link}

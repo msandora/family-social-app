@@ -6,8 +6,7 @@ export default function ScreamDetailedInfo({ scream, isHost }) {
   return (
     <>
       <Segment>
-        <p>Category: {scream.category}</p>
-        <p>Description: {scream.description}</p>
+        <p>{scream.description}</p>
       </Segment>
       <Segment attached='bottom'>
         {isHost && (
