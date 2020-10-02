@@ -6,9 +6,10 @@ import EventListItemPlaceholder from './EventListItemPlaceholder';
 import EventFilters from './EventFilters';
 import { fetchEvents } from '../eventActions';
 import { useState } from 'react';
-import EventFeed from './EventFeed';
+import EventsFeed from './EventFeed';
 import { useEffect } from 'react';
 import { RETAIN_STATE } from '../eventConstants';
+import EventSidebar from './EventSidebar';
 
 export default function EventDashboard() {
   const limit = 2;
@@ -57,7 +58,8 @@ export default function EventDashboard() {
         />
       </Grid.Column>
       <Grid.Column width={6}>
-        {authenticated && <EventFeed />}
+        <EventSidebar loading={loading} />
+        {authenticated && <EventsFeed />}
         <EventFilters loading={loading} />
       </Grid.Column>
       <Grid.Column width={10}>

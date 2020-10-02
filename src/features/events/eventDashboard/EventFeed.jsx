@@ -9,7 +9,7 @@ import {
 import { listenToFeed } from '../../profiles/profileActions';
 import EventFeedItem from './EventFeedItem';
 
-export default function EventsFeed() {
+export default function EventFeed() {
   const dispatch = useDispatch();
   const { feed } = useSelector((state) => state.profile);
 

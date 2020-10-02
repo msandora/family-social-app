@@ -6,11 +6,6 @@ const db = firebase.firestore();
 // export function listenToFamilyFromFirestore(observer) {
 //   return db.collection('family').onSnapshot(observer);
 // }
-export function listenToFamilyFromFirestore() {
-  let familyRef = db.collection('family');
-
-  return familyRef;
-}
 
 export function dataFromSnapshot(snapshot) {
   if (!snapshot.exists) return undefined;
@@ -18,6 +13,7 @@ export function dataFromSnapshot(snapshot) {
 
   for (const prop in data) {
     if (data.hasOwnProperty(prop)) {
+      // loop over props
       if (data[prop] instanceof firebase.firestore.Timestamp) {
         data[prop] = data[prop].toDate();
       }
@@ -28,66 +24,6 @@ export function dataFromSnapshot(snapshot) {
     ...data,
     id: snapshot.id,
   };
-}
-
-export function fetchEventsFromFirestore(
-  filter,
-  startDate,
-  limit,
-  lastDocSnapshot = null
-) {
-  const user = firebase.auth().currentUser;
-  let eventsRef = db
-    .collection('events')
-    .orderBy('date')
-    .startAfter(lastDocSnapshot)
-    .limit(limit);
-  switch (filter) {
-    case 'isGoing':
-      return eventsRef
-        .where('attendeeIds', 'array-contains', user.uid)
-        .where('date', '>=', startDate);
-    case 'isHost':
-      return eventsRef
-        .where('hostUid', '==', user.uid)
-        .where('date', '>=', startDate);
-    default:
-      return eventsRef.where('date', '>=', startDate);
-  }
-}
-
-export function listenToEventFromFirestore(eventId) {
-  return db.collection('events').doc(eventId);
-}
-
-export function addEventToFirestore(event) {
-  const user = firebase.auth().currentUser;
-  return db.collection('events').add({
-    ...event,
-    hostUid: user.uid,
-    hostedBy: user.displayName,
-    hostPhotoURL: user.photoURL || null,
-    attendees: firebase.firestore.FieldValue.arrayUnion({
-      id: user.uid,
-      displayName: user.displayName,
-      photoURL: user.photoURL || null,
-    }),
-    attendeeIds: firebase.firestore.FieldValue.arrayUnion(user.uid),
-  });
-}
-
-export function updateEventInFirestore(event) {
-  return db.collection('events').doc(event.id).update(event);
-}
-
-export function deleteEventInFirestore(eventId) {
-  return db.collection('events').doc(eventId).delete();
-}
-
-export function cancelEventToggle(event) {
-  return db.collection('events').doc(event.id).update({
-    isCancelled: !event.isCancelled,
-  });
 }
 
 export function setUserProfileData(user) {

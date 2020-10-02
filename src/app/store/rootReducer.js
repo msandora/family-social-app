@@ -7,12 +7,16 @@ import authReducer from '../../features/auth/authReducer';
 import asyncReducer from '../async/asyncReducer';
 import profileReducer from '../../features/profiles/profileReducer';
 import familyReducer from '../../features/family/familyReducer';
+import screamReducer from '../../features/screams/screamReducer';
+import recipeReducer from '../../features/recipes/recipeReducer';
 
 const rootReducer = (history) =>
   combineReducers({
     router: connectRouter(history),
     test: testReducer,
     event: eventReducer,
+    scream: screamReducer,
+    recipe: recipeReducer,
     modals: modalReducer,
     auth: authReducer,
     async: asyncReducer,
