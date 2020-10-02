@@ -7,9 +7,8 @@ import {
   CLEAR_COMMENTS,
   LISTEN_TO_SELECTED_SCREAM,
   CLEAR_SCREAMS,
-  SET_FILTER,
   SET_START_DATE,
-  RETAIN_STATE,
+  RETAIN_SCREAM_STATE,
   CLEAR_SELECTED_SCREAM,
 } from './screamConstants';
 
@@ -78,13 +77,6 @@ export default function screamReducer(state = initialState, { type, payload }) {
         moreScreams: true,
         lastVisible: null,
       };
-    case SET_FILTER:
-      return {
-        ...state,
-        retainState: false,
-        moreScreams: true,
-        filter: payload,
-      };
     case SET_START_DATE:
       return {
         ...state,
@@ -92,7 +84,7 @@ export default function screamReducer(state = initialState, { type, payload }) {
         moreScreams: true,
         startDate: payload,
       };
-    case RETAIN_STATE:
+    case RETAIN_SCREAM_STATE:
       return {
         ...state,
         retainState: true,

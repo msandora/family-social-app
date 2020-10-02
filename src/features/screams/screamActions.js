@@ -6,7 +6,6 @@ import {
   LISTEN_TO_SCREAM_CHAT,
   LISTEN_TO_SELECTED_SCREAM,
   CLEAR_SCREAMS,
-  SET_FILTER,
   SET_START_DATE,
   CLEAR_SELECTED_SCREAM,
 } from './screamConstants';
@@ -39,13 +38,6 @@ export function fetchScreams(filter, startDate, limit, lastDocSnapshot) {
     } catch (error) {
       dispatch(asyncActionError(error));
     }
-  };
-}
-
-export function setFilter(value) {
-  return function (dispatch) {
-    dispatch(clearScreams());
-    dispatch({ type: SET_FILTER, payload: value });
   };
 }
 

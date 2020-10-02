@@ -6,7 +6,7 @@ import {
   LISTEN_TO_RECIPE_CHAT,
   LISTEN_TO_SELECTED_RECIPE,
   CLEAR_RECIPES,
-  SET_FILTER,
+  SET_RECIPES_FILTER,
   SET_START_DATE,
   CLEAR_SELECTED_RECIPE,
 } from './recipeConstants';
@@ -45,7 +45,7 @@ export function fetchRecipes(filter, startDate, limit, lastDocSnapshot) {
 export function setFilter(value) {
   return function (dispatch) {
     dispatch(clearRecipes());
-    dispatch({ type: SET_FILTER, payload: value });
+    dispatch({ type: SET_RECIPES_FILTER, payload: value });
   };
 }
 

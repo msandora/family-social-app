@@ -1,20 +1,21 @@
-import { FETCH_FAMILY, DELETE_FAMILY } from './familyConstants';
+import { FETCH_FAMILY, RETAIN_FAMILY_STATE } from './familyConstants';
 
 const initialState = {
   family: [],
+  retainState: false,
 };
 
-export default function eventReducer(state = initialState, { type, payload }) {
+export default function familyReducer(state = initialState, { type, payload }) {
   switch (type) {
-    case DELETE_FAMILY:
-      return {
-        ...state,
-        family: [...state.family.filter((evt) => evt.id !== payload.id)],
-      };
     case FETCH_FAMILY:
       return {
         ...state,
-        family: payload,
+        family: [...state.family],
+      };
+    case RETAIN_FAMILY_STATE:
+      return {
+        ...state,
+        retainState: true,
       };
     default:
       return state;

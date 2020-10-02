@@ -1,2 +1,3 @@
 export const FETCH_FAMILY = 'FETCH_FAMILY';
-export const DELETE_FAMILY = 'DELETE_FAMILY';
+export const CLEAR_FAMILY = 'CLEAR_FAMILY';
+export const RETAIN_FAMILY_STATE = 'RETAIN_FAMILY_STATE';

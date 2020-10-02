@@ -7,9 +7,9 @@ import {
   CLEAR_COMMENTS,
   LISTEN_TO_SELECTED_RECIPE,
   CLEAR_RECIPES,
-  SET_FILTER,
+  SET_RECIPES_FILTER,
   SET_START_DATE,
-  RETAIN_STATE,
+  RETAIN_RECIPE_STATE,
   CLEAR_SELECTED_RECIPE,
 } from './recipeConstants';
 
@@ -78,7 +78,7 @@ export default function recipeReducer(state = initialState, { type, payload }) {
         moreRecipes: true,
         lastVisible: null,
       };
-    case SET_FILTER:
+    case SET_RECIPES_FILTER:
       return {
         ...state,
         retainState: false,
@@ -92,7 +92,7 @@ export default function recipeReducer(state = initialState, { type, payload }) {
         moreRecipes: true,
         startDate: payload,
       };
-    case RETAIN_STATE:
+    case RETAIN_RECIPE_STATE:
       return {
         ...state,
         retainState: true,

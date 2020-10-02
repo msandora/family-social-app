@@ -8,7 +8,7 @@ export default function ScreamDetailedInfo({ scream, isHost }) {
       <Segment>
         <p>{scream.description}</p>
       </Segment>
-      <Segment attached='bottom'>
+      <Segment attached='bottom' clearing>
         {isHost && (
           <Button
             as={Link}

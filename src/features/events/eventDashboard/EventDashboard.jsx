@@ -8,7 +8,7 @@ import { fetchEvents } from '../eventActions';
 import { useState } from 'react';
 import EventsFeed from './EventFeed';
 import { useEffect } from 'react';
-import { RETAIN_STATE } from '../eventConstants';
+import { RETAIN_EVENT_STATE } from '../eventConstants';
 import EventSidebar from './EventSidebar';
 
 export default function EventDashboard() {
@@ -33,7 +33,7 @@ export default function EventDashboard() {
       setLoadingInitial(false);
     });
     return () => {
-      dispatch({ type: RETAIN_STATE });
+      dispatch({ type: RETAIN_EVENT_STATE });
     };
   }, [dispatch, filter, startDate, retainState]);
 

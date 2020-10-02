@@ -7,9 +7,9 @@ import {
   CLEAR_COMMENTS,
   LISTEN_TO_SELECTED_EVENT,
   CLEAR_EVENTS,
-  SET_FILTER,
+  SET_EVENTS_FILTER,
   SET_START_DATE,
-  RETAIN_STATE,
+  RETAIN_EVENT_STATE,
   CLEAR_SELECTED_EVENT,
 } from './eventConstants';
 
@@ -78,7 +78,7 @@ export default function eventReducer(state = initialState, { type, payload }) {
         moreEvents: true,
         lastVisible: null,
       };
-    case SET_FILTER:
+    case SET_EVENTS_FILTER:
       return {
         ...state,
         retainState: false,
@@ -92,7 +92,7 @@ export default function eventReducer(state = initialState, { type, payload }) {
         moreEvents: true,
         startDate: payload,
       };
-    case RETAIN_STATE:
+    case RETAIN_EVENT_STATE:
       return {
         ...state,
         retainState: true,

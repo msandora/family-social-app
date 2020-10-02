@@ -71,8 +71,8 @@ export default function ScreamForm({ match, history, location }) {
       >
         {({ isSubmitting, dirty, isValid, values }) => (
           <Form className='ui form'>
-            <Header sub color='teal' content='Scream Details' />
-            <MyTextInput name='title' placeholder='Scream title' />
+            <Header sub color='teal' content='Post Details' />
+            <MyTextInput name='title' placeholder='Post title' />
             <MyTextArea name='description' placeholder='Description' rows={3} />
 
             <Button

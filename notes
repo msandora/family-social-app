@@ -1,5 +1,27 @@
 npx create-react-app social-family-update --use-npm
-npm install semantic-ui-react semantic-ui-css
+https://revents-2c2ee.firebaseapp.com/
+https://semantic-ui.com/
+https://react.semantic-ui.com/
+
+
+Stateless Functional Components
+- Simple (dumb) components
+- Do not have state *without react hooks
+- Do not have access to React Lifecycle methods
+- Offer no performance improvements over class components
+- Designed to simplify code
+
+Using Cloud Functions
+- Install Firbase CLI
+- Login to Firebase via Command Line Interface
+- Initialize App
+
+firebase Init
+? Which Firebase CLI features do you want to set up for this folder? 
+Functions: Configure and deploy Cloud Functions, Hosting: Configure and deploy Firebase Hosting sites
+? Please select an option: Use an existing project
+? What do you want to use as your public directory? build
+? Configure as a single-page app (rewrite all urls to /index.html)? Yes
 
 
 

@@ -6,7 +6,7 @@ import ScreamListItemPlaceholder from './ScreamListItemPlaceholder';
 import { fetchScreams } from '../screamActions';
 import { useState } from 'react';
 import { useEffect } from 'react';
-import { RETAIN_STATE } from '../screamConstants';
+import { RETAIN_SCREAM_STATE } from '../screamConstants';
 import ScreamSidebar from './ScreamSidebar';
 
 export default function ScreamDashboard() {
@@ -30,7 +30,7 @@ export default function ScreamDashboard() {
       setLoadingInitial(false);
     });
     return () => {
-      dispatch({ type: RETAIN_STATE });
+      dispatch({ type: RETAIN_SCREAM_STATE });
     };
   }, [dispatch, filter, startDate, retainState]);
 

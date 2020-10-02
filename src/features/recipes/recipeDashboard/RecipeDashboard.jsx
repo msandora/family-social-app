@@ -7,7 +7,7 @@ import RecipeFilters from './RecipeFilters';
 import { fetchRecipes } from '../recipeActions';
 import { useState } from 'react';
 import { useEffect } from 'react';
-import { RETAIN_STATE } from '../recipeConstants';
+import { RETAIN_RECIPE_STATE } from '../recipeConstants';
 import RecipeSidebar from './RecipeSidebar';
 
 export default function RecipeDashboard() {
@@ -32,7 +32,7 @@ export default function RecipeDashboard() {
       setLoadingInitial(false);
     });
     return () => {
-      dispatch({ type: RETAIN_STATE });
+      dispatch({ type: RETAIN_RECIPE_STATE });
     };
   }, [dispatch, filter, startDate, retainState]);
 

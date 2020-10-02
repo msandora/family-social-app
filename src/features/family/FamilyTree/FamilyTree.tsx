@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 import PinchZoomPan from 'pinch-zoom-pan';
 import { IFamilyNode, IFamilyExtNode } from 'relatives-tree';
 import { Grid } from 'semantic-ui-react';
@@ -6,6 +7,7 @@ import ReactFamilyTree from 'react-family-tree';
 import FamilyNode from '../../family/FamilyNode/FamilyNode';
 import styles from '../FamilyTree/Family.module.css';
 import nodes from '../../../app/api/family.json';
+import { FETCH_FAMILY, RETAIN_FAMILY_STATE } from '../familyConstants';
 // import { useDispatch } from 'react-redux';
 // import { listenToFamilyFromFirestore } from '../../../app/firestore/firestoreService';
 // import { listenToFamily } from '../familyActions';
@@ -16,11 +18,18 @@ const WIDTH = 70;
 const HEIGHT = 110;
 
 export default React.memo<{}>(function FamilyTree(family) {
-  // const dispatch = useDispatch();
+  const dispatch = useDispatch();
 
   const [menuActive] = useState(false);
   const [rootId, setRootId] = useState<string>(myID);
   //const onResetClick = useCallback(() => setRootId(myID), []);
+
+  useEffect(() => {
+    dispatch({ type: FETCH_FAMILY });
+    return () => {
+      dispatch({ type: RETAIN_FAMILY_STATE });
+    };
+  }, [dispatch]);
 
   return (
     <>

@@ -6,7 +6,7 @@ import {
   LISTEN_TO_EVENT_CHAT,
   LISTEN_TO_SELECTED_EVENT,
   CLEAR_EVENTS,
-  SET_FILTER,
+  SET_EVENTS_FILTER,
   SET_START_DATE,
   CLEAR_SELECTED_EVENT,
 } from './eventConstants';
@@ -45,7 +45,7 @@ export function fetchEvents(filter, startDate, limit, lastDocSnapshot) {
 export function setFilter(value) {
   return function (dispatch) {
     dispatch(clearEvents());
-    dispatch({ type: SET_FILTER, payload: value });
+    dispatch({ type: SET_EVENTS_FILTER, payload: value });
   };
 }
 
