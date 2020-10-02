@@ -1,7 +1,7 @@
 import React from 'react';
-import { Segment, Image, Item, Header, Button } from 'semantic-ui-react';
+import { Segment, Image, Item, Header } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
-// import { format } from 'date-fns';
+import { formatDistance } from 'date-fns';
 import { useState } from 'react';
 import UnauthModal from '../../auth/UnauthModal';
 
@@ -18,58 +18,42 @@ const recipeImageTextStyle = {
   color: 'white',
 };
 
-export default function RecipeDetailedHeader({ recipe, isHost, isGoing }) {
+export default function RecipeDetailedHeader({ recipe, isHost }) {
   const [modalOpen, setModalOpen] = useState(false);
 
   return (
     <>
       {modalOpen && <UnauthModal setModalOpen={setModalOpen} />}
-      <Segment.Group>
-        <Segment basic attached='top' style={{ padding: '0' }}>
-          <Image
-            src={`/assets/categoryImages/${recipe.category}.jpg`}
-            fluid
-            style={recipeImageStyle}
-          />
+      <Segment basic attached='top' style={{ padding: '0' }}>
+        <Image
+          src={`/assets/categoryImages/${recipe.category}.jpg`}
+          fluid
+          style={recipeImageStyle}
+        />
 
-          <Segment basic style={recipeImageTextStyle}>
-            <Item.Group>
-              <Item>
-                <Item.Content>
-                  <Header
-                    size='huge'
-                    content={recipe.title}
-                    style={{ color: 'white' }}
-                  />
-                  {/* <p>{format(recipe.date, 'MMMM d, yyyy h:mm a')}</p> */}
-                  <p>
-                    Hosted by{' '}
-                    <strong>
-                      <Link to={`/profile/${recipe.hostUid}`}>
-                        {recipe.hostedBy}
-                      </Link>{' '}
-                    </strong>
-                  </p>
-                </Item.Content>
-              </Item>
-            </Item.Group>
-          </Segment>
+        <Segment basic style={recipeImageTextStyle}>
+          <Item.Group>
+            <Item>
+              <Item.Content>
+                <Header
+                  size='huge'
+                  content={recipe.title}
+                  style={{ color: 'white' }}
+                />
+                <p>{formatDistance(recipe.createdAt, new Date())} ago</p>
+                <p>
+                  Posted by{' '}
+                  <strong>
+                    <Link to={`/profile/${recipe.hostUid}`}>
+                      {recipe.hostedBy}
+                    </Link>{' '}
+                  </strong>
+                </p>
+              </Item.Content>
+            </Item>
+          </Item.Group>
         </Segment>
-
-        <Segment attached='bottom' clearing>
-          {isHost && (
-            <Button
-              as={Link}
-              to={`/manageRecipe/${recipe.id}`}
-              size='small'
-              color='orange'
-              floated='right'
-            >
-              Manage Recipe
-            </Button>
-          )}
-        </Segment>
-      </Segment.Group>
+      </Segment>
     </>
   );
 }

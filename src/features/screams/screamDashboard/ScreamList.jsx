@@ -1,6 +1,7 @@
 import React from 'react';
 import ScreamListItem from './ScreamListItem';
 import InfiniteScroll from 'react-infinite-scroller';
+import { Button, Header, Icon, Segment } from 'semantic-ui-react';
 
 export default function ScreamList({
   screams,
@@ -21,6 +22,17 @@ export default function ScreamList({
             <ScreamListItem scream={scream} key={scream.id} />
           ))}
         </InfiniteScroll>
+      )}
+      {screams.length === 0 && (
+        <Segment placeholder>
+          <Header icon>
+            <Icon name='search' />
+            No Posts Here
+          </Header>
+          <Button primary onClick={() => window.location.reload()}>
+            Refresh Posts
+          </Button>
+        </Segment>
       )}
     </>
   );

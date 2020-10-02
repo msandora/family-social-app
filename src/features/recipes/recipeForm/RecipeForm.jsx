@@ -1,6 +1,6 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Segment, Header, Button } from 'semantic-ui-react';
-import { Link, Redirect } from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { listenToSelectedRecipe, clearSelectedRecipe } from '../recipeActions';
 import { Formik, Form } from 'formik';
@@ -9,14 +9,16 @@ import MyTextInput from '../../../app/common/form/MyTextInput';
 import MyTextArea from '../../../app/common/form/MyTextArea';
 import MySelectInput from '../../../app/common/form/MySelectInput';
 import { recipeCategories } from '../../../app/api/recipeCategories';
+
 import {
   listenToRecipeFromFirestore,
   updateRecipeInFirestore,
   addRecipeToFirestore,
-} from '../../../app/firestore/firestoreService';
+} from '../../../app/firestore/firestoreServices/recipesHandler';
 import useFirestoreDoc from '../../../app/hooks/useFirestoreDoc';
 import LoadingComponent from '../../../app/layout/LoadingComponent';
 import { toast } from 'react-toastify';
+import { useEffect } from 'react';
 
 export default function RecipeForm({ match, history, location }) {
   const dispatch = useDispatch();
@@ -90,14 +92,6 @@ export default function RecipeForm({ match, history, location }) {
               floated='right'
               positive
               content='Submit'
-            />
-            <Button
-              disabled={isSubmitting}
-              as={Link}
-              to='/recipes'
-              type='submit'
-              floated='right'
-              content='Cancel'
             />
           </Form>
         )}

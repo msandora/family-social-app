@@ -1,47 +1,42 @@
 import React from 'react';
-import { Segment, Item, Button } from 'semantic-ui-react';
+import { Segment, Button, Header, Image } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
-import { deleteScreamInFirestore } from '../../../app/firestore/firestoreService';
+// import ScreamDetailedCarousel from '../screamDetailed/ScreamDetailedCarousel';
+import { formatDistance } from 'date-fns';
 
 export default function ScreamListItem({ scream }) {
   // console.log(scream);
   return (
     <Segment.Group>
       <Segment>
-        <Item.Group>
-          <Item>
-            <Item.Image
-              size='tiny'
-              circular
-              src={scream.hostPhotoURL || '/assets/user.png'}
-            />
-            <Item.Content>
-              <Item.Header content={scream.title} />
-              <Item.Description>
-                Hosted by{' '}
-                <Link to={`/profile/${scream.hostUid}`}>{scream.hostedBy}</Link>
-              </Item.Description>
-            </Item.Content>
-          </Item>
-        </Item.Group>
+        <Header as='h5'>
+          <Image
+            circular
+            src={scream.hostPhotoURL || '/assets/user.png'}
+            as={Link}
+            to={`/profile/${scream.hostUid}`}
+          />
+          <Header.Content>
+            {scream.hostedBy}
+            <Header.Subheader>
+              {formatDistance(scream.createdAt, new Date())} ago
+            </Header.Subheader>
+          </Header.Content>
+        </Header>
       </Segment>
+      {/* <Segment style={{ padding: 0 }}>
+        <ScreamDetailedCarousel scream={scream} />
+      </Segment> */}
       <Segment>
-        <div style={{ whiteSpace: 'pre-wrap' }}>{scream.description}</div>
+        <div>{scream.description}</div>
       </Segment>
-      <Segment clearing>
-        <Button
-          onClick={() => deleteScreamInFirestore(scream.id)}
-          content='Delete'
-          color='red'
-          floated='right'
-        />
+      <Segment attached clearing>
         <Button
           as={Link}
           to={`/screams/${scream.id}`}
-          // onClick={() => selectScream(scream)}
-          content='View'
           color='teal'
           floated='right'
+          content='View'
         />
       </Segment>
     </Segment.Group>

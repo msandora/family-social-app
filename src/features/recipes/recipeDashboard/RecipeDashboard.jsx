@@ -1,43 +1,68 @@
 import React from 'react';
-import { Grid } from 'semantic-ui-react';
+import { Grid, Loader } from 'semantic-ui-react';
 import RecipeList from './RecipeList';
-import RecipeSidebar from './RecipeSidebar';
 import { useSelector, useDispatch } from 'react-redux';
 import RecipeListItemPlaceholder from './RecipeListItemPlaceholder';
-import { listenToRecipesFromFirestore } from '../../../app/firestore/firestoreService';
-import { listenToRecipes } from '../recipeActions';
-import useFirestoreCollection from '../../../app/hooks/useFirestoreCollection';
+import RecipeFilters from './RecipeFilters';
+import { fetchRecipes } from '../recipeActions';
+import { useState } from 'react';
+import { useEffect } from 'react';
+import { RETAIN_STATE } from '../recipeConstants';
+import RecipeSidebar from './RecipeSidebar';
 
 export default function RecipeDashboard() {
+  const limit = 2;
   const dispatch = useDispatch();
-  const { recipes } = useSelector((state) => state.recipe);
+  const {
+    recipes,
+    moreRecipes,
+    filter,
+    startDate,
+    lastVisible,
+    retainState,
+  } = useSelector((state) => state.recipe);
   const { loading } = useSelector((state) => state.async);
+  // const { authenticated } = useSelector((state) => state.auth);
+  const [loadingInitial, setLoadingInitial] = useState(false);
 
-  useFirestoreCollection({
-    query: () => listenToRecipesFromFirestore(),
-    data: (recipes) => dispatch(listenToRecipes(recipes)),
-    deps: [dispatch],
-  });
+  useEffect(() => {
+    if (retainState) return;
+    setLoadingInitial(true);
+    dispatch(fetchRecipes(filter, startDate, limit)).then(() => {
+      setLoadingInitial(false);
+    });
+    return () => {
+      dispatch({ type: RETAIN_STATE });
+    };
+  }, [dispatch, filter, startDate, retainState]);
+
+  function handleFetchNextRecipes() {
+    dispatch(fetchRecipes(filter, startDate, limit, lastVisible));
+  }
 
   return (
     <Grid>
       <Grid.Column width={10}>
-        {loading && (
+        {loadingInitial && (
           <>
             <RecipeListItemPlaceholder />
             <RecipeListItemPlaceholder />
           </>
         )}
-        <RecipeList recipes={recipes} />
+        <RecipeList
+          recipes={recipes}
+          getNextRecipes={handleFetchNextRecipes}
+          loading={loading}
+          moreRecipes={moreRecipes}
+        />
       </Grid.Column>
       <Grid.Column width={6}>
-        <RecipeSidebar />
-        {/* {authenticated && <RecipeFeed />}
-        <RecipeFilters loading={loading} /> */}
+        <RecipeSidebar loading={loading} />
+        <RecipeFilters loading={loading} />
       </Grid.Column>
-      {/* <Grid.Column width={10}>
+      <Grid.Column width={10}>
         <Loader active={loading} />
-      </Grid.Column> */}
+      </Grid.Column>
     </Grid>
   );
 }

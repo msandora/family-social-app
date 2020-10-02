@@ -7,6 +7,7 @@ import {
   LISTEN_TO_SELECTED_RECIPE,
   CLEAR_RECIPES,
   SET_FILTER,
+  SET_START_DATE,
   CLEAR_SELECTED_RECIPE,
 } from './recipeConstants';
 import {
@@ -14,17 +15,8 @@ import {
   asyncActionFinish,
   asyncActionError,
 } from '../../app/async/asyncReducer';
-import {
-  fetchRecipesFromFirestore,
-  dataFromSnapshot,
-} from '../../app/firestore/firestoreService';
-
-export function listenToRecipes(recipes) {
-  return {
-    type: FETCH_RECIPES,
-    payload: { recipes },
-  };
-}
+import { dataFromSnapshot } from '../../app/firestore/firestoreService';
+import { fetchRecipesFromFirestore } from '../../app/firestore/firestoreServices/recipesHandler';
 
 export function fetchRecipes(filter, startDate, limit, lastDocSnapshot) {
   return async function (dispatch) {
@@ -54,6 +46,13 @@ export function setFilter(value) {
   return function (dispatch) {
     dispatch(clearRecipes());
     dispatch({ type: SET_FILTER, payload: value });
+  };
+}
+
+export function setStartDate(date) {
+  return function (dispatch) {
+    dispatch(clearRecipes());
+    dispatch({ type: SET_START_DATE, payload: date });
   };
 }
 

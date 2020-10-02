@@ -1,4 +1,3 @@
-// import { sampleData } from '../../app/api/sampleData';
 import {
   CREATE_RECIPE,
   UPDATE_RECIPE,
@@ -9,6 +8,7 @@ import {
   LISTEN_TO_SELECTED_RECIPE,
   CLEAR_RECIPES,
   SET_FILTER,
+  SET_START_DATE,
   RETAIN_STATE,
   CLEAR_SELECTED_RECIPE,
 } from './recipeConstants';
@@ -84,6 +84,13 @@ export default function recipeReducer(state = initialState, { type, payload }) {
         retainState: false,
         moreRecipes: true,
         filter: payload,
+      };
+    case SET_START_DATE:
+      return {
+        ...state,
+        retainState: false,
+        moreRecipes: true,
+        startDate: payload,
       };
     case RETAIN_STATE:
       return {

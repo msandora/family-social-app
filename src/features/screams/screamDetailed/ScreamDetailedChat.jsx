@@ -1,11 +1,9 @@
 import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { Segment, Comment, Header } from 'semantic-ui-react';
 import ScreamDetailedChatForm from './ScreamDetailedChatForm';
-import { useDispatch, useSelector } from 'react-redux';
-import {
-  getScreamChatRef,
-  firebaseObjectToArray,
-} from '../../../app/firestore/firebaseService';
+import { getScreamChatRef } from '../../../app/firestore/firebaseServices/screamsHandler';
+import { firebaseObjectToArray } from '../../../app/firestore/firebaseService';
 import { listenToScreamChat } from '../screamActions';
 import { Link } from 'react-router-dom';
 import { formatDistance } from 'date-fns';
@@ -50,7 +48,7 @@ export default function ScreamDetailedChat({ screamId }) {
       >
         <Header>
           {authenticated
-            ? 'Chat about this scream'
+            ? 'Chat about this post'
             : 'Sign in to view and comment'}
         </Header>
       </Segment>

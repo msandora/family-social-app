@@ -50,6 +50,7 @@ export default function EventDetailedHeader({ event, isHost, isGoing }) {
       setLoading(false);
     }
   }
+
   return (
     <>
       {modalOpen && <UnauthModal setModalOpen={setModalOpen} />}
@@ -107,11 +108,11 @@ export default function EventDetailedHeader({ event, isHost, isGoing }) {
               )}
             </>
           )}
+
           {isHost && (
             <Button
               as={Link}
               to={`/manageEvent/${event.id}`}
-              size='small'
               color='orange'
               floated='right'
             >

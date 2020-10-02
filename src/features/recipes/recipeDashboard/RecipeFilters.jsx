@@ -7,6 +7,28 @@ export default function RecipeFilters({ loading }) {
   const dispatch = useDispatch();
   const { authenticated } = useSelector((state) => state.auth);
   const { filter } = useSelector((state) => state.recipe);
+
+  function handleFilterAllRecipes() {
+    window.scrollTo(0, 0);
+    dispatch(setFilter('all'));
+  }
+  function handleFilterBreakfast() {
+    window.scrollTo(0, 0);
+    dispatch(setFilter('breakfast'));
+  }
+  function handleFilterDinner() {
+    window.scrollTo(0, 0);
+    dispatch(setFilter('dinner'));
+  }
+  function handleFilterDesserts() {
+    window.scrollTo(0, 0);
+    dispatch(setFilter('desserts'));
+  }
+  function handleFilterBeverages() {
+    window.scrollTo(0, 0);
+    dispatch(setFilter('beverages'));
+  }
+
   return (
     <>
       {authenticated && (
@@ -15,19 +37,31 @@ export default function RecipeFilters({ loading }) {
           <Menu.Item
             content='All Recipes'
             active={filter === 'all'}
-            onClick={() => dispatch(setFilter('all'))}
+            onClick={handleFilterAllRecipes}
             disabled={loading}
           />
           <Menu.Item
-            content="I'm going"
-            active={filter === 'isGoing'}
-            onClick={() => dispatch(setFilter('isGoing'))}
+            content='Breakfast'
+            active={filter === 'breakfast'}
+            onClick={handleFilterBreakfast}
             disabled={loading}
           />
           <Menu.Item
-            content="I'm hosting"
-            active={filter === 'isHost'}
-            onClick={() => dispatch(setFilter('isHost'))}
+            content='Dinner'
+            active={filter === 'dinner'}
+            onClick={handleFilterDinner}
+            disabled={loading}
+          />
+          <Menu.Item
+            content='Desserts'
+            active={filter === 'desserts'}
+            onClick={handleFilterDesserts}
+            disabled={loading}
+          />
+          <Menu.Item
+            content='Beverages'
+            active={filter === 'beverages'}
+            onClick={handleFilterBeverages}
             disabled={loading}
           />
         </Menu>

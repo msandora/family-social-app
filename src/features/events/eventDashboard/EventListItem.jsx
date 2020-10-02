@@ -1,39 +1,28 @@
 import React from 'react';
-import { Segment, Item, Icon, List, Button, Label } from 'semantic-ui-react';
+import { Segment, Icon, List, Button, Header, Image } from 'semantic-ui-react';
 import EventListAttendee from './EventListAttendee';
 import { Link } from 'react-router-dom';
 import { format } from 'date-fns';
-import { deleteEventInFirestore } from '../../../app/firestore/firestoreService';
 
 export default function EventListItem({ event }) {
-  // console.log(event);
   return (
     <Segment.Group>
       <Segment>
-        <Item.Group>
-          <Item>
-            <Item.Image
-              size='tiny'
-              circular
-              src={event.hostPhotoURL || '/assets/user.png'}
-            />
-            <Item.Content>
-              <Item.Header content={event.title} />
-              <Item.Description>
-                Hosted by{' '}
-                <Link to={`/profile/${event.hostUid}`}>{event.hostedBy}</Link>
-              </Item.Description>
-              {event.isCancelled && (
-                <Label
-                  style={{ top: '-10px' }}
-                  ribbon='right'
-                  color='red'
-                  content='This event has been cancelled'
-                />
-              )}
-            </Item.Content>
-          </Item>
-        </Item.Group>
+        <Header as='h5'>
+          <Image
+            circular
+            src={event.hostPhotoURL || '/assets/user.png'}
+            as={Link}
+            to={`/profile/${event.hostUid}`}
+          />
+          <Header.Content>
+            {event.title}
+            <Header.Subheader>
+              Hosted by{' '}
+              <Link to={`/profile/${event.hostUid}`}>{event.hostedBy}</Link>
+            </Header.Subheader>
+          </Header.Content>
+        </Header>
       </Segment>
       <Segment>
         <span>
@@ -48,23 +37,14 @@ export default function EventListItem({ event }) {
           ))}
         </List>
       </Segment>
-      <Segment>
-        <div style={{ whiteSpace: 'pre-wrap' }}>{event.description}</div>
-      </Segment>
       <Segment clearing>
-        <Button
-          onClick={() => deleteEventInFirestore(event.id)}
-          content='Delete'
-          color='red'
-          floated='right'
-        />
+        <div>{event.description}</div>
         <Button
           as={Link}
           to={`/events/${event.id}`}
-          // onClick={() => selectEvent(event)}
-          content='View'
           color='teal'
           floated='right'
+          content='View'
         />
       </Segment>
     </Segment.Group>

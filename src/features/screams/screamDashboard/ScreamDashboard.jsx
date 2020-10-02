@@ -1,40 +1,47 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { Grid, Loader } from 'semantic-ui-react';
 import ScreamList from './ScreamList';
-import ScreamSidebar from './ScreamSidebar';
 import { useSelector, useDispatch } from 'react-redux';
 import ScreamListItemPlaceholder from './ScreamListItemPlaceholder';
 import { fetchScreams } from '../screamActions';
+import { useState } from 'react';
+import { useEffect } from 'react';
 import { RETAIN_STATE } from '../screamConstants';
+import ScreamSidebar from './ScreamSidebar';
 
 export default function ScreamDashboard() {
   const limit = 2;
   const dispatch = useDispatch();
-  const { screams, moreScreams, lastVisible, retainState } = useSelector(
-    (state) => state.scream
-  );
+  const {
+    screams,
+    moreScreams,
+    filter,
+    startDate,
+    lastVisible,
+    retainState,
+  } = useSelector((state) => state.scream);
   const { loading } = useSelector((state) => state.async);
   const [loadingInitial, setLoadingInitial] = useState(false);
 
   useEffect(() => {
     if (retainState) return;
     setLoadingInitial(true);
-    dispatch(fetchScreams(limit)).then(() => {
+    dispatch(fetchScreams(filter, startDate, limit)).then(() => {
       setLoadingInitial(false);
     });
     return () => {
       dispatch({ type: RETAIN_STATE });
     };
-  }, [dispatch, retainState]);
+  }, [dispatch, filter, startDate, retainState]);
 
   function handleFetchNextScreams() {
-    dispatch(fetchScreams(limit, lastVisible));
+    dispatch(fetchScreams(filter, startDate, limit, lastVisible));
   }
 
   return (
     <Grid>
       <Grid.Column width={10}>
-        {loading && (
+        {loadingInitial && (
           <>
             <ScreamListItemPlaceholder />
             <ScreamListItemPlaceholder />
@@ -48,8 +55,7 @@ export default function ScreamDashboard() {
         />
       </Grid.Column>
       <Grid.Column width={6}>
-        <ScreamSidebar />
-        {/* {authenticated && <ScreamFeed />} */}
+        <ScreamSidebar loading={loading} />
       </Grid.Column>
       <Grid.Column width={10}>
         <Loader active={loading} />

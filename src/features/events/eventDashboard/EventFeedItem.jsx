@@ -26,9 +26,10 @@ export default function EventFeedItem({ post }) {
       summary = 'Something happened';
       break;
   }
+
   return (
     <Feed.Event>
-      <Feed.Label image={post.photoURL} />
+      <Feed.Label image={post.photoURL || '/assets/user.png'} />
       <Feed.Content>
         <Feed.Date>
           {formatDistance(new Date(post.date), new Date())} ago

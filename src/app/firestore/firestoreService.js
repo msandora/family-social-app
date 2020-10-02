@@ -6,19 +6,14 @@ const db = firebase.firestore();
 // export function listenToFamilyFromFirestore(observer) {
 //   return db.collection('family').onSnapshot(observer);
 // }
-export function listenToFamilyFromFirestore() {
-  let familyRef = db.collection('family');
-
-  return familyRef;
-}
 
 export function dataFromSnapshot(snapshot) {
   if (!snapshot.exists) return undefined;
   const data = snapshot.data();
 
   for (const prop in data) {
-    // loop over props
     if (data.hasOwnProperty(prop)) {
+      // loop over props
       if (data[prop] instanceof firebase.firestore.Timestamp) {
         data[prop] = data[prop].toDate();
       }
@@ -29,66 +24,6 @@ export function dataFromSnapshot(snapshot) {
     ...data,
     id: snapshot.id,
   };
-}
-
-export function fetchEventsFromFirestore(
-  filter,
-  startDate,
-  limit,
-  lastDocSnapshot = null
-) {
-  const user = firebase.auth().currentUser;
-  let eventsRef = db
-    .collection('events')
-    .orderBy('date')
-    .startAfter(lastDocSnapshot)
-    .limit(limit);
-  switch (filter) {
-    case 'isGoing':
-      return eventsRef
-        .where('attendeeIds', 'array-contains', user.uid)
-        .where('date', '>=', startDate);
-    case 'isHost':
-      return eventsRef
-        .where('hostUid', '==', user.uid)
-        .where('date', '>=', startDate);
-    default:
-      return eventsRef.where('date', '>=', startDate);
-  }
-}
-
-export function listenToEventFromFirestore(eventId) {
-  return db.collection('events').doc(eventId);
-}
-
-export function addEventToFirestore(event) {
-  const user = firebase.auth().currentUser;
-  return db.collection('events').add({
-    ...event,
-    hostUid: user.uid,
-    hostedBy: user.displayName,
-    hostPhotoURL: user.photoURL || null,
-    attendees: firebase.firestore.FieldValue.arrayUnion({
-      id: user.uid,
-      displayName: user.displayName,
-      photoURL: user.photoURL || null,
-    }),
-    attendeeIds: firebase.firestore.FieldValue.arrayUnion(user.uid),
-  });
-}
-
-export function updateEventInFirestore(event) {
-  return db.collection('events').doc(event.id).update(event);
-}
-
-export function deleteEventInFirestore(eventId) {
-  return db.collection('events').doc(eventId).delete();
-}
-
-export function cancelEventToggle(event) {
-  return db.collection('events').doc(event.id).update({
-    isCancelled: !event.isCancelled,
-  });
 }
 
 export function setUserProfileData(user) {
@@ -330,100 +265,4 @@ export function getFollowingDoc(profileId) {
     .collection('userFollowing')
     .doc(profileId)
     .get();
-}
-//Screams
-export function listenToScreamsFromFirestore() {
-  return db.collection('screams');
-}
-
-export function fetchScreamsFromFirestore(limit, lastDocSnapshot = null) {
-  // const user = firebase.auth().currentUser;
-  let screamsRef = db
-    .collection('screams')
-    .orderBy('createdAt')
-    .startAfter(lastDocSnapshot)
-    .limit(limit);
-  console.log('screamsRef', screamsRef);
-  return screamsRef;
-}
-
-export function listenToScreamFromFirestore(screamId) {
-  return db.collection('screams').doc(screamId);
-}
-
-export function addScreamToFirestore(scream) {
-  const user = firebase.auth().currentUser;
-  return db.collection('screams').add({
-    ...scream,
-    hostUid: user.uid,
-    hostedBy: user.displayName,
-    hostPhotoURL: user.photoURL || null,
-    createdAt: new Date(),
-  });
-}
-
-export function updateScreamInFirestore(scream) {
-  return db.collection('screams').doc(scream.id).update(scream);
-}
-
-export function deleteScreamInFirestore(screamId) {
-  return db.collection('screams').doc(screamId).delete();
-}
-
-//Recipes
-export function getRecipesFromFirestore() {
-  return db.collection('recipes');
-}
-
-export function fetchRecipesFromFirestore(
-  filter,
-  startDate,
-  limit,
-  lastDocSnapshot = null
-) {
-  // const user = firebase.auth().currentUser;
-  let recipesRef = db
-    .collection('recipes')
-    .orderBy('createdAt')
-    .startAfter(lastDocSnapshot)
-    .limit(limit);
-  return recipesRef.where('createdAt', '>=', startDate);
-}
-
-export function listenToRecipesFromFirestore(
-  filter,
-  startDate,
-  limit,
-  lastDocSnapshot = null
-) {
-  // const user = firebase.auth().currentUser;
-  let recipesRef = db
-    .collection('recipes')
-    .orderBy('title')
-    .startAfter(lastDocSnapshot)
-    .limit(2);
-  return recipesRef;
-}
-
-export function listenToRecipeFromFirestore(recipeId) {
-  return db.collection('recipes').doc(recipeId);
-}
-
-export function addRecipeToFirestore(recipe) {
-  const user = firebase.auth().currentUser;
-  return db.collection('recipes').add({
-    ...recipe,
-    hostUid: user.uid,
-    hostedBy: user.displayName,
-    hostPhotoURL: user.photoURL || null,
-    createdAt: new Date(),
-  });
-}
-
-export function updateRecipeInFirestore(recipe) {
-  return db.collection('recipes').doc(recipe.id).update(recipe);
-}
-
-export function deleteRecipeInFirestore(recipeId) {
-  return db.collection('recipes').doc(recipeId).delete();
 }

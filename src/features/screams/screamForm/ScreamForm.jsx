@@ -1,17 +1,17 @@
 import React from 'react';
 import { Segment, Header, Button } from 'semantic-ui-react';
-import { Link, Redirect } from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { listenToSelectedScream, clearSelectedScream } from '../screamActions';
 import { Formik, Form } from 'formik';
 import * as Yup from 'yup';
+import MyTextInput from '../../../app/common/form/MyTextInput';
 import MyTextArea from '../../../app/common/form/MyTextArea';
-
 import {
   listenToScreamFromFirestore,
   updateScreamInFirestore,
   addScreamToFirestore,
-} from '../../../app/firestore/firestoreService';
+} from '../../../app/firestore/firestoreServices/screamsHandler';
 import useFirestoreDoc from '../../../app/hooks/useFirestoreDoc';
 import LoadingComponent from '../../../app/layout/LoadingComponent';
 import { toast } from 'react-toastify';
@@ -28,10 +28,12 @@ export default function ScreamForm({ match, history, location }) {
   }, [dispatch, location.pathname]);
 
   const initialValues = selectedScream ?? {
+    title: '',
     description: '',
   };
 
   const validationSchema = Yup.object({
+    title: Yup.string().required('You must provide a title'),
     description: Yup.string().required(),
   });
 
@@ -70,7 +72,7 @@ export default function ScreamForm({ match, history, location }) {
         {({ isSubmitting, dirty, isValid, values }) => (
           <Form className='ui form'>
             <Header sub color='teal' content='Scream Details' />
-
+            <MyTextInput name='title' placeholder='Scream title' />
             <MyTextArea name='description' placeholder='Description' rows={3} />
 
             <Button
@@ -80,14 +82,6 @@ export default function ScreamForm({ match, history, location }) {
               floated='right'
               positive
               content='Submit'
-            />
-            <Button
-              disabled={isSubmitting}
-              as={Link}
-              to='/screams'
-              type='submit'
-              floated='right'
-              content='Cancel'
             />
           </Form>
         )}

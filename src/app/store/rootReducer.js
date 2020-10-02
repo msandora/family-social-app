@@ -15,13 +15,13 @@ const rootReducer = (history) =>
     router: connectRouter(history),
     test: testReducer,
     event: eventReducer,
+    scream: screamReducer,
+    recipe: recipeReducer,
     modals: modalReducer,
     auth: authReducer,
     async: asyncReducer,
     profile: profileReducer,
     family: familyReducer,
-    scream: screamReducer,
-    recipe: recipeReducer,
   });
 
 export default rootReducer;

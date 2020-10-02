@@ -1,6 +1,6 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-import { Menu, Button } from 'semantic-ui-react';
+import { Menu, Button, Segment } from 'semantic-ui-react';
 import { useSelector } from 'react-redux';
 
 export default function EventSidebar({ loading }) {
@@ -8,9 +8,11 @@ export default function EventSidebar({ loading }) {
   return (
     <>
       {authenticated && (
-        <Menu.Item as={NavLink} to='/createEvent'>
-          <Button fluid positive inverted content='Create Event' />
-        </Menu.Item>
+        <Segment>
+          <Menu.Item as={NavLink} to='/createEvent'>
+            <Button fluid positive inverted content='Create Event' />
+          </Menu.Item>
+        </Segment>
       )}
     </>
   );

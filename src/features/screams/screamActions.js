@@ -15,23 +15,16 @@ import {
   asyncActionFinish,
   asyncActionError,
 } from '../../app/async/asyncReducer';
-import {
-  fetchScreamsFromFirestore,
-  dataFromSnapshot,
-} from '../../app/firestore/firestoreService';
+import { dataFromSnapshot } from '../../app/firestore/firestoreService';
+import { fetchScreamsFromFirestore } from '../../app/firestore/firestoreServices/screamsHandler';
 
-export function listenToScreams(screams) {
-  return {
-    type: FETCH_SCREAMS,
-    payload: { screams },
-  };
-}
-
-export function fetchScreams(limit, lastDocSnapshot) {
+export function fetchScreams(filter, startDate, limit, lastDocSnapshot) {
   return async function (dispatch) {
     dispatch(asyncActionStart());
     try {
       const snapshot = await fetchScreamsFromFirestore(
+        filter,
+        startDate,
         limit,
         lastDocSnapshot
       ).get();
