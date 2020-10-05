@@ -8,7 +8,7 @@ import { fetchRecipes } from '../recipeActions';
 import { useState } from 'react';
 import { useEffect } from 'react';
 import { RETAIN_RECIPE_STATE } from '../recipeConstants';
-import RecipeSidebar from './RecipeSidebar';
+import CreateRecipe from './CreateRecipe';
 
 export default function RecipeDashboard() {
   const limit = 2;
@@ -41,28 +41,30 @@ export default function RecipeDashboard() {
   }
 
   return (
-    <Grid>
-      <Grid.Column width={10}>
-        {loadingInitial && (
-          <>
-            <RecipeListItemPlaceholder />
-            <RecipeListItemPlaceholder />
-          </>
-        )}
-        <RecipeList
-          recipes={recipes}
-          getNextRecipes={handleFetchNextRecipes}
-          loading={loading}
-          moreRecipes={moreRecipes}
-        />
-      </Grid.Column>
-      <Grid.Column width={6}>
-        <RecipeSidebar loading={loading} />
-        <RecipeFilters loading={loading} />
-      </Grid.Column>
-      <Grid.Column width={10}>
-        <Loader active={loading} />
-      </Grid.Column>
-    </Grid>
+    <>
+      <CreateRecipe />
+      <Grid>
+        <Grid.Column width={10}>
+          {loadingInitial && (
+            <>
+              <RecipeListItemPlaceholder />
+              <RecipeListItemPlaceholder />
+            </>
+          )}
+          <RecipeList
+            recipes={recipes}
+            getNextRecipes={handleFetchNextRecipes}
+            loading={loading}
+            moreRecipes={moreRecipes}
+          />
+        </Grid.Column>
+        <Grid.Column width={6}>
+          <RecipeFilters loading={loading} />
+        </Grid.Column>
+        <Grid.Column width={10}>
+          <Loader active={loading} />
+        </Grid.Column>
+      </Grid>
+    </>
   );
 }

@@ -9,7 +9,7 @@ import { useState } from 'react';
 import EventsFeed from './EventFeed';
 import { useEffect } from 'react';
 import { RETAIN_EVENT_STATE } from '../eventConstants';
-import EventSidebar from './EventSidebar';
+import CreateEvent from './CreateEvent';
 
 export default function EventDashboard() {
   const limit = 2;
@@ -42,29 +42,32 @@ export default function EventDashboard() {
   }
 
   return (
-    <Grid>
-      <Grid.Column width={10}>
-        {loadingInitial && (
-          <>
-            <EventListItemPlaceholder />
-            <EventListItemPlaceholder />
-          </>
-        )}
-        <EventList
-          events={events}
-          getNextEvents={handleFetchNextEvents}
-          loading={loading}
-          moreEvents={moreEvents}
-        />
-      </Grid.Column>
-      <Grid.Column width={6}>
-        <EventSidebar loading={loading} />
-        {authenticated && <EventsFeed />}
-        <EventFilters loading={loading} />
-      </Grid.Column>
-      <Grid.Column width={10}>
-        <Loader active={loading} />
-      </Grid.Column>
-    </Grid>
+    <>
+      <CreateEvent />
+
+      <Grid>
+        <Grid.Column width={10}>
+          {loadingInitial && (
+            <>
+              <EventListItemPlaceholder />
+              <EventListItemPlaceholder />
+            </>
+          )}
+          <EventList
+            events={events}
+            getNextEvents={handleFetchNextEvents}
+            loading={loading}
+            moreEvents={moreEvents}
+          />
+        </Grid.Column>
+        <Grid.Column width={6}>
+          {authenticated && <EventsFeed />}
+          <EventFilters loading={loading} />
+        </Grid.Column>
+        <Grid.Column width={10}>
+          <Loader active={loading} />
+        </Grid.Column>
+      </Grid>
+    </>
   );
 }

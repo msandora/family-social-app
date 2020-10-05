@@ -7,7 +7,7 @@ import { fetchScreams } from '../screamActions';
 import { useState } from 'react';
 import { useEffect } from 'react';
 import { RETAIN_SCREAM_STATE } from '../screamConstants';
-import ScreamSidebar from './ScreamSidebar';
+import CreateScream from './CreateScream';
 
 export default function ScreamDashboard() {
   const limit = 2;
@@ -39,27 +39,28 @@ export default function ScreamDashboard() {
   }
 
   return (
-    <Grid>
-      <Grid.Column width={10}>
-        {loadingInitial && (
-          <>
-            <ScreamListItemPlaceholder />
-            <ScreamListItemPlaceholder />
-          </>
-        )}
-        <ScreamList
-          screams={screams}
-          getNextScreams={handleFetchNextScreams}
-          loading={loading}
-          moreScreams={moreScreams}
-        />
-      </Grid.Column>
-      <Grid.Column width={6}>
-        <ScreamSidebar loading={loading} />
-      </Grid.Column>
-      <Grid.Column width={10}>
-        <Loader active={loading} />
-      </Grid.Column>
-    </Grid>
+    <>
+      <CreateScream />
+      <Grid>
+        <Grid.Column width={10}>
+          {loadingInitial && (
+            <>
+              <ScreamListItemPlaceholder />
+              <ScreamListItemPlaceholder />
+            </>
+          )}
+          <ScreamList
+            screams={screams}
+            getNextScreams={handleFetchNextScreams}
+            loading={loading}
+            moreScreams={moreScreams}
+          />
+        </Grid.Column>
+        <Grid.Column width={6}></Grid.Column>
+        <Grid.Column width={10}>
+          <Loader active={loading} />
+        </Grid.Column>
+      </Grid>
+    </>
   );
 }
