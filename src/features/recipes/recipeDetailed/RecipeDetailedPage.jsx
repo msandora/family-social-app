@@ -6,7 +6,7 @@ import RecipeDetailedInfo from './RecipeDetailedInfo';
 // import RecipeDetailedSidebar from './RecipeDetailedSidebar';
 import { useSelector, useDispatch } from 'react-redux';
 import useFirestoreDoc from '../../../app/hooks/useFirestoreDoc';
-import { listenToRecipeFromFirestore } from '../../../app/firestore/firestoreServices/recipesHandler';
+import { listenToRecipeFromFirestore } from '../../../app/firestore/firestoreServices/firestoreRecipesHandler';
 import LoadingComponent from '../../../app/layout/LoadingComponent';
 import { listenToSelectedRecipe } from '../recipeActions';
 

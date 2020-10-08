@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Segment, Comment, Header } from 'semantic-ui-react';
 import ScreamDetailedChatForm from './ScreamDetailedChatForm';
-import { getScreamChatRef } from '../../../app/firestore/firebaseServices/screamsHandler';
+import { getScreamChatRef } from '../../../app/firestore/firebaseServices/firebaseScreamsHandler';
 import { firebaseObjectToArray } from '../../../app/firestore/firebaseService';
 import { listenToScreamChat } from '../screamActions';
 import { Link } from 'react-router-dom';

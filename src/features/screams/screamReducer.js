@@ -4,10 +4,10 @@ import {
   DELETE_SCREAM,
   FETCH_SCREAMS,
   LISTEN_TO_SCREAM_CHAT,
+  LISTEN_TO_SCREAM_PHOTOS,
   CLEAR_COMMENTS,
   LISTEN_TO_SELECTED_SCREAM,
   CLEAR_SCREAMS,
-  SET_START_DATE,
   RETAIN_SCREAM_STATE,
   CLEAR_SELECTED_SCREAM,
 } from './screamConstants';
@@ -15,6 +15,7 @@ import {
 const initialState = {
   screams: [],
   comments: [],
+  photos: [],
   moreScreams: true,
   selectedScream: null,
   lastVisible: null,
@@ -50,6 +51,11 @@ export default function screamReducer(state = initialState, { type, payload }) {
         moreScreams: payload.moreScreams,
         lastVisible: payload.lastVisible,
       };
+    case LISTEN_TO_SCREAM_PHOTOS:
+      return {
+        ...state,
+        photos: payload,
+      };
     case LISTEN_TO_SCREAM_CHAT:
       return {
         ...state,
@@ -76,13 +82,6 @@ export default function screamReducer(state = initialState, { type, payload }) {
         screams: [],
         moreScreams: true,
         lastVisible: null,
-      };
-    case SET_START_DATE:
-      return {
-        ...state,
-        retainState: false,
-        moreScreams: true,
-        startDate: payload,
       };
     case RETAIN_SCREAM_STATE:
       return {

@@ -4,9 +4,9 @@ import {
   DELETE_SCREAM,
   FETCH_SCREAMS,
   LISTEN_TO_SCREAM_CHAT,
+  LISTEN_TO_SCREAM_PHOTOS,
   LISTEN_TO_SELECTED_SCREAM,
   CLEAR_SCREAMS,
-  SET_START_DATE,
   CLEAR_SELECTED_SCREAM,
 } from './screamConstants';
 import {
@@ -15,15 +15,20 @@ import {
   asyncActionError,
 } from '../../app/async/asyncReducer';
 import { dataFromSnapshot } from '../../app/firestore/firestoreService';
-import { fetchScreamsFromFirestore } from '../../app/firestore/firestoreServices/screamsHandler';
+import { fetchScreamsFromFirestore } from '../../app/firestore/firestoreServices/firestoreScreamsHandler';
 
-export function fetchScreams(filter, startDate, limit, lastDocSnapshot) {
+export function listenToScreamPhotos(photos) {
+  return {
+    type: LISTEN_TO_SCREAM_PHOTOS,
+    payload: photos,
+  };
+}
+
+export function fetchScreams(limit, lastDocSnapshot) {
   return async function (dispatch) {
     dispatch(asyncActionStart());
     try {
       const snapshot = await fetchScreamsFromFirestore(
-        filter,
-        startDate,
         limit,
         lastDocSnapshot
       ).get();
@@ -38,13 +43,6 @@ export function fetchScreams(filter, startDate, limit, lastDocSnapshot) {
     } catch (error) {
       dispatch(asyncActionError(error));
     }
-  };
-}
-
-export function setStartDate(date) {
-  return function (dispatch) {
-    dispatch(clearScreams());
-    dispatch({ type: SET_START_DATE, payload: date });
   };
 }
 

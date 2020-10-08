@@ -2,21 +2,26 @@ import React, { useState } from 'react';
 import { toast } from 'react-toastify';
 import cuid from 'cuid';
 import { Grid, Header, Button } from 'semantic-ui-react';
-import PhotoWidgetDropzone from './PhotoWidgetDropzone';
-import PhotoWidgetCropper from './PhotoWidgetCropper';
-import { getFileExtension } from '../util/util';
-import { uploadToFirebaseStorage } from '../../firestore/firebaseService';
-import { updateUserProfilePhoto } from '../../firestore/firestoreService';
+import PhotoWidgetDropzone from '../../../app/common/photos/PhotoWidgetDropzone';
+import PhotoWidgetCropper from '../../../app/common/photos/PhotoWidgetCropper';
+import { getFileExtension } from '../../../app/common/util/util';
+import { updateScreamPhoto } from '../../../app/firestore/firestoreServices/firestoreScreamsHandler';
+import { uploadScreamImageToFirebaseStorage } from '../../../app/firestore/firebaseServices/firebaseScreamsHandler';
 
-export default function PhotoUploadWidget({ setEditMode }) {
+export default function ScreamImageUpload({ screamId }) {
   const [files, setFiles] = useState([]);
   const [image, setImage] = useState(null);
   const [loading, setLoading] = useState(false);
+  // console.log('My screamId', screamId);
 
   function handleUploadImage() {
     setLoading(true);
     const filename = cuid() + '.' + getFileExtension(files[0].name);
-    const uploadTask = uploadToFirebaseStorage(image, filename);
+    const uploadTask = uploadScreamImageToFirebaseStorage(
+      image,
+      filename,
+      screamId
+    );
     uploadTask.on(
       'state_changed',
       (snapshot) => {
@@ -29,11 +34,10 @@ export default function PhotoUploadWidget({ setEditMode }) {
       },
       () => {
         uploadTask.snapshot.ref.getDownloadURL().then((downloadURL) => {
-          updateUserProfilePhoto(downloadURL, filename)
+          updateScreamPhoto(downloadURL, filename, screamId)
             .then(() => {
               setLoading(false);
               handleCancelCrop();
-              setEditMode(false);
             })
             .catch((error) => {
               toast.error(error.message);

@@ -3,7 +3,7 @@ import { Segment, Comment, Header } from 'semantic-ui-react';
 import EventDetailedChatForm from './EventDetailedChatForm';
 import { useDispatch, useSelector } from 'react-redux';
 import { firebaseObjectToArray } from '../../../app/firestore/firebaseService';
-import { getEventChatRef } from '../../../app/firestore/firebaseServices/eventshandler';
+import { getEventChatRef } from '../../../app/firestore/firebaseServices/firebaseEventshandler';
 import { listenToEventChat } from '../eventActions';
 import { Link } from 'react-router-dom';
 import { formatDistance } from 'date-fns';

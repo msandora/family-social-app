@@ -17,7 +17,7 @@ export default function CreateScream() {
       {authenticated && (
         <Popup
           position='right center'
-          content='Create Scream'
+          content='Create Post'
           trigger={
             <Button
               circular

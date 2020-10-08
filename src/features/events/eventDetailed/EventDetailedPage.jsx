@@ -6,7 +6,7 @@ import EventDetailedChat from './EventDetailedChat';
 import EventDetailedSidebar from './EventDetailedSidebar';
 import { useSelector, useDispatch } from 'react-redux';
 import useFirestoreDoc from '../../../app/hooks/useFirestoreDoc';
-import { listenToEventFromFirestore } from '../../../app/firestore/firestoreServices/eventsHandler';
+import { listenToEventFromFirestore } from '../../../app/firestore/firestoreServices/firestoreEventsHandler';
 import LoadingComponent from '../../../app/layout/LoadingComponent';
 import { Redirect } from 'react-router-dom';
 import { listenToSelectedEvent } from '../eventActions';

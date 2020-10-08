@@ -62,3 +62,36 @@ export function cancelEventToggle(event) {
     isCancelled: !event.isCancelled,
   });
 }
+
+export function addUserAttendance(event) {
+  const user = firebase.auth().currentUser;
+  return db
+    .collection('events')
+    .doc(event.id)
+    .update({
+      attendees: firebase.firestore.FieldValue.arrayUnion({
+        id: user.uid,
+        displayName: user.displayName,
+        photoURL: user.photoURL || null,
+      }),
+      attendeeIds: firebase.firestore.FieldValue.arrayUnion(user.uid),
+    });
+}
+
+export async function cancelUserAttendance(event) {
+  const user = firebase.auth().currentUser;
+  try {
+    const eventDoc = await db.collection('events').doc(event.id).get();
+    return db
+      .collection('events')
+      .doc(event.id)
+      .update({
+        attendeeIds: firebase.firestore.FieldValue.arrayRemove(user.uid),
+        attendees: eventDoc
+          .data()
+          .attendees.filter((attendee) => attendee.id !== user.uid),
+      });
+  } catch (error) {
+    throw error;
+  }
+}

@@ -6,7 +6,7 @@ import ScreamDetailedInfo from './ScreamDetailedInfo';
 import ScreamDetailedChat from './ScreamDetailedChat';
 import { useSelector, useDispatch } from 'react-redux';
 import useFirestoreDoc from '../../../app/hooks/useFirestoreDoc';
-import { listenToScreamFromFirestore } from '../../../app/firestore/firestoreServices/screamsHandler';
+import { listenToScreamFromFirestore } from '../../../app/firestore/firestoreServices/firestoreScreamsHandler';
 import LoadingComponent from '../../../app/layout/LoadingComponent';
 import { listenToSelectedScream } from '../screamActions';
 

@@ -16,7 +16,7 @@ import {
   asyncActionError,
 } from '../../app/async/asyncReducer';
 import { dataFromSnapshot } from '../../app/firestore/firestoreService';
-import { fetchRecipesFromFirestore } from '../../app/firestore/firestoreServices/recipesHandler';
+import { fetchRecipesFromFirestore } from '../../app/firestore/firestoreServices/firestoreRecipesHandler';
 
 export function fetchRecipes(filter, startDate, limit, lastDocSnapshot) {
   return async function (dispatch) {

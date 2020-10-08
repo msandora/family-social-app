@@ -16,7 +16,7 @@ import {
   asyncActionError,
 } from '../../app/async/asyncReducer';
 import { dataFromSnapshot } from '../../app/firestore/firestoreService';
-import { fetchEventsFromFirestore } from '../../app/firestore/firestoreServices/eventsHandler';
+import { fetchEventsFromFirestore } from '../../app/firestore/firestoreServices/firestoreEventsHandler';
 
 export function fetchEvents(filter, startDate, limit, lastDocSnapshot) {
   return async function (dispatch) {

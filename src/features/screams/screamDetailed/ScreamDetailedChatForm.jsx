@@ -1,7 +1,7 @@
 import React from 'react';
 import { Formik, Form, Field } from 'formik';
 import { toast } from 'react-toastify';
-import { addScreamChatComment } from '../../../app/firestore/firebaseServices/screamsHandler';
+import { addScreamChatComment } from '../../../app/firestore/firebaseServices/firebaseScreamsHandler';
 import { Loader } from 'semantic-ui-react';
 import * as Yup from 'yup';
 

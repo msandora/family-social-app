@@ -11,11 +11,12 @@ import {
   listenToScreamFromFirestore,
   updateScreamInFirestore,
   addScreamToFirestore,
-} from '../../../app/firestore/firestoreServices/screamsHandler';
+} from '../../../app/firestore/firestoreServices/firestoreScreamsHandler';
 import useFirestoreDoc from '../../../app/hooks/useFirestoreDoc';
 import LoadingComponent from '../../../app/layout/LoadingComponent';
 import { toast } from 'react-toastify';
 import { useEffect } from 'react';
+import ScreamImageUpload from './ScreamImageUpload';
 
 export default function ScreamForm({ match, history, location }) {
   const dispatch = useDispatch();
@@ -30,6 +31,7 @@ export default function ScreamForm({ match, history, location }) {
   const initialValues = selectedScream ?? {
     title: '',
     description: '',
+    image: '',
   };
 
   const validationSchema = Yup.object({
@@ -49,7 +51,7 @@ export default function ScreamForm({ match, history, location }) {
   if (loading) return <LoadingComponent content='Loading scream...' />;
 
   if (error) return <Redirect to='/error' />;
-
+  // console.log(selectedScream.id);
   return (
     <Segment clearing>
       <Formik
@@ -71,6 +73,7 @@ export default function ScreamForm({ match, history, location }) {
       >
         {({ isSubmitting, dirty, isValid, values }) => (
           <Form className='ui form'>
+            <ScreamImageUpload screamId={selectedScream?.id} />
             <Header sub color='teal' content='Post Details' />
             <MyTextInput name='title' placeholder='Post title' />
             <MyTextArea name='description' placeholder='Description' rows={3} />

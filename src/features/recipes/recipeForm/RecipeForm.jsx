@@ -14,7 +14,7 @@ import {
   listenToRecipeFromFirestore,
   updateRecipeInFirestore,
   addRecipeToFirestore,
-} from '../../../app/firestore/firestoreServices/recipesHandler';
+} from '../../../app/firestore/firestoreServices/firestoreRecipesHandler';
 import useFirestoreDoc from '../../../app/hooks/useFirestoreDoc';
 import LoadingComponent from '../../../app/layout/LoadingComponent';
 import { toast } from 'react-toastify';

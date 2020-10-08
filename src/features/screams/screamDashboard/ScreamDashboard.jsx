@@ -12,30 +12,25 @@ import CreateScream from './CreateScream';
 export default function ScreamDashboard() {
   const limit = 2;
   const dispatch = useDispatch();
-  const {
-    screams,
-    moreScreams,
-    filter,
-    startDate,
-    lastVisible,
-    retainState,
-  } = useSelector((state) => state.scream);
+  const { screams, moreScreams, lastVisible, retainState } = useSelector(
+    (state) => state.scream
+  );
   const { loading } = useSelector((state) => state.async);
   const [loadingInitial, setLoadingInitial] = useState(false);
 
   useEffect(() => {
     if (retainState) return;
     setLoadingInitial(true);
-    dispatch(fetchScreams(filter, startDate, limit)).then(() => {
+    dispatch(fetchScreams(limit)).then(() => {
       setLoadingInitial(false);
     });
     return () => {
       dispatch({ type: RETAIN_SCREAM_STATE });
     };
-  }, [dispatch, filter, startDate, retainState]);
+  }, [dispatch, retainState]);
 
   function handleFetchNextScreams() {
-    dispatch(fetchScreams(filter, startDate, limit, lastVisible));
+    dispatch(fetchScreams(limit, lastVisible));
   }
 
   return (
