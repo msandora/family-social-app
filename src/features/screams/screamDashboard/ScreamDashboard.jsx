@@ -1,11 +1,9 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Grid, Loader } from 'semantic-ui-react';
 import ScreamList from './ScreamList';
 import { useSelector, useDispatch } from 'react-redux';
 import ScreamListItemPlaceholder from './ScreamListItemPlaceholder';
 import { fetchScreams } from '../screamActions';
-import { useState } from 'react';
-import { useEffect } from 'react';
 import { RETAIN_SCREAM_STATE } from '../screamConstants';
 import CreateScream from './CreateScream';
 

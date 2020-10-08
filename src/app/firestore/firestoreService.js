@@ -2,11 +2,6 @@ import firebase from '../config/firebase';
 
 const db = firebase.firestore();
 
-// Test Firestore
-// export function listenToFamilyFromFirestore(observer) {
-//   return db.collection('family').onSnapshot(observer);
-// }
-
 export function dataFromSnapshot(snapshot) {
   if (!snapshot.exists) return undefined;
   const data = snapshot.data();
@@ -23,7 +18,7 @@ export function dataFromSnapshot(snapshot) {
   return {
     ...data,
     id: snapshot.id,
-    photos: [],
+    // photos: [],
   };
 }
 

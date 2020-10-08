@@ -8,7 +8,7 @@ import HomePage from '../../features/home/HomePage';
 import Sandbox from '../../features/sandbox/Sandbox';
 import ModalManager from '../common/modals/ModalManager';
 import ErrorComponent from '../common/errors/ErrorComponent';
-import FamilyTree from '../../features/family/FamilyTree/FamilyTree';
+// import FamilyTree from '../../features/family/FamilyTree/FamilyTree';
 import AccountPage from '../../features/auth/AccountPage';
 import LoadingComponent from './LoadingComponent';
 import ProfilePage from '../../features/profiles/profilePage/ProfilePage';
@@ -23,6 +23,7 @@ import ScreamForm from '../../features/screams/screamForm/ScreamForm';
 import RecipeDashboard from '../../features/recipes/recipeDashboard/RecipeDashboard';
 import RecipeDetailedPage from '../../features/recipes/recipeDetailed/RecipeDetailedPage';
 import RecipeForm from '../../features/recipes/recipeForm/RecipeForm';
+import FamilyDashboard from '../../features/family/FamilyDashboard/FamilyDashboard';
 
 export default function App() {
   const { key } = useLocation();
@@ -68,7 +69,7 @@ export default function App() {
                 key={`recipe_${key}`}
               />
 
-              <Route exact path='/family-tree' component={FamilyTree} />
+              <Route exact path='/family-tree' component={FamilyDashboard} />
               <PrivateRoute path='/account' component={AccountPage} />
               <PrivateRoute path='/profile/:id' component={ProfilePage} />
               <Route path='/error' component={ErrorComponent} />

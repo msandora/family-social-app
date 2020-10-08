@@ -40,6 +40,7 @@ export default function EventDashboard() {
   function handleFetchNextEvents() {
     dispatch(fetchEvents(filter, startDate, limit, lastVisible));
   }
+  // console.log('my events', events);
 
   return (
     <>

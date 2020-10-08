@@ -10,7 +10,7 @@ export default function familyReducer(state = initialState, { type, payload }) {
     case FETCH_FAMILY:
       return {
         ...state,
-        family: [...state.family],
+        family: payload,
       };
     case RETAIN_FAMILY_STATE:
       return {

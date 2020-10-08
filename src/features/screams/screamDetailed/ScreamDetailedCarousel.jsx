@@ -10,7 +10,7 @@ const ScreamDetailedCarousel = ({ scream }) => {
   // console.log('carousel', scream);
   const dispatch = useDispatch();
   const { photos } = useSelector((state) => state.scream);
-  console.log('photos', photos);
+  // console.log('photos', photos);
   useFirestoreCollection({
     query: () => getScreamPhotos(scream.id),
     data: (photos) => dispatch(listenToScreamPhotos(photos)),
