@@ -54,12 +54,14 @@ export default function EventDashboard() {
               <EventListItemPlaceholder />
             </>
           )}
-          <EventList
-            events={events}
-            getNextEvents={handleFetchNextEvents}
-            loading={loading}
-            moreEvents={moreEvents}
-          />
+          {!loadingInitial && (
+            <EventList
+              events={events}
+              getNextEvents={handleFetchNextEvents}
+              loading={loading}
+              moreEvents={moreEvents}
+            />
+          )}
         </Grid.Column>
         <Grid.Column width={6}>
           {authenticated && <EventsFeed />}

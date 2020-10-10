@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Grid } from 'semantic-ui-react';
 import PinchZoomPan from 'pinch-zoom-pan';
 import { IFamilyNode, IFamilyExtNode } from 'relatives-tree';
@@ -6,42 +6,22 @@ import ReactFamilyTree from 'react-family-tree';
 import FamilyNode from '../../family/FamilyNode/FamilyNode';
 import styles from '../FamilyTree/Family.module.css';
 import nodes from '../../../app/api/family.json';
-import { useDispatch, useSelector } from 'react-redux';
-import { getFamilyFromFirestore } from '../../../app/firestore/firestoreServices/firestoreFamilyHandler';
-import { fetchFamily } from '../familyActions';
-import { dataFromSnapshot } from '../../../app/firestore/firestoreService';
 
-const myID = 'palmasandora';
+// const myID = 'dansandora';
+const myID = 'CXFkyVOXxUTT8XL1dgRh';
 
 const WIDTH = 70;
 const HEIGHT = 110;
-
-export default function FamilyTree() {
-  const dispatch = useDispatch();
-  // @ts-ignore
-  const { family } = useSelector((state) => state.family);
-
-  useEffect(() => {
-    const unsubscribe = getFamilyFromFirestore({
-      // @ts-ignore
-      next: (snapshot) =>
-        dispatch(
-          fetchFamily(
-            // @ts-ignore
-            snapshot.docs.map((docSnapshot) => dataFromSnapshot(docSnapshot))
-          )
-        ),
-      // @ts-ignore
-      error: (error) => console.log(error),
-    });
-    return unsubscribe;
-  }, [dispatch]);
+// @ts-ignore
+export default function FamilyTree({ family }) {
+  const modes = family;
+  console.log('modes', modes);
 
   const [menuActive] = useState(false);
   const [rootId, setRootId] = useState<string>(myID);
   // const onResetClick = useCallback(() => setRootId(myID), []);
 
-  console.log('familytree', family);
+  console.log('family', family);
   console.log('json nodes', nodes);
 
   return (
@@ -51,6 +31,8 @@ export default function FamilyTree() {
           {family.map((fam: any) => (
             <li className='fam' key={fam.id}>
               {fam.firstName} {fam.lastName}
+              <br />
+              {fam.id}
             </li>
           ))}
         </ul>

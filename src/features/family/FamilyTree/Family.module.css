@@ -18,12 +18,12 @@
   align-items: center;
   justify-content: space-between;
   border-radius: 10px;
-  background-color: rgb(245,245,245);
-  border:5px solid #dedede;
+  background-color: rgb(245, 245, 245);
+  border: 5px solid #dedede;
   margin: 0 10px;
 }
 .tree {
-  top: -210px;
+  top: -250px;
 }
 .reset {
   position: absolute;
@@ -42,7 +42,7 @@
 }
 
 .ADDED_CLASS > div:first-child {
-  transform: translate(77.2535px, 182px) scale(1)!important;
+  transform: translate(77.2535px, 182px) scale(1) !important;
 }
 
 .Sandora-Gentile > div:first-child {

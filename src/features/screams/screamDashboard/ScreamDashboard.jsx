@@ -42,12 +42,14 @@ export default function ScreamDashboard() {
               <ScreamListItemPlaceholder />
             </>
           )}
-          <ScreamList
-            screams={screams}
-            getNextScreams={handleFetchNextScreams}
-            loading={loading}
-            moreScreams={moreScreams}
-          />
+          {!loadingInitial && (
+            <ScreamList
+              screams={screams}
+              getNextScreams={handleFetchNextScreams}
+              loading={loading}
+              moreScreams={moreScreams}
+            />
+          )}
         </Grid.Column>
         <Grid.Column width={6}></Grid.Column>
         <Grid.Column width={10}>

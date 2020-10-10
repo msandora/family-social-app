@@ -51,12 +51,14 @@ export default function RecipeDashboard() {
               <RecipeListItemPlaceholder />
             </>
           )}
-          <RecipeList
-            recipes={recipes}
-            getNextRecipes={handleFetchNextRecipes}
-            loading={loading}
-            moreRecipes={moreRecipes}
-          />
+          {!loadingInitial && (
+            <RecipeList
+              recipes={recipes}
+              getNextRecipes={handleFetchNextRecipes}
+              loading={loading}
+              moreRecipes={moreRecipes}
+            />
+          )}
         </Grid.Column>
         <Grid.Column width={6}>
           <RecipeFilters loading={loading} />
