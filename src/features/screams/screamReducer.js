@@ -10,6 +10,8 @@ import {
   CLEAR_SCREAMS,
   RETAIN_SCREAM_STATE,
   CLEAR_SELECTED_SCREAM,
+  LIKE_SCREAM,
+  UNLIKE_SCREAM,
 } from './screamConstants';
 
 const initialState = {
@@ -38,6 +40,18 @@ export default function screamReducer(state = initialState, { type, payload }) {
           ...state.screams.filter((evt) => evt.id !== payload.id),
           payload,
         ],
+      };
+    case LIKE_SCREAM:
+    case UNLIKE_SCREAM:
+      let screamIndex = state.screams.findIndex(
+        (scream) => scream.postId === type.payload.postId
+      );
+      state.screams[screamIndex] = type.payload;
+      if (state.scream.postId === type.payload.postId) {
+        state.scream = { ...state.scream, ...type.payload };
+      }
+      return {
+        ...state,
       };
     case DELETE_SCREAM:
       return {
