@@ -2,11 +2,11 @@ import React, { useState } from 'react';
 import { toast } from 'react-toastify';
 import cuid from 'cuid';
 import { Grid, Header, Button } from 'semantic-ui-react';
-import PhotoWidgetDropzone from '../../../app/common/photos/PhotoWidgetDropzone';
-import PhotoWidgetCropper from '../../../app/common/photos/PhotoWidgetCropper';
 import { getFileExtension } from '../../../app/common/util/util';
 import { updateScreamPhoto } from '../../../app/firestore/firestoreServices/firestoreScreamsHandler';
 import { uploadScreamImageToFirebaseStorage } from '../../../app/firestore/firebaseServices/firebaseScreamsHandler';
+import ScreamImageDropzone from './ScreamImageDropzone';
+import ScreamImageCropper from './ScreamImageCropper';
 
 export default function ScreamImageUpload({ screamId }) {
   const [files, setFiles] = useState([]);
@@ -58,13 +58,13 @@ export default function ScreamImageUpload({ screamId }) {
       <Grid>
         <Grid.Column width={4}>
           <Header color='teal' sub content='Step 1 - Add Photo' />
-          <PhotoWidgetDropzone setFiles={setFiles} />
+          <ScreamImageDropzone setFiles={setFiles} />
         </Grid.Column>
         <Grid.Column width={1} />
         <Grid.Column width={4}>
           <Header color='teal' sub content='Step 2 - Resize' />
           {files.length > 0 && (
-            <PhotoWidgetCropper
+            <ScreamImageCropper
               setImage={setImage}
               imagePreview={files[0].preview}
             />

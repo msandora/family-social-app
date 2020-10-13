@@ -1,13 +1,11 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Grid, Loader } from 'semantic-ui-react';
 import EventList from './EventList';
 import { useSelector, useDispatch } from 'react-redux';
 import EventListItemPlaceholder from './EventListItemPlaceholder';
 import EventFilters from './EventFilters';
 import { fetchEvents } from '../eventActions';
-import { useState } from 'react';
 import EventsFeed from './EventFeed';
-import { useEffect } from 'react';
 import { RETAIN_EVENT_STATE } from '../eventConstants';
 import CreateEvent from './CreateEvent';
 

@@ -35,6 +35,8 @@ export default function ScreamDashboard() {
     <>
       <CreateScream />
       <Grid>
+        <Grid.Column width={6}></Grid.Column>
+
         <Grid.Column width={10}>
           {loadingInitial && (
             <>
@@ -51,7 +53,6 @@ export default function ScreamDashboard() {
             />
           )}
         </Grid.Column>
-        <Grid.Column width={6}></Grid.Column>
         <Grid.Column width={10}>
           <Loader active={loading} />
         </Grid.Column>

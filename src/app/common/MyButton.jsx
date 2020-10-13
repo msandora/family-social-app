@@ -12,7 +12,7 @@ export default ({ content, onClick, tip, color, icon, isLink, linkRef }) => (
           content={content}
           icon={icon}
           as={Link}
-          to={linkRef}
+          to={linkRef || '/'}
           color={color}
           floated='right'
         />

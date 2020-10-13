@@ -9,7 +9,9 @@ import UnauthModal from '../../auth/UnauthModal';
 import {
   addUserAttendance,
   cancelUserAttendance,
+  deleteEventInFirestore,
 } from '../../../app/firestore/firestoreServices/firestoreEventsHandler';
+import MyButton from '../../../app/common/MyButton';
 
 const eventImageStyle = {
   filter: 'brightness(30%)',
@@ -110,14 +112,23 @@ export default function EventDetailedHeader({ event, isHost, isGoing }) {
           )}
 
           {isHost && (
-            <Button
-              as={Link}
-              to={`/manageEvent/${event.id}`}
-              color='orange'
-              floated='right'
-            >
-              Manage Event
-            </Button>
+            <>
+              <MyButton
+                onClick={() => deleteEventInFirestore(event.id)}
+                // content='Delete'
+                tip='Delete Event'
+                color='red'
+                icon='trash'
+                linkRef={null}
+              />
+              <MyButton
+                // onClick={() => console.log('fix this', event.id)}
+                tip='Manage Event'
+                color='orange'
+                icon='edit'
+                linkRef={`/manageEvent/${event.id}`}
+              />
+            </>
           )}
         </Segment>
       </Segment.Group>

@@ -28,6 +28,7 @@ export default function ScreamDetailedInfo({ scream, isHost }) {
               tip='Delete Post'
               color='red'
               icon='trash'
+              linkRef={null}
             />
             <MyButton
               onClick={() => console.log('fix this', scream.id)}
