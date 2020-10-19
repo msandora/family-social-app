@@ -3,7 +3,6 @@ import classNames from 'classnames';
 import { IFamilyExtNode } from 'relatives-tree';
 import styles from '../FamilyNode/FamilyNode.module.css';
 import FamilyModal from '../FamilyModal/FamilyModal';
-// import FamilyModal from '../FamilyModal/FamilyModalNew';
 
 interface Props {
   node: IFamilyExtNode;
@@ -30,6 +29,7 @@ export default React.memo<Props>(function FamilyNode({
         >
           <FamilyModal
             person={{
+              id: node.id,
               gender: node.gender,
               firstName: node.firstName,
               middleName: node.middleName,

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Modal, Button } from 'semantic-ui-react';
+import { Link } from 'react-router-dom';
 import dayjs from 'dayjs';
 
 export default class FamilyModal extends Component {
@@ -177,18 +178,29 @@ export default class FamilyModal extends Component {
           </Modal.Content>
           <Modal.Actions>
             <Button
+              content='Manage Person'
+              labelPosition='right'
+              icon='child'
+              primary
+              as={Link}
+              to={`/updatePerson/${person.id}`}
+            />
+
+            {/* <Button
               content='Add Child'
               labelPosition='right'
               icon='child'
-              onClick={() => console.log('click')}
               primary
-            />
+              as={Link}
+              to={`/addChild/${person.id}`}
+            />*/}
             <Button
               content='Add Spouse'
               labelPosition='right'
               icon='heart'
-              onClick={() => console.log('click')}
               primary
+              as={Link}
+              to={`/addSpouse/${person.id}`}
             />
           </Modal.Actions>
         </Modal>
