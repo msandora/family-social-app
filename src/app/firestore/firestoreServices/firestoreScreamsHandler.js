@@ -56,3 +56,111 @@ export async function updateScreamPhoto(downloadURL, filename, screamId) {
 export function getScreamPhotos(screamId) {
   return db.collection('screams').doc(screamId).collection('photos');
 }
+
+// Like scream 
+export const likeScreamService =  async (scream)  =>  {
+  const user = firebase.auth().currentUser;
+  console.log({user})
+  const likeDocument = db
+    .collection("likes")
+    .where("userHandle", "==", user.uid,)
+    .where("screamId", "==", scream.id)
+    .limit(1);
+
+    const screamDocument = db.doc(`/screams/${scream.id}`);
+    let screamData;
+
+    screamDocument
+      .get()
+      .then((doc) => {
+        if (doc.exists) {
+          screamData = doc.data();
+          // screamData.screamId = doc.id;
+          screamData.likeCount = screamData.likeCount ? screamData.likeCount : 0 ;
+          console.log(  "likeDocument",likeDocument.get())
+          return likeDocument.get();
+        } else {
+          return ({ error: "Scream not found" });
+        }
+      })
+      .then((data) => {
+        console.log({data})
+        if (data.empty) {
+          return db
+            .collection("likes")
+            .add({
+              screamId: scream.id,
+              userHandle: user.uid,
+            })
+            .then(() => {
+              screamData.likeCount++;
+           console.log({screamData})
+               return screamDocument.update({ likeCount: screamData.likeCount });
+              
+            })
+             .then(() => {
+          console.log("screamDoc",screamData);
+         return screamData;
+        });
+        } else {
+          console.log({error: "Scream already liked"})
+          return ({ error: "Scream already liked" });
+        }
+      })
+      .catch((err) => {
+        console.error(err);
+        return ({ error: err.code });
+      });
+}
+
+
+
+// Unlike Scream 
+export function unLikeScreamService(scream) {
+  const user = firebase.auth().currentUser;
+
+  const likeDocument = db
+  .collection("likes")
+  .where("userHandle", "==", user.uid )
+  .where("screamId", "==",  scream.id)
+  .limit(1);
+
+const screamDocument = db.doc(`/screams/${scream.id}`);
+
+let screamData;
+
+screamDocument
+  .get()
+  .then((doc) => {
+    if (doc.exists) {
+      screamData = doc.data();
+      // screamData.screamId = doc.id;
+      return likeDocument.get();
+    } else {
+      return ({ error: "Scream not found" });
+    }
+  })
+  .then((data) => {
+    if (data.empty) {
+      return ({ error: "Scream not liked" });
+    } else {
+      return db
+        .doc(`/likes/${data.docs[0].id}`)
+        .delete()
+        .then(() => {
+          screamData.likeCount--;
+           console.log({screamData})
+           return screamDocument.update({ likeCount: screamData.likeCount });
+           
+        })
+        .then(() => {
+          console.log("screamDoc",screamData);
+         return screamData;
+        });
+    }
+  })
+  .catch((err) => {
+    console.error(err);
+    return({ err });
+  });
+}    
