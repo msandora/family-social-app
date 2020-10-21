@@ -1,12 +1,10 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Grid, Loader } from 'semantic-ui-react';
 import RecipeList from './RecipeList';
 import { useSelector, useDispatch } from 'react-redux';
 import RecipeListItemPlaceholder from './RecipeListItemPlaceholder';
 import RecipeFilters from './RecipeFilters';
 import { fetchRecipes } from '../recipeActions';
-import { useState } from 'react';
-import { useEffect } from 'react';
 import { RETAIN_RECIPE_STATE } from '../recipeConstants';
 import CreateRecipe from './CreateRecipe';
 

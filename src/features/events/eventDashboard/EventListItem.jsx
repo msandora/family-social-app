@@ -1,5 +1,13 @@
 import React from 'react';
-import { Segment, Icon, List, Button, Header, Image } from 'semantic-ui-react';
+import {
+  Segment,
+  Icon,
+  List,
+  Button,
+  Header,
+  Image,
+  Label,
+} from 'semantic-ui-react';
 import EventListAttendee from './EventListAttendee';
 import { Link } from 'react-router-dom';
 import { format } from 'date-fns';
@@ -23,6 +31,14 @@ export default function EventListItem({ event }) {
             </Header.Subheader>
           </Header.Content>
         </Header>
+        {event.isCancelled && (
+          <Label
+            style={{ top: '0px' }}
+            ribbon='right'
+            color='red'
+            content='This event has been cancelled'
+          />
+        )}
       </Segment>
       <Segment>
         <span>

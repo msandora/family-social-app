@@ -97,8 +97,8 @@ export function clearScreams() {
 }
 export const likeScream = (scream)  => async (dispatch)  => {
  const screamData = await likeScreamService(scream)
-//  console.log("screamDataFromAction",screamData)
-scream.likeCount++
+  //  console.log("screamDataFromAction",screamData)
+  scream.likeCount++
  dispatch({ type: LIKE_SCREAM, payload: scream });
   return {
     type: LIKE_SCREAM,

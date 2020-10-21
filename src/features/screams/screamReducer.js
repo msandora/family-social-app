@@ -41,6 +41,18 @@ export default function screamReducer(state = initialState, { type, payload }) {
           payload,
         ],
       };
+    // case LIKE_SCREAM:
+    // case UNLIKE_SCREAM:
+    //   let screamIndex = state.screams.findIndex(
+    //     (scream) => scream.postId === type.payload.postId
+    //   );
+    //   state.screams[screamIndex] = type.payload;
+    //   if (state.scream.postId === type.payload.postId) {
+    //     state.scream = { ...state.scream, ...type.payload };
+    //   }
+    //   return {
+    //     ...state,
+    //   };
     case DELETE_SCREAM:
       return {
         ...state,
@@ -91,6 +103,7 @@ export default function screamReducer(state = initialState, { type, payload }) {
         retainState: true,
       };
     case LIKE_SCREAM:
+      case UNLIKE_SCREAM:
       return {
         ...state,
         screams:[...state.screams.map(scream => {
@@ -101,17 +114,7 @@ export default function screamReducer(state = initialState, { type, payload }) {
           }
         })]
       };
-    case UNLIKE_SCREAM:
-      return {
-        ...state,
-        screams: state.screams.map(scream => {
-          if (scream.id === payload.id) {
-            return payload
-          } else {
-            return scream
-          }
-        }),
-      };
+    
     default:
       return state;
   }

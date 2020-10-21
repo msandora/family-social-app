@@ -1,38 +1,11 @@
 [
   {
-    "id": "C2cuVPMzqjmdwt6t0msm",
-    "gender": "male",
-    "firstName": "Mark",
-    "lastName": "Sandora",
-    "parents": [
-      {
-        "id": "CXFkyVOXxUTT8XL1dgRh",
-        "parentName": "Daniel",
-        "type": "blood"
-      },
-      {
-        "id": "tQo5FnsTLi9G4OfCxsVi",
-        "parentName": "Linda",
-        "type": "blood"
-      }
-    ],
-    "siblings": [],
-    "spouses": [],
-    "children": []
-  },
-  {
     "id": "CXFkyVOXxUTT8XL1dgRh",
     "gender": "male",
     "firstName": "Daniel",
     "lastName": "Sandora",
     "parents": [],
-    "children": [
-      {
-        "id": "C2cuVPMzqjmdwt6t0msm",
-        "childName": "Mark",
-        "type": "blood"
-      }
-    ],
+    "children": [],
     "siblings": [],
     "spouses": [
       {
@@ -48,13 +21,7 @@
     "firstName": "Linda",
     "lastName": "Sandora",
     "parents": [],
-    "children": [
-      {
-        "id": "C2cuVPMzqjmdwt6t0msm",
-        "childName": "Mark",
-        "type": "blood"
-      }
-    ],
+    "children": [],
     "siblings": [],
     "spouses": [
       {

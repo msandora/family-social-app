@@ -8,12 +8,10 @@ import HomePage from '../../features/home/HomePage';
 import Sandbox from '../../features/sandbox/Sandbox';
 import ModalManager from '../common/modals/ModalManager';
 import ErrorComponent from '../common/errors/ErrorComponent';
-// import FamilyTree from '../../features/family/FamilyTree/FamilyTree';
 import AccountPage from '../../features/auth/AccountPage';
 import LoadingComponent from './LoadingComponent';
 import ProfilePage from '../../features/profiles/profilePage/ProfilePage';
 import PrivateRoute from './PrivateRoute';
-
 import EventDashboard from '../../features/events/eventDashboard/EventDashboard';
 import EventDetailedPage from '../../features/events/eventDetailed/EventDetailedPage';
 import EventForm from '../../features/events/eventForm/EventForm';
@@ -24,6 +22,9 @@ import RecipeDashboard from '../../features/recipes/recipeDashboard/RecipeDashbo
 import RecipeDetailedPage from '../../features/recipes/recipeDetailed/RecipeDetailedPage';
 import RecipeForm from '../../features/recipes/recipeForm/RecipeForm';
 import FamilyDashboard from '../../features/family/FamilyDashboard/FamilyDashboard';
+import AddChildForm from '../../features/family/FamilyForms/AddChildForm';
+import AddSpouseForm from '../../features/family/FamilyForms/AddSpouseForm';
+import PersonForm from '../../features/family/FamilyForms/PersonForm';
 
 export default function App() {
   const { key } = useLocation();
@@ -70,6 +71,21 @@ export default function App() {
               />
 
               <Route exact path='/family-tree' component={FamilyDashboard} />
+              <PrivateRoute
+                path={['/updatePerson/:id']}
+                component={PersonForm}
+                key={`updatePerson_${key}`}
+              />
+              <PrivateRoute
+                path={['/addChild/:id']}
+                component={AddChildForm}
+                key={`addChild_${key}`}
+              />
+              <PrivateRoute
+                path={['/addSpouse/:id']}
+                component={AddSpouseForm}
+                key={`addSpouse_${key}`}
+              />
               <PrivateRoute path='/account' component={AccountPage} />
               <PrivateRoute path='/profile/:id' component={ProfilePage} />
               <Route path='/error' component={ErrorComponent} />

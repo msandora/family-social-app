@@ -144,6 +144,7 @@ screamDocument
     if (data.empty) {
       return ({ error: "Scream not liked" });
     } else {
+      console.log("unlikeData",data)
       return db
         .doc(`/likes/${data.docs[0].id}`)
         .delete()
