@@ -25,7 +25,8 @@ export function addScreamToFirestore(scream) {
     hostUid: user.uid,
     hostedBy: user.displayName,
     hostPhotoURL: user.photoURL || null,
-    photos: [],
+    // photos: [],
+    // screamImages:[downloadURL]
   });
 }
 
@@ -38,16 +39,22 @@ export function deleteScreamInFirestore(screamId) {
   return db.collection('screams').doc(screamId).delete();
 }
 
-export async function updateScreamPhoto(downloadURL, filename, screamId) {
+export async function updateScreamPhoto(downloadURL, filename, screamId,screamImages) {
   try {
-    return await db
+    console.log({screamImages})
+    let scream = await (await db.collection('screams').doc(screamId).get()).data();
+    console.log({scream})
+      let screamData = db
       .collection('screams')
       .doc(screamId)
-      .collection('photos')
-      .add({
-        name: filename,
-        url: downloadURL,
+      // .collection('photos')
+      .update({
+       screamImages: (scream.screamImages && scream.screamImages.length > 0) ? [...scream.screamImages,downloadURL] : [downloadURL] 
+      //  screamImages: [...screamImages]
       });
+      screamData = await screamData.get().data();
+      console.log({screamData});
+      return screamData
   } catch (error) {
     throw error;
   }

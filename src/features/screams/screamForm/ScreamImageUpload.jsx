@@ -8,7 +8,13 @@ import { uploadScreamImageToFirebaseStorage } from '../../../app/firestore/fireb
 import ScreamImageDropzone from './ScreamImageDropzone';
 import ScreamImageCropper from './ScreamImageCropper';
 
-export default function ScreamImageUpload({ screamId }) {
+import {
+  // listenToScreamFromFirestore,
+  updateScreamInFirestore,
+  addScreamToFirestore,
+} from '../../../app/firestore/firestoreServices/firestoreScreamsHandler';
+
+export default function ScreamImageUpload({ screamId,newScream }) {
   const [files, setFiles] = useState([]);
   const [image, setImage] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -34,8 +40,12 @@ export default function ScreamImageUpload({ screamId }) {
       },
       () => {
         uploadTask.snapshot.ref.getDownloadURL().then((downloadURL) => {
-          updateScreamPhoto(downloadURL, filename, screamId)
-            .then(() => {
+          console.log({downloadURL})
+        
+            // newScream ?  addScreamToFirestore(downloadURL): 
+           updateScreamPhoto(downloadURL, filename, screamId)
+            .then((doc) => {
+              console.log({doc})
               setLoading(false);
               handleCancelCrop();
             })
@@ -52,7 +62,7 @@ export default function ScreamImageUpload({ screamId }) {
     setFiles([]);
     setImage(null);
   }
-
+console.log({files})
   return (
     <>
       <Grid>

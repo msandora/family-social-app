@@ -24,6 +24,15 @@ export function uploadScreamImageToFirebaseStorage(file, filename, screamId) {
     .child(`${user.uid}/scream_images/${screamId}/images/${filename}`)
     .put(file);
 }
+// export function uploadScreamImage() {
+//   firebase.storage()
+//    .ref("images")
+//    .child(image.name)
+//    .getDownloadURL()
+//    .then((url) => {
+
+//    })
+// }
 
 export function deleteScreamImageFromFirebaseStorage(filename, screamId) {
   const userUid = firebase.auth().currentUser.uid;
