@@ -29,6 +29,7 @@ export default React.memo<Props>(function FamilyNode({
         >
           <FamilyModal
             person={{
+              id: node.id,
               gender: node.gender,
               // firstName: node.firstName,
               // middleName: node.middleName,

@@ -28,7 +28,7 @@ export default function FamilyDashboard() {
   return (
     <Grid>
       <Grid.Column width={16}>
-        <FamilyTree family={family} />
+        {family && <FamilyTree family={family} />}
       </Grid.Column>
     </Grid>
   );

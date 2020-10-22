@@ -1,8 +1,9 @@
 import React from 'react';
 import { Segment, Button, Header, Image, Icon,Label } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
-import ScreamDetailedCarousel from '../screamDetailed/ScreamDetailedCarousel';
 import { formatDistance } from 'date-fns';
+import ScreamCarousel from '../screamComponents/ScreamCarousel';
+import LikeScream from '../screamComponents/LikeScream';
 
 import {  useDispatch,useSelector } from 'react-redux';
 import { likeScream,UnLikeScream } from '../screamActions';
@@ -42,13 +43,12 @@ import { likeScream,UnLikeScream } from '../screamActions';
         </Header>
       </Segment>
       <Segment style={{ padding: 0 }}>
-        <ScreamDetailedCarousel scream={scream} />
+        <ScreamCarousel scream={scream} />
       </Segment>
       <Segment>
         <div>{scream.description}</div>
       </Segment>
       <Segment attached clearing>
-      
           {
           !authenticated ? ( <Segment
             textAlign='center'
