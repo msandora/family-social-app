@@ -9,7 +9,7 @@ import {
   CLEAR_SCREAMS,
   CLEAR_SELECTED_SCREAM,
   LIKE_SCREAM,
-  UNLIKE_SCREAM
+  UNLIKE_SCREAM,
 } from './screamConstants';
 import {
   asyncActionStart,
@@ -17,8 +17,11 @@ import {
   asyncActionError,
 } from '../../app/async/asyncReducer';
 import { dataFromSnapshot } from '../../app/firestore/firestoreService';
-import { fetchScreamsFromFirestore, unLikeScreamService } from '../../app/firestore/firestoreServices/firestoreScreamsHandler';
-import { likeScreamService, UnLikeScreamService } from '../../app/firestore/firestoreServices/firestoreScreamsHandler';
+import {
+  fetchScreamsFromFirestore,
+  unLikeScreamService,
+  likeScreamService,
+} from '../../app/firestore/firestoreServices/firestoreScreamsHandler';
 
 export function listenToScreamPhotos(photos) {
   return {
@@ -95,22 +98,24 @@ export function clearScreams() {
     type: CLEAR_SCREAMS,
   };
 }
-export const likeScream = (scream)  => async (dispatch)  => {
- const screamData = await likeScreamService(scream)
-//  console.log("screamDataFromAction",screamData)
-scream.likeCount++
- dispatch({ type: LIKE_SCREAM, payload: scream });
+
+export const likeScream = (scream) => async (dispatch) => {
+  const screamData = await likeScreamService(scream);
+  //  console.log("screamDataFromAction",screamData)
+  scream.likeCount++;
+  dispatch({ type: LIKE_SCREAM, payload: scream });
   return {
     type: LIKE_SCREAM,
-    payload:scream ,
+    payload: scream,
   };
-}
-export const UnLikeScream =  (scream) => async (dispatch)  =>  {
- const screamData = await unLikeScreamService(scream)
-scream.likeCount--
+};
+
+export const UnLikeScream = (scream) => async (dispatch) => {
+  const screamData = await unLikeScreamService(scream);
+  scream.likeCount--;
   dispatch({ type: UNLIKE_SCREAM, payload: scream });
   return {
     type: UNLIKE_SCREAM,
-    payload:scream ,
-  }; 
-}
+    payload: scream,
+  };
+};
