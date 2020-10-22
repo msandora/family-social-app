@@ -11,7 +11,7 @@ import {
   RETAIN_SCREAM_STATE,
   CLEAR_SELECTED_SCREAM,
   LIKE_SCREAM,
-  UNLIKE_SCREAM,
+  UNLIKE_SCREAM
 } from './screamConstants';
 
 const initialState = {
@@ -101,6 +101,28 @@ export default function screamReducer(state = initialState, { type, payload }) {
       return {
         ...state,
         retainState: true,
+      };
+    case LIKE_SCREAM:
+      return {
+        ...state,
+        screams:[...state.screams.map(scream => {
+          if (scream.id === payload.id) {
+            return payload
+          } else {
+            return scream
+          }
+        })]
+      };
+    case UNLIKE_SCREAM:
+      return {
+        ...state,
+        screams: state.screams.map(scream => {
+          if (scream.id === payload.id) {
+            return payload
+          } else {
+            return scream
+          }
+        }),
       };
     default:
       return state;
