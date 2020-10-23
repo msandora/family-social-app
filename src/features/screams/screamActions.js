@@ -9,7 +9,8 @@ import {
   CLEAR_SCREAMS,
   CLEAR_SELECTED_SCREAM,
   LIKE_SCREAM,
-  UNLIKE_SCREAM
+  UNLIKE_SCREAM,
+  GET_LIKES
 } from './screamConstants';
 import {
   asyncActionStart,
@@ -17,8 +18,10 @@ import {
   asyncActionError,
 } from '../../app/async/asyncReducer';
 import { dataFromSnapshot } from '../../app/firestore/firestoreService';
-import { fetchScreamsFromFirestore, unLikeScreamService } from '../../app/firestore/firestoreServices/firestoreScreamsHandler';
+import { fetchScreamsFromFirestore, unLikeScreamService, fetchLikes } from '../../app/firestore/firestoreServices/firestoreScreamsHandler';
 import { likeScreamService, UnLikeScreamService } from '../../app/firestore/firestoreServices/firestoreScreamsHandler';
+import firebase from '../../app/config/firebase';
+
 
 export function listenToScreamPhotos(photos) {
   return {
@@ -96,6 +99,8 @@ export function clearScreams() {
   };
 }
 export const likeScream = (scream)  => async (dispatch)  => {
+//  let screamFromLike = await getScreamFromLikes(scream) 
+//  dispatch({ type: GET_LIKES, payload: screamFromLike });
  const screamData = await likeScreamService(scream)
   //  console.log("screamDataFromAction",screamData)
   scream.likeCount++
@@ -106,6 +111,9 @@ export const likeScream = (scream)  => async (dispatch)  => {
   };
 }
 export const UnLikeScream =  (scream) => async (dispatch)  =>  {
+  // let screamFromLike = await getScreamFromLikes(scream) 
+//  dispatch({ type: GET_LIKES, payload: screamFromLike });
+
  const screamData = await unLikeScreamService(scream)
 scream.likeCount--
   dispatch({ type: UNLIKE_SCREAM, payload: scream });
@@ -113,4 +121,36 @@ scream.likeCount--
     type: UNLIKE_SCREAM,
     payload:scream ,
   }; 
+}
+export const getLikes =  () => async (dispatch)  =>  {
+    try {
+      let likesData=[];
+      const snapshot = await fetchLikes().get();
+      snapshot.docs.map((doc) => likesData.push(doc.data()));
+      console.log({snapshot})
+      console.log({likesData})
+    dispatch({ type: GET_LIKES, payload: likesData });
+    return {
+      type: GET_LIKES,
+      payload:likesData ,
+    }; 
+    } catch (error) {
+      console.log(error)
+      dispatch(asyncActionError(error));
+    }
+  };
+
+
+const getScreamFromLikes = async (scream) => {
+  const user = firebase.auth().currentUser;
+  let likesData=[];
+  const snapshot = await fetchLikes().get();
+  snapshot.docs.map((doc) => likesData.push(doc.data()));
+  return likesData.map(like => {
+    if(like.screamId === scream.id ) {
+      return  {screamId:'', userHandle:''}
+    } else {
+      return  {screamId:scream.id, userHandle:user.uid}
+    }
+  })
 }

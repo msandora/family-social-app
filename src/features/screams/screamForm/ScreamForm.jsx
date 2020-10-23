@@ -59,21 +59,21 @@ export default function ScreamForm({ match, history, location }) {
         enableReinitialize
         initialValues={initialValues}
         validationSchema={validationSchema}
-        onSubmit={async (values, { setSubmitting }) => {
-          console.log({values})
-          console.log({initialValues})
-          // console.log({setSubmitting})
-          try {
-            selectedScream
-              ? await updateScreamInFirestore(values)
-              : await addScreamToFirestore(values);
-            setSubmitting(false);
-            history.push('/screams');
-          } catch (error) {
-            toast.error(error.message);
-            setSubmitting(false);
-          }
-        }}
+        // onSubmit={async (values, { setSubmitting }) => {
+        //   console.log({values})
+        //   console.log({initialValues})
+        //   console.log({setSubmitting})
+        //   try {
+        //     selectedScream
+        //       ? await updateScreamInFirestore(values)
+        //       : await addScreamToFirestore(values);
+        //     setSubmitting(false);
+        //     history.push('/screams');
+        //   } catch (error) {
+        //     toast.error(error.message);
+        //     setSubmitting(false);
+        //   }
+        // }}
       >
         {({ isSubmitting, dirty, isValid, values }) => (
           <Form className='ui form'>

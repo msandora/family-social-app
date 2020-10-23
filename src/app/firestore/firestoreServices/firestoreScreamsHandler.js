@@ -172,3 +172,9 @@ screamDocument
     return({ err });
   });
 }    
+
+export function fetchLikes () {
+  let likesRef = db
+    .collection('likes')
+    return likesRef
+}
