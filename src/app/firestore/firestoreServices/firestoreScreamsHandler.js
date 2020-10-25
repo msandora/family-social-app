@@ -28,8 +28,9 @@ export function addScreamToFirestore(scream,imgUrlList) {
   });
 }
 
-export function updateScreamInFirestore(scream) {
+export function updateScreamInFirestore(scream,imgUrlList) {
   // console.log(scream);
+  scream = {...scream, screamImages: [...scream.screamImages,...imgUrlList]}
   return db.collection('screams').doc(scream.id).update(scream);
 }
 

@@ -80,7 +80,7 @@ export default function ScreamForm({ match, history, location }) {
           // console.log({imgUrl})
           try {
             selectedScream
-              ? await updateScreamInFirestore(values)
+              ? await updateScreamInFirestore(values,imgUrlList && imgUrlList)
               : await addScreamToFirestore(values,imgUrlList && imgUrlList);
             setSubmitting(false);
             history.push('/screams');
@@ -100,11 +100,8 @@ export default function ScreamForm({ match, history, location }) {
              dispatch={dispatch}
              />
              {/* image List  */}
-            {/* { (selectedScream && selectedScream.screamImages && values && values.screamImages) && values.screamImages.map(((img,index) => <Link onClick={() => deleteImg(img,values,index)}> <img src={img} alt="img" style={{width:"6rem",height:"6rem", margin:5, border:"1px solid lightgrey" }} /> </Link>))} */}
-            {  imgUrlList && imgUrlList.length > 0 ?  imgUrlList.map(((img,index) => <Link onClick={() => deleteImg(img,imgUrlList,index)}> <img src={img} alt="img" style={{width:"6rem",height:"6rem", margin:5, border:"1px solid lightgrey" }} /> </Link>))
-             : (selectedScream && selectedScream.screamImages && values && values.screamImages) && values.screamImages.map(((img,index) => <Link onClick={() => deleteImg(img,values,index)}> <img src={img} alt="img" style={{width:"6rem",height:"6rem", margin:5, border:"1px solid lightgrey" }} /> </Link>)) 
-            
-        }
+            { (selectedScream && selectedScream.screamImages && values && values.screamImages) && values.screamImages.map(((img,index) => <Link onClick={() => deleteImg(img,values,index)}> <img src={img} alt="img" style={{width:"6rem",height:"6rem", margin:5, border:"1px solid lightgrey" }} /> </Link>))}
+            { ( imgUrlList && imgUrlList.length > 0 ) &&  imgUrlList.map(((img,index) => <Link onClick={() => deleteImg(img,imgUrlList,index)}> <img src={img} alt="img" style={{width:"6rem",height:"6rem", margin:5, border:"1px solid lightgrey" }} /> </Link>))}
             <Header sub color='teal' content='Post Details' />
             <MyTextInput name='title' placeholder='Post title' />
             <MyTextArea name='description' placeholder='Description' rows={3} />
