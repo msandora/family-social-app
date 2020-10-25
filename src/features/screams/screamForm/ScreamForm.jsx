@@ -62,7 +62,7 @@ export default function ScreamForm({ match, history, location }) {
     // console.log({index})
     // console.log({values})
     // console.log("screamImages",values.screamImages) 
-    imgUrlList.map((img) => "3")
+    // imgUrlList.map((img) => "3")
     
     console.log("screamImages",imgUrlList) 
   }
