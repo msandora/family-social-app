@@ -117,6 +117,7 @@ export default function PersonForm({ match, history, location }) {
                   label='Birth date'
                 />
               </Grid.Column>
+
               <Grid.Column width={8}>
                 <MyTextInput
                   name='nickName'
@@ -135,6 +136,7 @@ export default function PersonForm({ match, history, location }) {
                   label='About'
                 />
               </Grid.Column>
+
               <Grid.Column width={16}>
                 <Button
                   loading={isSubmitting}

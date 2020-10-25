@@ -16,8 +16,7 @@ export function listenToScreamFromFirestore(screamId) {
   return db.collection('screams').doc(screamId);
 }
 
-export function addScreamToFirestore(scream) {
-  console.log(scream);
+export function addScreamToFirestore(scream,imgUrlList) {
   const user = firebase.auth().currentUser;
   return db.collection('screams').add({
     ...scream,
@@ -25,12 +24,13 @@ export function addScreamToFirestore(scream) {
     hostUid: user.uid,
     hostedBy: user.displayName,
     hostPhotoURL: user.photoURL || null,
-    photos: [],
+    screamImages:[...imgUrlList]
   });
 }
 
-export function updateScreamInFirestore(scream) {
+export function updateScreamInFirestore(scream,imgUrlList) {
   // console.log(scream);
+  scream = {...scream, screamImages: [...scream.screamImages,...imgUrlList]}
   return db.collection('screams').doc(scream.id).update(scream);
 }
 
@@ -38,16 +38,23 @@ export function deleteScreamInFirestore(screamId) {
   return db.collection('screams').doc(screamId).delete();
 }
 
-export async function updateScreamPhoto(downloadURL, filename, screamId) {
+export async function updateScreamPhoto(downloadURL, filename, screamId,screamImages) {
   try {
-    return await db
+    console.log({screamImages})
+    let scream = await (await db.collection('screams').doc(screamId).get()).data();
+    console.log({scream})
+    // addScreamToFirestore(scream, downloadURL)
+      let screamData = db
       .collection('screams')
       .doc(screamId)
-      .collection('photos')
-      .add({
-        name: filename,
-        url: downloadURL,
+      // .collection('photos')
+      .update({
+       screamImages: (scream.screamImages && scream.screamImages.length > 0) ? [...scream.screamImages,downloadURL] : [downloadURL] 
+      //  screamImages: [...screamImages]
       });
+      screamData = await screamData.get().data();
+      console.log({screamData});
+      return screamData
   } catch (error) {
     throw error;
   }
@@ -144,6 +151,7 @@ screamDocument
     if (data.empty) {
       return ({ error: "Scream not liked" });
     } else {
+      console.log("unlikeData",data)
       return db
         .doc(`/likes/${data.docs[0].id}`)
         .delete()
@@ -164,3 +172,9 @@ screamDocument
     return({ err });
   });
 }    
+
+export function fetchLikes () {
+  let likesRef = db
+    .collection('likes')
+    return likesRef
+}

@@ -12,6 +12,8 @@ import {
   CLEAR_SELECTED_SCREAM,
   LIKE_SCREAM,
   UNLIKE_SCREAM,
+  GET_LIKES,
+  GET_IMG_URL,
 } from './screamConstants';
 
 const initialState = {
@@ -91,6 +93,7 @@ export default function screamReducer(state = initialState, { type, payload }) {
         retainState: true,
       };
     case LIKE_SCREAM:
+    case UNLIKE_SCREAM:
       return {
         ...state,
         screams: [
@@ -103,16 +106,15 @@ export default function screamReducer(state = initialState, { type, payload }) {
           }),
         ],
       };
-    case UNLIKE_SCREAM:
+    case GET_LIKES:
       return {
         ...state,
-        screams: state.screams.map((scream) => {
-          if (scream.id === payload.id) {
-            return payload;
-          } else {
-            return scream;
-          }
-        }),
+        likes: payload,
+      };
+    case GET_IMG_URL:
+      return {
+        ...state,
+        imgUrlList: payload,
       };
     default:
       return state;

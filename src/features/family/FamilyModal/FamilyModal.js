@@ -185,7 +185,6 @@ export default class FamilyModal extends Component {
               as={Link}
               to={`/updatePerson/${person.id}`}
             />
-
             <Button
               content='Add Child'
               labelPosition='right'
