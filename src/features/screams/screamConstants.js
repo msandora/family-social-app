@@ -12,3 +12,4 @@ export const LISTEN_TO_SCREAM_PHOTOS = 'LISTEN_TO_SCREAM_PHOTOS';
 export const LIKE_SCREAM = 'LIKE_SCREAM';
 export const UNLIKE_SCREAM = 'UNLIKE_SCREAM';
 export const GET_LIKES = 'GET_LIKES';
+export const GET_IMG_URL = 'GET_IMG_URL';

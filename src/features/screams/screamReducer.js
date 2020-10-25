@@ -12,7 +12,8 @@ import {
   CLEAR_SELECTED_SCREAM,
   LIKE_SCREAM,
   UNLIKE_SCREAM,
-  GET_LIKES
+  GET_LIKES,
+  GET_IMG_URL
 } from './screamConstants';
 
 const initialState = {
@@ -119,6 +120,11 @@ export default function screamReducer(state = initialState, { type, payload }) {
       return {
         ...state,
         likes: payload,
+      };
+      case GET_IMG_URL:
+      return {
+        ...state,
+        imgUrlList: payload,
       };
     
     default:

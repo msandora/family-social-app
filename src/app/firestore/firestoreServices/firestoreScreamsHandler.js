@@ -16,8 +16,7 @@ export function listenToScreamFromFirestore(screamId) {
   return db.collection('screams').doc(screamId);
 }
 
-export function addScreamToFirestore(scream) {
-  console.log(scream);
+export function addScreamToFirestore(scream,imgUrlList) {
   const user = firebase.auth().currentUser;
   return db.collection('screams').add({
     ...scream,
@@ -25,8 +24,7 @@ export function addScreamToFirestore(scream) {
     hostUid: user.uid,
     hostedBy: user.displayName,
     hostPhotoURL: user.photoURL || null,
-    // photos: [],
-    // screamImages:[downloadURL]
+    screamImages:[...imgUrlList]
   });
 }
 
@@ -44,6 +42,7 @@ export async function updateScreamPhoto(downloadURL, filename, screamId,screamIm
     console.log({screamImages})
     let scream = await (await db.collection('screams').doc(screamId).get()).data();
     console.log({scream})
+    // addScreamToFirestore(scream, downloadURL)
       let screamData = db
       .collection('screams')
       .doc(screamId)

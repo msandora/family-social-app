@@ -10,7 +10,8 @@ import {
   CLEAR_SELECTED_SCREAM,
   LIKE_SCREAM,
   UNLIKE_SCREAM,
-  GET_LIKES
+  GET_LIKES,
+  GET_IMG_URL
 } from './screamConstants';
 import {
   asyncActionStart,
@@ -153,4 +154,11 @@ const getScreamFromLikes = async (scream) => {
       return  {screamId:scream.id, userHandle:user.uid}
     }
   })
+}
+
+export function getImgUrl(imgUrl) {
+  return {
+    type: GET_IMG_URL,
+    payload: imgUrl,
+  };
 }
