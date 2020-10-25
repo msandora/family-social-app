@@ -1,13 +1,16 @@
-import React from 'react';
-import { Segment, Button, Header, Image, Icon,Label } from 'semantic-ui-react';
+import React, { useState } from 'react';
+import { Segment, Button, Header, Image, Icon, Label } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 import { formatDistance } from 'date-fns';
 import ScreamCarousel from '../screamComponents/ScreamCarousel';
 import LikeScream from '../screamComponents/LikeScream';
+import UnauthModal from '../../auth/UnauthModal';
 
  function ScreamListItem({ scream }) {
  
   return (
+        <>
+      {modalOpen && <UnauthModal setModalOpen={setModalOpen} />}
     <Segment.Group>
       <Segment>
         <Header as='h5'>
@@ -43,6 +46,7 @@ import LikeScream from '../screamComponents/LikeScream';
 
       </Segment>
     </Segment.Group>
+          </>
   );
 }
 

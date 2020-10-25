@@ -1,13 +1,16 @@
-import React, { useState,useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { toast } from 'react-toastify';
 import cuid from 'cuid';
 import { Grid, Header, Button } from 'semantic-ui-react';
 import { getFileExtension } from '../../../app/common/util/util';
 import { updateScreamPhoto } from '../../../app/firestore/firestoreServices/firestoreScreamsHandler';
-import { uploadScreamImageToFirebaseStorage ,uploadImage} from '../../../app/firestore/firebaseServices/firebaseScreamsHandler';
+import {
+  uploadScreamImageToFirebaseStorage,
+  uploadImage,
+} from '../../../app/firestore/firebaseServices/firebaseScreamsHandler';
 import ScreamImageDropzone from './ScreamImageDropzone';
 import ScreamImageCropper from './ScreamImageCropper';
-import {getImgUrl} from './../screamActions';
+import { getImgUrl } from './../screamActions';
 
 import {
   // listenToScreamFromFirestore,
@@ -15,7 +18,7 @@ import {
   addScreamToFirestore,
 } from '../../../app/firestore/firestoreServices/firestoreScreamsHandler';
 
-export default function ScreamImageUpload({ screamId, newScream,dispatch }) {
+export default function ScreamImageUpload({ screamId, newScream, dispatch }) {
   const [files, setFiles] = useState([]);
   const [image, setImage] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -23,18 +26,15 @@ export default function ScreamImageUpload({ screamId, newScream,dispatch }) {
   const [imgUrlList, setImgUrlList] = useState([]);
   // console.log('My screamId', screamId);
   useEffect(() => {
-    dispatch(getImgUrl(imgUrlList  && imgUrlList));
-  }, [dispatch,imgUrlList]);
-//  console.log({imgUrl})
- console.log({imgUrlList})
+    dispatch(getImgUrl(imgUrlList && imgUrlList));
+  }, [dispatch, imgUrlList]);
+  //  console.log({imgUrl})
+  console.log({ imgUrlList });
 
   function handleUploadImage() {
     setLoading(true);
     const filename = cuid() + '.' + getFileExtension(files[0].name);
-    const uploadTask = uploadImage(
-      image,
-      filename,
-    );
+    const uploadTask = uploadImage(image, filename);
     // const uploadTask = uploadScreamImageToFirebaseStorage(
     //   image,
     //   filename,
@@ -53,10 +53,10 @@ export default function ScreamImageUpload({ screamId, newScream,dispatch }) {
       () => {
         uploadTask.snapshot.ref.getDownloadURL().then((downloadURL) => {
           setImgUrl(downloadURL);
-          setImgUrlList([...imgUrlList,downloadURL]);
-            updateScreamPhoto(downloadURL, filename, screamId)
+          setImgUrlList([...imgUrlList, downloadURL]);
+          updateScreamPhoto(downloadURL, filename, screamId)
             .then((doc) => {
-              console.log({doc})
+              console.log({ doc });
               setLoading(false);
               handleCancelCrop();
             })
@@ -73,7 +73,7 @@ export default function ScreamImageUpload({ screamId, newScream,dispatch }) {
     setFiles([]);
     setImage(null);
   }
-console.log({files})
+  console.log({ files });
   return (
     <>
       <Grid>

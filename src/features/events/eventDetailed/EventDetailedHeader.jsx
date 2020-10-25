@@ -1,8 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Segment, Image, Item, Header, Button } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 import { format } from 'date-fns';
-import { useState } from 'react';
 import { toast } from 'react-toastify';
 import { useSelector } from 'react-redux';
 import UnauthModal from '../../auth/UnauthModal';

@@ -22,7 +22,7 @@ export default function PersonForm({ match, history, location }) {
   const { loading, error } = useSelector((state) => state.async);
 
   useEffect(() => {
-    if (location.pathname !== '/updatePerson') return;
+    if (location.pathname !== '/addSpouse') return;
     dispatch(clearSelectedPerson());
   }, [dispatch, location.pathname]);
 
@@ -31,6 +31,9 @@ export default function PersonForm({ match, history, location }) {
     middleName: '',
     lastName: '',
     nickName: '',
+    maidenName: '',
+    bio: '',
+    dateOfBirth: '',
   };
 
   const validationSchema = Yup.object({
@@ -41,7 +44,7 @@ export default function PersonForm({ match, history, location }) {
   useFirestoreDoc({
     shouldExecute:
       match.params.id !== selectedPerson?.id &&
-      location.pathname !== '/updatePerson',
+      location.pathname !== `/addSpouse/${selectedPerson?.id}`,
     query: () => listenToPersonFromFirestore(match.params.id),
     data: (family) => dispatch(listenToSelectedPerson(family)),
     deps: [match.params.id, dispatch],
@@ -60,10 +63,11 @@ export default function PersonForm({ match, history, location }) {
         onSubmit={async (values, { setSubmitting }) => {
           try {
             // console.log(values);
-            await updatePersonInFirestore(values);
+            selectedPerson
+              ? await updatePersonInFirestore(values)
+              : await console.log(values);
             setSubmitting(false);
-            dispatch(clearSelectedPerson());
-
+            // dispatch(clearSelectedPerson());
             history.push('/family-tree');
           } catch (error) {
             toast.error(error.message);
@@ -79,8 +83,15 @@ export default function PersonForm({ match, history, location }) {
                   as='h1'
                   size='large'
                   color='teal'
-                  content='Manage Person'
+                  content={
+                    location.pathname !== '/addSpouse'
+                      ? 'Manage Person'
+                      : 'Add Spouse'
+                  }
                 />
+                {location.pathname}
+                <br />
+                {`/addSpouse/${selectedPerson?.id}`}
               </Grid.Column>
               <Grid.Column width={8}>
                 <MyTextInput

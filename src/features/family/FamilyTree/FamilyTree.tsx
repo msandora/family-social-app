@@ -6,22 +6,21 @@ import ReactFamilyTree from 'react-family-tree';
 import FamilyNode from '../../family/FamilyNode/FamilyNode';
 import styles from '../FamilyTree/Family.module.css';
 // import nodes from '../../../app/api/family.json';
+// const myID = 'dansandora';
+const myID = 'CXFkyVOXxUTT8XL1dgRh';
+
 
 const WIDTH = 70;
 const HEIGHT = 110;
 // @ts-ignore
 export default function FamilyTree({ family }) {
   const nodes = family;
-  // const myID = 'dansandora';
-  const myID = 'CXFkyVOXxUTT8XL1dgRh';
-
   const [menuActive] = useState(false);
   const [rootId, setRootId] = useState<string>(myID);
   // const onResetClick = useCallback(() => setRootId(myID), []);
-
   // console.log('json nodes', nodes);
   // console.log('family', family);
-
+  
   const renderTree =
     nodes.length > 0 ? (
       <ReactFamilyTree

@@ -22,8 +22,9 @@ import RecipeDashboard from '../../features/recipes/recipeDashboard/RecipeDashbo
 import RecipeDetailedPage from '../../features/recipes/recipeDetailed/RecipeDetailedPage';
 import RecipeForm from '../../features/recipes/recipeForm/RecipeForm';
 import FamilyDashboard from '../../features/family/FamilyDashboard/FamilyDashboard';
-import AddChildForm from '../../features/family/FamilyForms/AddChildForm';
-import AddSpouseForm from '../../features/family/FamilyForms/AddSpouseForm';
+// import AddChildForm from '../../features/family/FamilyForms/AddChildForm';
+// import AddSpouseForm from '../../features/family/FamilyForms/AddSpouseForm';
+
 import PersonForm from '../../features/family/FamilyForms/PersonForm';
 
 export default function App() {
@@ -78,12 +79,12 @@ export default function App() {
               />
               <PrivateRoute
                 path={['/addChild/:id']}
-                component={AddChildForm}
+                component={PersonForm}
                 key={`addChild_${key}`}
               />
               <PrivateRoute
                 path={['/addSpouse/:id']}
-                component={AddSpouseForm}
+                component={PersonForm}
                 key={`addSpouse_${key}`}
               />
               <PrivateRoute path='/account' component={AccountPage} />

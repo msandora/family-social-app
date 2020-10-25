@@ -1,9 +1,5 @@
 import React from 'react';
-// import { Link } from 'react-router-dom';
-import {
-  Segment,
-  //Button
-} from 'semantic-ui-react';
+import { Segment } from 'semantic-ui-react';
 import ScreamCarousel from './../screamComponents/ScreamCarousel';
 import LikeScream from './../screamComponents/LikeScream';
 import MyButton from '../../../app/common/MyButton';
@@ -20,6 +16,7 @@ export default function ScreamDetailedInfo({ scream, isHost }) {
       </Segment>
       <Segment attached='bottom' clearing>
         <LikeScream scream={scream} />
+
         {isHost && (
           <>
             <MyButton

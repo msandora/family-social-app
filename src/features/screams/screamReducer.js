@@ -13,7 +13,7 @@ import {
   LIKE_SCREAM,
   UNLIKE_SCREAM,
   GET_LIKES,
-  GET_IMG_URL
+  GET_IMG_URL,
 } from './screamConstants';
 
 const initialState = {
@@ -43,18 +43,6 @@ export default function screamReducer(state = initialState, { type, payload }) {
           payload,
         ],
       };
-      // case LIKE_SCREAM:
-      // case UNLIKE_SCREAM:
-      //   let screamIndex = state.screams.findIndex(
-      //     (scream) => scream.postId === type.payload.postId
-      //   );
-      //   state.screams[screamIndex] = type.payload;
-      //   if (state.scream.postId === type.payload.postId) {
-      //     state.scream = { ...state.scream, ...type.payload };
-      //   }
-      //   return {
-      //     ...state,
-      //   };
     case DELETE_SCREAM:
       return {
         ...state,
@@ -105,28 +93,29 @@ export default function screamReducer(state = initialState, { type, payload }) {
         retainState: true,
       };
     case LIKE_SCREAM:
-      case UNLIKE_SCREAM:
+    case UNLIKE_SCREAM:
       return {
         ...state,
-        screams:[...state.screams.map(scream => {
-          if (scream.id === payload.id) {
-            return payload
-          } else {
-            return scream
-          }
-        })]
+        screams: [
+          ...state.screams.map((scream) => {
+            if (scream.id === payload.id) {
+              return payload;
+            } else {
+              return scream;
+            }
+          }),
+        ],
       };
-      case GET_LIKES:
+    case GET_LIKES:
       return {
         ...state,
         likes: payload,
       };
-      case GET_IMG_URL:
+    case GET_IMG_URL:
       return {
         ...state,
         imgUrlList: payload,
       };
-    
     default:
       return state;
   }
