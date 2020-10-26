@@ -29,8 +29,8 @@ console.log("outside", lastVisible);
 let screamsRef =  db
     .collection('screams')
     .orderBy('createdAt')
-    // .startAfter( lastVisible )
-    .startAfter(lastDocSnapshot ?  lastDocSnapshot :lastVisible )
+    .startAfter( lastDocSnapshot )
+    // .startAfter(lastDocSnapshot ?  lastDocSnapshot :lastVisible )
     .limit(limit);
   return screamsRef;
 }

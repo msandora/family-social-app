@@ -146,7 +146,7 @@ export default function ScreamForm({ match, history, location }) {
               />
               <Button
                 loading={isSubmitting}
-                disabled={!isValid || !dirty || isSubmitting}
+                disabled={!isValid  || isSubmitting}
                 type='submit'
                 floated='right'
                 positive
