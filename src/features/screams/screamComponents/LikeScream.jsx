@@ -2,15 +2,11 @@ import React, { useEffect, useState } from 'react';
 import { Button, Popup, Segment, Header, Icon, Label } from 'semantic-ui-react';
 import { useDispatch, useSelector } from 'react-redux';
 import { likeScream, UnLikeScream, getLikes } from '../screamActions';
-import { GET_LIKES } from '../screamConstants';
 
 export default function LikeButton({ scream }) {
   let [liked, setLiked] = useState(false);
   const dispatch = useDispatch();
-  const {
-    authenticated,
-    currentUser: { uid },
-  } = useSelector((state) => state.auth);
+  const { authenticated, currentUser } = useSelector((state) => state.auth);
   const { likes } = useSelector((state) => state.scream);
   // console.log({uid})
   // console.log({scream})
@@ -19,7 +15,10 @@ export default function LikeButton({ scream }) {
     if (
       likes &&
       likes.find(
-        (like) => like.screamId === scream.id && like.userHandle === uid
+        (like) =>
+          like.screamId === scream.id &&
+          like.userHandle === currentUser &&
+          currentUser.uid
       )
     )
       return true;
