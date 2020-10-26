@@ -7,7 +7,7 @@ import { Formik, Form } from 'formik';
 import * as Yup from 'yup';
 import MyTextInput from '../../../app/common/form/MyTextInput';
 import MyTextArea from '../../../app/common/form/MyTextArea';
-import { Link } from "react-router-dom";
+import { Link } from 'react-router-dom';
 import {
   listenToScreamFromFirestore,
   updateScreamInFirestore,
@@ -21,7 +21,7 @@ import ScreamImageUpload from './ScreamImageUpload';
 
 export default function ScreamForm({ match, history, location }) {
   const dispatch = useDispatch();
-  const { selectedScream,imgUrlList} = useSelector((state) => state.scream);
+  const { selectedScream, imgUrlList } = useSelector((state) => state.scream);
   const { loading, error } = useSelector((state) => state.async);
 
   // console.log({selectedScream})
@@ -41,7 +41,8 @@ export default function ScreamForm({ match, history, location }) {
     title: Yup.string().required('You must provide a title'),
     description: Yup.string().required(),
     screamImages: Yup.array().of(
-      Yup.string().required('You must provide a image')),
+      Yup.string().required('You must provide a image')
+    ),
   });
 
   useFirestoreDoc({
@@ -57,15 +58,15 @@ export default function ScreamForm({ match, history, location }) {
 
   if (error) return <Redirect to='/error' />;
   // console.log(selectedScream.id);
-  const deleteImg = (imgUrl, imgUrlList,index) => {
+  const deleteImg = (imgUrl, imgUrlList, index) => {
     // console.log({imgUrl})
     // console.log({index})
     // console.log({values})
-    // console.log("screamImages",values.screamImages) 
+    // console.log("screamImages",values.screamImages)
     // imgUrlList.map((img) => "3")
-    
-    console.log("screamImages",imgUrlList) 
-  }
+
+    console.log('screamImages', imgUrlList);
+  };
 
   return (
     <Segment clearing>
@@ -74,14 +75,14 @@ export default function ScreamForm({ match, history, location }) {
         initialValues={initialValues}
         validationSchema={validationSchema}
         onSubmit={async (values, { setSubmitting }) => {
-          console.log({values})
+          console.log({ values });
           // console.log({initialValues})
           // console.log({setSubmitting})
           // console.log({imgUrl})
           try {
             selectedScream
-              ? await updateScreamInFirestore(values,imgUrlList && imgUrlList)
-              : await addScreamToFirestore(values,imgUrlList && imgUrlList);
+              ? await updateScreamInFirestore(values, imgUrlList && imgUrlList)
+              : await addScreamToFirestore(values, imgUrlList && imgUrlList);
             setSubmitting(false);
             history.push('/screams');
           } catch (error) {
@@ -91,32 +92,70 @@ export default function ScreamForm({ match, history, location }) {
         }}
       >
         {({ isSubmitting, dirty, isValid, values }) => (
-          <Form className='ui form'>
-         {/* { console.log({values})} */}
-        
-            <ScreamImageUpload 
-            screamId={selectedScream?.id}
-             newScream={selectedScream ? false : true }
-             dispatch={dispatch}
-             />
-             {/* image List  */}
-            { (selectedScream && selectedScream.screamImages && values && values.screamImages) && values.screamImages.map(((img,index) => <Link onClick={() => deleteImg(img,values,index)}> <img src={img} alt="img" style={{width:"6rem",height:"6rem", margin:5, border:"1px solid lightgrey" }} /> </Link>))}
-            { ( imgUrlList && imgUrlList.length > 0 ) &&  imgUrlList.map(((img,index) => <Link onClick={() => deleteImg(img,imgUrlList,index)}> <img src={img} alt="img" style={{width:"6rem",height:"6rem", margin:5, border:"1px solid lightgrey" }} /> </Link>))}
-            <Header sub color='teal' content='Post Details' />
-            <MyTextInput name='title' placeholder='Post title' />
-            <MyTextArea name='description' placeholder='Description' rows={3} />
-
-            <Button
-              loading={isSubmitting}
-              disabled={!isValid || !dirty || isSubmitting}
-              type='submit'
-              floated='right'
-              positive
-              content='Submit'
+          <>
+            <ScreamImageUpload
+              screamId={selectedScream?.id}
+              newScream={selectedScream ? false : true}
+              dispatch={dispatch}
             />
-          </Form>
+            {/* image List  */}
+            {selectedScream &&
+              selectedScream.screamImages &&
+              values &&
+              values.screamImages &&
+              values.screamImages.map((img, index) => (
+                <Link onClick={() => deleteImg(img, values, index)}>
+                  {' '}
+                  <img
+                    src={img}
+                    alt='img'
+                    style={{
+                      width: '6rem',
+                      height: '6rem',
+                      margin: 5,
+                      border: '1px solid lightgrey',
+                    }}
+                  />{' '}
+                </Link>
+              ))}
+            {imgUrlList &&
+              imgUrlList.length > 0 &&
+              imgUrlList.map((img, index) => (
+                <Link onClick={() => deleteImg(img, imgUrlList, index)}>
+                  {' '}
+                  <img
+                    src={img}
+                    alt='img'
+                    style={{
+                      width: '6rem',
+                      height: '6rem',
+                      margin: 5,
+                      border: '1px solid lightgrey',
+                    }}
+                  />{' '}
+                </Link>
+              ))}
+
+            <Form className='ui form'>
+              <Header sub color='teal' content='Post Details' />
+              <MyTextInput name='title' placeholder='Post title' />
+              <MyTextArea
+                name='description'
+                placeholder='Description'
+                rows={3}
+              />
+              <Button
+                loading={isSubmitting}
+                disabled={!isValid || !dirty || isSubmitting}
+                type='submit'
+                floated='right'
+                positive
+                content='Submit'
+              />
+            </Form>
+          </>
         )}
-      </Formik> 
+      </Formik>
     </Segment>
   );
 }
