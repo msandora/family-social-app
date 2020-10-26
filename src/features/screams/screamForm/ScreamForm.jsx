@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{useState} from 'react';
 import { Segment, Header, Button } from 'semantic-ui-react';
 import { Redirect } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
@@ -26,14 +26,14 @@ export default function ScreamForm({ match, history, location }) {
   const dispatch = useDispatch();
   const { selectedScream, imgUrlList } = useSelector((state) => state.scream);
   const { loading, error } = useSelector((state) => state.async);
-
+  const [valuesState, setvaluesState] = useState({})
   // console.log({selectedScream})
   // console.log({imgUrlList})
   useEffect(() => {
     if (location.pathname !== '/createScream') return;
     dispatch(clearSelectedScream());
     dispatch(fetchScreams(2));
-  }, [dispatch, location.pathname]);
+  }, [dispatch, location.pathname,valuesState.length > 0 && valuesState,selectedScream]);
 
   const initialValues = selectedScream ?? {
     title: '',
@@ -62,13 +62,9 @@ export default function ScreamForm({ match, history, location }) {
 
   if (error) return <Redirect to='/error' />;
   // console.log(selectedScream.id);
-  const deleteImg = (imgUrl, imgUrlList, index) => {
-    // console.log({imgUrl})
-    // console.log({index})
-    // console.log({values})
-    // console.log("screamImages",values.screamImages)
-    // imgUrlList.map((img) => "3")
-
+  const deleteImg = (imgIndex,images) => {
+    return images.splice(imgIndex, 1)
+    // imgUrlList.splice(imgIndex, 1)
     console.log('screamImages', imgUrlList);
   };
 
@@ -80,9 +76,7 @@ export default function ScreamForm({ match, history, location }) {
         validationSchema={validationSchema}
         onSubmit={async (values, { setSubmitting }) => {
           console.log({ values });
-          // console.log({initialValues})
-          // console.log({setSubmitting})
-          // console.log({imgUrl})
+          setvaluesState(values)
           try {
             selectedScream
               ? await updateScreamInFirestore(values, imgUrlList && imgUrlList)
@@ -108,7 +102,7 @@ export default function ScreamForm({ match, history, location }) {
               values &&
               values.screamImages &&
               values.screamImages.map((img, index) => (
-                <Link onClick={() => deleteImg(img, values, index)}>
+                <Link onClick={() => deleteImg(index,values.screamImages)}>
                   {' '}
                   <img
                     src={img}
