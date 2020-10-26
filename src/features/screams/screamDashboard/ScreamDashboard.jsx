@@ -6,6 +6,12 @@ import ScreamListItemPlaceholder from './ScreamListItemPlaceholder';
 import { fetchScreams } from '../screamActions';
 import { RETAIN_SCREAM_STATE } from '../screamConstants';
 import CreateScream from './CreateScream';
+import {
+  listenToScreamFromFirestore,
+  updateScreamInFirestore,
+  addScreamToFirestore,
+} from '../../../app/firestore/firestoreServices/firestoreScreamsHandler';
+
 
 export default function ScreamDashboard() {
   const limit = 2;

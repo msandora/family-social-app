@@ -19,6 +19,9 @@ import { toast } from 'react-toastify';
 import { useEffect } from 'react';
 import ScreamImageUpload from './ScreamImageUpload';
 
+import { fetchScreams } from '../screamActions';
+
+
 export default function ScreamForm({ match, history, location }) {
   const dispatch = useDispatch();
   const { selectedScream, imgUrlList } = useSelector((state) => state.scream);
@@ -29,6 +32,7 @@ export default function ScreamForm({ match, history, location }) {
   useEffect(() => {
     if (location.pathname !== '/createScream') return;
     dispatch(clearSelectedScream());
+    dispatch(fetchScreams(2));
   }, [dispatch, location.pathname]);
 
   const initialValues = selectedScream ?? {
