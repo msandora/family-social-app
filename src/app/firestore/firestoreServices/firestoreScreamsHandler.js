@@ -4,13 +4,37 @@ const db = firebase.firestore();
 
 export function fetchScreamsFromFirestore(limit, lastDocSnapshot = null) {
   // const user = firebase.auth().currentUser;
-  let screamsRef = db
+//   let next;
+  let lastVisible;
+  var first = db.collection("screams")
+  .orderBy("createdAt", "desc")
+  .limit(2);
+
+lastVisible = first.get().then(  (documentSnapshots) => {
+// Get the last visible document
+  lastVisible =  documentSnapshots.docs[documentSnapshots.docs.length-1];
+ console.log("last", lastVisible);
+ return  lastVisible
+  });
+  // console.log(await lastVisible)
+//   next = db.collection("screams")
+//   .orderBy("createdAt")
+//   // .startAfter(lastVisible ? lastVisible : null)
+//   .limit(2);
+  
+//   // console.log(await next.get())
+// return next;
+console.log("outside", lastVisible);
+
+let screamsRef =  db
     .collection('screams')
     .orderBy('createdAt')
-    .startAfter(lastDocSnapshot)
+    // .startAfter( lastVisible )
+    .startAfter(lastDocSnapshot ?  lastDocSnapshot :lastVisible )
     .limit(limit);
   return screamsRef;
 }
+
 
 export function listenToScreamFromFirestore(screamId) {
   return db.collection('screams').doc(screamId);
