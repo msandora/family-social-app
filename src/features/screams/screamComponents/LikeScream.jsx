@@ -10,6 +10,7 @@ export default function LikeButton({ scream }) {
   const { likes } = useSelector((state) => state.scream);
   // console.log({uid})
   // console.log({scream})
+  let {uid} = currentUser
   likes && console.log({ likes });
   function likedScream() {
     if (
@@ -17,8 +18,8 @@ export default function LikeButton({ scream }) {
       likes.find(
         (like) =>
           like.screamId === scream.id &&
-          like.userHandle === currentUser &&
-          currentUser.uid
+          like.userHandle === uid
+          
       )
     )
       return true;

@@ -11,7 +11,7 @@ const ScreamCarousel = ({ scream }) => {
     elements.push({
       render: () => {
    return  <Image src={img} alt="img" fluid /> 
- },
+  },
  }) 
       });
   console.log({elements})
@@ -27,7 +27,7 @@ const ScreamCarousel = ({ scream }) => {
 
   return (
     <Carousel
-      elements={scream && scream.screamImages ? elements : DefaultElements}
+      elements={elements.length > 0 ? elements : DefaultElements}
       duration={3000}
       animation='fade'
       showNextPrev={false}
