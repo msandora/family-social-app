@@ -2,36 +2,16 @@ import firebase from '../../config/firebase';
 
 const db = firebase.firestore();
 
-export function fetchScreamsFromFirestore(limit, lastDocSnapshot = null) {
-  // const user = firebase.auth().currentUser;
-//   let next;
-  let lastVisible;
-  var first = db.collection("screams")
-  .orderBy("createdAt", "desc")
-  .limit(2);
+export  function fetchScreamsFromFirestore(limit, lastDocSnapshot = null ) {
 
-lastVisible = first.get().then(  (documentSnapshots) => {
-// Get the last visible document
-  lastVisible =  documentSnapshots.docs[documentSnapshots.docs.length-1];
- console.log("last", lastVisible);
- return  lastVisible
-  });
-  // console.log(await lastVisible)
-//   next = db.collection("screams")
-//   .orderBy("createdAt")
-//   // .startAfter(lastVisible ? lastVisible : null)
-//   .limit(2);
-  
-//   // console.log(await next.get())
-// return next;
-console.log("outside", lastVisible);
-
-let screamsRef =  db
-    .collection('screams')
-    .orderBy('createdAt')
-    .startAfter( lastDocSnapshot )
-    // .startAfter(lastDocSnapshot ?  lastDocSnapshot :lastVisible )
+let screamsRef =  
+    db.collection('screams')
+    .orderBy("createdAt",  )
+    .startAfter( lastDocSnapshot  )
     .limit(limit);
+    // .startAfter( lastDocSnapshot  )
+    // .endAt( lastDocSnapshot  )
+    console.log({screamsRef})
   return screamsRef;
 }
 

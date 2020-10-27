@@ -11,7 +11,7 @@ export default function LikeButton({ scream }) {
   // console.log({uid})
   // console.log({scream})
   let {uid} = currentUser
-  likes && console.log({ likes });
+  // likes && console.log({ likes });
   function likedScream() {
     if (
       likes &&

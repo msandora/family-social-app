@@ -25,7 +25,7 @@ export default function ScreamDashboard() {
   useEffect(() => {
     if (retainState) return;
     setLoadingInitial(true);
-    dispatch(fetchScreams(limit)).then(() => {
+    dispatch(fetchScreams(limit,lastVisible)).then(() => {
       setLoadingInitial(false);
     });
     return () => {
