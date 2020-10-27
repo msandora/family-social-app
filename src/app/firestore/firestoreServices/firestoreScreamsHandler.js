@@ -2,15 +2,19 @@ import firebase from '../../config/firebase';
 
 const db = firebase.firestore();
 
-export function fetchScreamsFromFirestore(limit, lastDocSnapshot = null) {
-  // const user = firebase.auth().currentUser;
-  let screamsRef = db
-    .collection('screams')
-    .orderBy('createdAt')
-    .startAfter(lastDocSnapshot)
+export  function fetchScreamsFromFirestore(limit, lastDocSnapshot = null ) {
+
+let screamsRef =  
+    db.collection('screams')
+    .orderBy("createdAt",  )
+    .startAfter( lastDocSnapshot  )
     .limit(limit);
+    // .startAfter( lastDocSnapshot  )
+    // .endAt( lastDocSnapshot  )
+    console.log({screamsRef})
   return screamsRef;
 }
+
 
 export function listenToScreamFromFirestore(screamId) {
   return db.collection('screams').doc(screamId);

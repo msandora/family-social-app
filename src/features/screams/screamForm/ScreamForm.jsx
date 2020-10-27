@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{useState} from 'react';
 import { Segment, Header, Button } from 'semantic-ui-react';
 import { Redirect } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
@@ -23,7 +23,7 @@ export default function ScreamForm({ match, history, location }) {
   const dispatch = useDispatch();
   const { selectedScream, imgUrlList } = useSelector((state) => state.scream);
   const { loading, error } = useSelector((state) => state.async);
-
+  const [valuesState, setvaluesState] = useState({})
   // console.log({selectedScream})
   // console.log({imgUrlList})
   useEffect(() => {
@@ -58,13 +58,9 @@ export default function ScreamForm({ match, history, location }) {
 
   if (error) return <Redirect to='/error' />;
   // console.log(selectedScream.id);
-  const deleteImg = (imgUrl, imgUrlList, index) => {
-    // console.log({imgUrl})
-    // console.log({index})
-    // console.log({values})
-    // console.log("screamImages",values.screamImages)
-    // imgUrlList.map((img) => "3")
-
+  const deleteImg = (imgIndex,images) => {
+    return images.splice(imgIndex, 1)
+    // imgUrlList.splice(imgIndex, 1)
     console.log('screamImages', imgUrlList);
   };
 
@@ -76,15 +72,18 @@ export default function ScreamForm({ match, history, location }) {
         validationSchema={validationSchema}
         onSubmit={async (values, { setSubmitting }) => {
           console.log({ values });
-          // console.log({initialValues})
-          // console.log({setSubmitting})
-          // console.log({imgUrl})
+          setvaluesState(values)
           try {
             selectedScream
               ? await updateScreamInFirestore(values, imgUrlList && imgUrlList)
               : await addScreamToFirestore(values, imgUrlList && imgUrlList);
+            // selectedScream
+            //   ?  dispatch(updateScreamInFirestore(values, imgUrlList && imgUrlList ))   
+            //   :  dispatch(addScreamToFirestore(values, imgUrlList && imgUrlList)) 
             setSubmitting(false);
-            history.push('/screams');
+            // history.push('/screams');
+            // history.push('/screams');
+            window.location.href = "http://localhost:3000/screams"
           } catch (error) {
             toast.error(error.message);
             setSubmitting(false);
@@ -104,7 +103,7 @@ export default function ScreamForm({ match, history, location }) {
               values &&
               values.screamImages &&
               values.screamImages.map((img, index) => (
-                <Link onClick={() => deleteImg(img, values, index)}>
+                <Link onClick={() => deleteImg(index,values.screamImages)}>
                   {' '}
                   <img
                     src={img}
@@ -146,7 +145,7 @@ export default function ScreamForm({ match, history, location }) {
               />
               <Button
                 loading={isSubmitting}
-                disabled={!isValid || !dirty || isSubmitting}
+                disabled={!isValid  || isSubmitting}
                 type='submit'
                 floated='right'
                 positive

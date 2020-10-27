@@ -37,20 +37,23 @@ export function listenToScreamPhotos(photos) {
   };
 }
 
-export function fetchScreams(limit, lastDocSnapshot) {
+export function fetchScreams(limit, lastDocSnapshot,firstVisible) {
   return async function (dispatch) {
     dispatch(asyncActionStart());
     try {
       const snapshot = await fetchScreamsFromFirestore(
         limit,
-        lastDocSnapshot
+        lastDocSnapshot,
+        firstVisible
       ).get();
+      // const firstVisible = snapshot.docs[0];
       const lastVisible = snapshot.docs[snapshot.docs.length - 1];
       const moreScreams = snapshot.docs.length >= limit;
       const screams = snapshot.docs.map((doc) => dataFromSnapshot(doc));
+    console.log({screams})
       dispatch({
         type: FETCH_SCREAMS,
-        payload: { screams, moreScreams, lastVisible },
+        payload: { screams, moreScreams, lastVisible,firstVisible },
       });
       dispatch(asyncActionFinish());
     } catch (error) {

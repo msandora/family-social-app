@@ -9,7 +9,10 @@ export default function ScreamDetailedInfo({ scream, isHost }) {
   return (
     <>
       <Segment style={{ padding: 0 }}>
+      {
+        scream.screamImages.length > 0 &&
         <ScreamCarousel scream={scream} />
+      }
       </Segment>
       <Segment>
         <p>{scream.description}</p>

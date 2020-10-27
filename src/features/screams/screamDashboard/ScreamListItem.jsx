@@ -30,7 +30,10 @@ function ScreamListItem({ scream }) {
           </Header>
         </Segment>
         <Segment style={{ padding: 0 }}>
+          {
+            scream.screamImages && scream.screamImages.length > 0 && 
           <ScreamCarousel scream={scream} />
+          }
         </Segment>
         <Segment>
           <div>{scream.description}</div>

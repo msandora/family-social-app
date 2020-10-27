@@ -103,7 +103,10 @@ export default function ScreamImageUpload({ screamId, newScream, dispatch }) {
               <Button.Group>
                 <Button
                   loading={loading}
-                  onClick={handleUploadImage}
+                  onClick={() => {
+                    handleUploadImage();
+                    handleCancelCrop()
+                  }}
                   style={{ width: 100 }}
                   positive
                   icon='check'
