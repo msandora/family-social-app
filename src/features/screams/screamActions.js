@@ -13,22 +13,19 @@ import {
   GET_LIKES,
   GET_IMG_URL,
 } from './screamConstants';
+import firebase from '../../app/config/firebase';
+import { dataFromSnapshot } from '../../app/firestore/firestoreService';
 import {
   asyncActionStart,
   asyncActionFinish,
   asyncActionError,
 } from '../../app/async/asyncReducer';
-import { dataFromSnapshot } from '../../app/firestore/firestoreService';
 import {
   fetchScreamsFromFirestore,
+  likeScreamService,
   unLikeScreamService,
   fetchLikes,
 } from '../../app/firestore/firestoreServices/firestoreScreamsHandler';
-import {
-  likeScreamService,
-  UnLikeScreamService,
-} from '../../app/firestore/firestoreServices/firestoreScreamsHandler';
-import firebase from '../../app/config/firebase';
 
 export function listenToScreamPhotos(photos) {
   return {
@@ -37,7 +34,7 @@ export function listenToScreamPhotos(photos) {
   };
 }
 
-export function fetchScreams(limit, lastDocSnapshot,firstVisible) {
+export function fetchScreams(limit, lastDocSnapshot, firstVisible) {
   return async function (dispatch) {
     dispatch(asyncActionStart());
     try {
@@ -50,10 +47,10 @@ export function fetchScreams(limit, lastDocSnapshot,firstVisible) {
       const lastVisible = snapshot.docs[snapshot.docs.length - 1];
       const moreScreams = snapshot.docs.length >= limit;
       const screams = snapshot.docs.map((doc) => dataFromSnapshot(doc));
-    console.log({screams})
+      console.log({ screams });
       dispatch({
         type: FETCH_SCREAMS,
-        payload: { screams, moreScreams, lastVisible,firstVisible },
+        payload: { screams, moreScreams, lastVisible, firstVisible },
       });
       dispatch(asyncActionFinish());
     } catch (error) {
@@ -112,7 +109,7 @@ export function clearScreams() {
 export const likeScream = (scream) => async (dispatch) => {
   //  let screamFromLike = await getScreamFromLikes(scream)
   //  dispatch({ type: GET_LIKES, payload: screamFromLike });
-  const screamData = await likeScreamService(scream);
+  // const screamData = await likeScreamService(scream);
   //  console.log("screamDataFromAction",screamData)
   scream.likeCount++;
   dispatch({ type: LIKE_SCREAM, payload: scream });
@@ -125,7 +122,7 @@ export const likeScream = (scream) => async (dispatch) => {
 export const UnLikeScream = (scream) => async (dispatch) => {
   // let screamFromLike = await getScreamFromLikes(scream)
   //  dispatch({ type: GET_LIKES, payload: screamFromLike });
-  const screamData = await unLikeScreamService(scream);
+  // const screamData = await unLikeScreamService(scream);
   scream.likeCount--;
   dispatch({ type: UNLIKE_SCREAM, payload: scream });
   return {
@@ -139,8 +136,8 @@ export const getLikes = () => async (dispatch) => {
     let likesData = [];
     const snapshot = await fetchLikes().get();
     snapshot.docs.map((doc) => likesData.push(doc.data()));
-    console.log({ snapshot });
-    console.log({ likesData });
+    // console.log({ snapshot });
+    // console.log({ likesData });
     dispatch({ type: GET_LIKES, payload: likesData });
     return {
       type: GET_LIKES,
@@ -152,19 +149,19 @@ export const getLikes = () => async (dispatch) => {
   }
 };
 
-const getScreamFromLikes = async (scream) => {
-  const user = firebase.auth().currentUser;
-  let likesData = [];
-  const snapshot = await fetchLikes().get();
-  snapshot.docs.map((doc) => likesData.push(doc.data()));
-  return likesData.map((like) => {
-    if (like.screamId === scream.id) {
-      return { screamId: '', userHandle: '' };
-    } else {
-      return { screamId: scream.id, userHandle: user.uid };
-    }
-  });
-};
+// const getScreamFromLikes = async (scream) => {
+//   const user = firebase.auth().currentUser;
+//   let likesData = [];
+//   const snapshot = await fetchLikes().get();
+//   snapshot.docs.map((doc) => likesData.push(doc.data()));
+//   return likesData.map((like) => {
+//     if (like.screamId === scream.id) {
+//       return { screamId: '', userHandle: '' };
+//     } else {
+//       return { screamId: scream.id, userHandle: user.uid };
+//     }
+//   });
+// };
 
 export function getImgUrl(imgUrl) {
   return {

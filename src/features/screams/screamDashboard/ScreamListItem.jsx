@@ -29,12 +29,11 @@ function ScreamListItem({ scream }) {
             </Header.Content>
           </Header>
         </Segment>
-        <Segment style={{ padding: 0 }}>
-          {
-            scream.screamImages && scream.screamImages.length > 0 && 
-          <ScreamCarousel scream={scream} />
-          }
-        </Segment>
+        {scream.screamImages && scream.screamImages.length > 0 && (
+          <Segment style={{ padding: 0 }}>
+            <ScreamCarousel scream={scream} />
+          </Segment>
+        )}
         <Segment>
           <div>{scream.description}</div>
         </Segment>

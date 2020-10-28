@@ -2,24 +2,23 @@ import React, { useEffect, useState } from 'react';
 import { Button, Popup, Segment, Header, Icon, Label } from 'semantic-ui-react';
 import { useDispatch, useSelector } from 'react-redux';
 import { likeScream, UnLikeScream, getLikes } from '../screamActions';
+import UnauthModal from '../../auth/UnauthModal';
 
 export default function LikeButton({ scream }) {
-  let [liked, setLiked] = useState(false);
   const dispatch = useDispatch();
+  let [liked, setLiked] = useState(false);
+  const [modalOpen, setModalOpen] = useState(false);
   const { authenticated, currentUser } = useSelector((state) => state.auth);
   const { likes } = useSelector((state) => state.scream);
   // console.log({uid})
   // console.log({scream})
-  let {uid} = currentUser
+  let { uid } = currentUser;
   // likes && console.log({ likes });
   function likedScream() {
     if (
       likes &&
       likes.find(
-        (like) =>
-          like.screamId === scream.id &&
-          like.userHandle === uid
-          
+        (like) => like.screamId === scream.id && like.userHandle === uid
       )
     )
       return true;
@@ -34,66 +33,69 @@ export default function LikeButton({ scream }) {
   useEffect(() => {
     dispatch(getLikes());
   }, [dispatch, scream]);
+
   return (
     <>
+      {modalOpen && <UnauthModal setModalOpen={setModalOpen} />}
+
       {!authenticated ? (
-        <Segment
-          textAlign='center'
-          attached='top'
-          inverted
-          color='teal'
-          style={{ border: 'none' }}
+        <Button
+          as='div'
+          labelPosition='right'
+          onClick={() => setModalOpen(true)}
         >
-          <Header>{'Sign in to view and Like '}</Header>
-        </Segment>
+          <Button color='blue'>
+            <Icon name='heart' />
+            Sign In
+          </Button>
+          <Label as='a' basic color='blue' pointing='left'>
+            {scream.likeCount ? scream.likeCount : 0}
+          </Label>
+        </Button>
       ) : likedScream() || liked ? (
-        <div className=''>
-          <Popup
-            content='UnLike This'
-            trigger={
-              <Button
-                as='div'
-                labelPosition='right'
-                onClick={() => {
-                  handleUnLikeScream();
-                  setLiked(false);
-                }}
-              >
-                <Button color='blue'>
-                  <Icon name='heart' />
-                  Like
-                </Button>
-                <Label as='a' basic color='blue' pointing='left'>
-                  {scream.likeCount ? scream.likeCount : 0}
-                </Label>
+        <Popup
+          content='UnLike This'
+          trigger={
+            <Button
+              as='div'
+              labelPosition='right'
+              onClick={() => {
+                handleUnLikeScream();
+                setLiked(false);
+              }}
+            >
+              <Button color='blue'>
+                <Icon name='heart' />
+                UnLike
               </Button>
-            }
-          />
-        </div>
+              <Label as='a' basic color='blue' pointing='left'>
+                {scream.likeCount ? scream.likeCount : 0}
+              </Label>
+            </Button>
+          }
+        />
       ) : (
-        <div>
-          <Popup
-            content='Like This'
-            trigger={
-              <Button
-                as='div'
-                labelPosition='right'
-                onClick={() => {
-                  handleLikeScream();
-                  setLiked(true);
-                }}
-              >
-                <Button color='blue' basic>
-                  <Icon name='heart' />
-                  Like
-                </Button>
-                <Label as='a' basic color='blue' pointing='left'>
-                  {scream.likeCount ? scream.likeCount : 0}
-                </Label>
+        <Popup
+          content='Like This'
+          trigger={
+            <Button
+              as='div'
+              labelPosition='right'
+              onClick={() => {
+                handleLikeScream();
+                setLiked(true);
+              }}
+            >
+              <Button color='blue' basic>
+                <Icon name='heart' />
+                Like
               </Button>
-            }
-          />
-        </div>
+              <Label as='a' basic color='blue' pointing='left'>
+                {scream.likeCount ? scream.likeCount : 0}
+              </Label>
+            </Button>
+          }
+        />
       )}
     </>
   );
