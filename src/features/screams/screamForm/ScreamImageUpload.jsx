@@ -4,19 +4,10 @@ import cuid from 'cuid';
 import { Grid, Header, Button } from 'semantic-ui-react';
 import { getFileExtension } from '../../../app/common/util/util';
 import { updateScreamPhoto } from '../../../app/firestore/firestoreServices/firestoreScreamsHandler';
-import {
-  uploadScreamImageToFirebaseStorage,
-  uploadImage,
-} from '../../../app/firestore/firebaseServices/firebaseScreamsHandler';
+import { uploadImage } from '../../../app/firestore/firebaseServices/firebaseScreamsHandler';
 import ScreamImageDropzone from './ScreamImageDropzone';
 import ScreamImageCropper from './ScreamImageCropper';
 import { getImgUrl } from './../screamActions';
-
-import {
-  // listenToScreamFromFirestore,
-  updateScreamInFirestore,
-  addScreamToFirestore,
-} from '../../../app/firestore/firestoreServices/firestoreScreamsHandler';
 
 export default function ScreamImageUpload({ screamId, newScream, dispatch }) {
   const [files, setFiles] = useState([]);
@@ -105,7 +96,7 @@ export default function ScreamImageUpload({ screamId, newScream, dispatch }) {
                   loading={loading}
                   onClick={() => {
                     handleUploadImage();
-                    handleCancelCrop()
+                    handleCancelCrop();
                   }}
                   style={{ width: 100 }}
                   positive
