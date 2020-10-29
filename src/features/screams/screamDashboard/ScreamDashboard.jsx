@@ -13,6 +13,7 @@ import {
 } from '../../../app/firestore/firestoreServices/firestoreScreamsHandler';
 
 
+
 export default function ScreamDashboard() {
   const limit = 2;
   const dispatch = useDispatch();

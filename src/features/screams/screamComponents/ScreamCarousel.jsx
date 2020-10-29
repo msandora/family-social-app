@@ -3,7 +3,7 @@ import { Image } from 'semantic-ui-react';
 import Carousel from 'semantic-ui-carousel-react';
 
 const ScreamCarousel = ({ scream }) => {
-  console.log({scream})
+  // console.log({scream})    
   // <Image src={`/assets/categoryImages/travel.jpg`} fluid />
   const defaultImg ="/assets/categoryImages/travel.jpg";
   let elements = [];
@@ -14,7 +14,7 @@ const ScreamCarousel = ({ scream }) => {
   },
  }) 
       });
-  console.log({elements})
+  // console.log({elements})
   let DefaultElements = [
    {
     render: () => {
