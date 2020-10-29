@@ -131,12 +131,16 @@ export const UnLikeScream = (scream) => async (dispatch) => {
   };
 };
 
-export const getLikes = () => async (dispatch) => {
+export const getLikes = (screams) => async (dispatch) => {
   try {
-    let likesData = [];
-    const snapshot = await fetchLikes().get();
-    snapshot.docs.map((doc) => likesData.push(doc.data()));
-    // console.log({ snapshot });
+    let screamsIds = [];
+    screams && screams.map((scream) => screamsIds.push(scream.id));
+    console.log({screams})
+    console.log({screamsIds})
+    const likesData = await fetchLikes(screamsIds);
+    // snapshot.docs.map((doc) => likesData.push(doc.data()));
+    console.log({ likesData });
+
     // console.log({ likesData });
     dispatch({ type: GET_LIKES, payload: likesData });
     return {

@@ -177,8 +177,41 @@ screamDocument
   });
 }    
 
-export function fetchLikes () {
-  let likesRef = db
-    .collection('likes')
-    return likesRef
+// export function fetchAllLikes () {
+//   let likesRef = db
+//     .collection('likes')
+//     return likesRef
+// }
+// export async function fetchLikes (screamsIds) {
+
+//   let screamsRef = db.collection('screams').get().then(doc => {
+  // console.log(doc.docs.map(doc => doc.data()))
+  //   })
+//   let screamsData =  screamsRef.map(scream => scream.docs.map(doc => doc.data()))
+//   console.log({screamsRef})
+//   console.log({screamsData})
+// }
+
+export async function fetchLikes (screamsIds) {
+  let likes = [];
+  let likesDocs = [];
+  // let scream = await (await db.collection('screams').doc(screamsIds[0]).get()).data();
+  let likesData = screamsIds.map(async id => {
+  //  return  (await db.collection('screams').doc(id).get()).data();
+   let like = (await db.collection('likes').where("screamId", "==", id).get());
+   like.docs.map(doc => likesDocs.push( doc.data() ))
+  //  console.log("likeDoc",like.docs[0].data())
+  //  console.log({like})
+   likes.push(like);
+  //  const pushLikes =  like => like.docs.map(doc => likesDocs.push(doc.data()) )
+  })
+  // likes.map(like => like.docs.map(doc =>{ likesDocs.push(doc.data())
+  // // console.log("doc.data",doc.data)
+  // } ))
+  // console.log({likesData})
+  // console.log({scream})
+  // console.log({likes})
+  // console.log("1st like",likes[0].docs[0].data())
+  // console.log({likesDocs})
+  return likesDocs
 }

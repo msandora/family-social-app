@@ -3,6 +3,8 @@ import { Image } from 'semantic-ui-react';
 import Carousel from 'semantic-ui-carousel-react';
 
 const ScreamCarousel = ({ scream }) => {
+  const defaultImg ="/assets/categoryImages/travel.jpg";
+
   let elements = [];
   scream.screamImages &&
     scream.screamImages.map((img) => {
@@ -11,8 +13,7 @@ const ScreamCarousel = ({ scream }) => {
           return <Image src={img} alt='img' fluid />;
         },
       });
-    });
-  // console.log({ elements });
+
   let DefaultElements = [
     {
       render: () => {

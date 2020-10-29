@@ -1,8 +1,9 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import ScreamListItem from './ScreamListItem';
 import InfiniteScroll from 'react-infinite-scroller';
 import { Button, Header, Icon, Segment } from 'semantic-ui-react';
-
+import { useDispatch } from 'react-redux';
+import { getLikes } from '../screamActions';
 
 export default function ScreamList({
   screams,
@@ -10,6 +11,12 @@ export default function ScreamList({
   loading,
   moreScreams,
 }) {
+  
+  const dispatch = useDispatch();
+  useEffect(() => {
+   dispatch(getLikes(screams))
+  }, [dispatch,screams]);
+
   return (
     <>
       {screams.length !== 0 && (
