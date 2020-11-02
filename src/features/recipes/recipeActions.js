@@ -16,18 +16,19 @@ import {
   asyncActionError,
 } from '../../app/async/asyncReducer';
 import { dataFromSnapshot } from '../../app/firestore/firestoreService';
-import { fetchRecipesFromFirestore } from '../../app/firestore/firestoreServices/firestoreRecipesHandler';
+import { fetchRecipesFromFirestore,fetchFilteredRecipesFromFirestore } from '../../app/firestore/firestoreServices/firestoreRecipesHandler';
 
 export function fetchRecipes(filter, startDate, limit, lastDocSnapshot) {
   return async function (dispatch) {
     dispatch(asyncActionStart());
     try {
-      const snapshot = await fetchRecipesFromFirestore(
+      const snapshot = await fetchRecipesFromFirestore( 
         filter,
         startDate,
         limit,
         lastDocSnapshot
       ).get();
+      // const lastVisible = snapshot.docs[0];
       const lastVisible = snapshot.docs[snapshot.docs.length - 1];
       const moreRecipes = snapshot.docs.length >= limit;
       const recipes = snapshot.docs.map((doc) => dataFromSnapshot(doc));
@@ -100,5 +101,31 @@ export function listenToRecipeChat(comments) {
 export function clearRecipes() {
   return {
     type: CLEAR_RECIPES,
+  };
+}
+
+export function fetchFliteredRecipes(filter,  limit) {
+  return async function (dispatch) {
+    dispatch(asyncActionStart());
+    try {
+      const snapshot = await fetchFilteredRecipesFromFirestore(
+        filter,
+        // startDate,
+        limit,
+        // lastDocSnapshot
+      ).get();
+      console.log({snapshot})
+      const lastVisible = snapshot.docs[snapshot.docs.length - 1];
+      const moreRecipes = snapshot.docs.length >= limit;
+      const recipes = snapshot.docs.map((doc) => dataFromSnapshot(doc));
+      console.log({recipes})
+      dispatch({
+        type: FETCH_RECIPES,
+        payload: { recipes, moreRecipes, lastVisible },
+      });
+      dispatch(asyncActionFinish());
+    } catch (error) {
+      dispatch(asyncActionError(error));
+    }
   };
 }

@@ -9,18 +9,24 @@ export default function LikeButton({ scream }) {
   let [liked, setLiked] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
   const { authenticated, currentUser } = useSelector((state) => state.auth);
-  const { likes } = useSelector((state) => state.scream);
+  const { likes,screams } = useSelector((state) => state.scream);
+  // likes.length > 0 && console.log({likes})
   // console.log({uid})
+  // console.log({screams})
   // console.log({scream})
-  let { uid } = currentUser;
-  // likes && console.log({ likes });
-  function likedScream() {
+  
+  // let { uid } = currentUser;
+  // console.log("uid",uid)
+  likes?.length > 0 &&  console.log("userHandle",likes[0].userHandle)
+  // scream  && console.log("scream.id",scream.id);         
+  // likes?.length > 0 &&  console.log("screamId",likes[0].screamId)  
+  function IslikedScream() {
     if (
-      likes &&
+      likes?.length > 0 &&
       likes.find(
-        (like) => like.screamId === scream.id && like.userHandle === uid
+        (like) => like.screamId === scream.id && like.userHandle === currentUser?.uid
       )
-    )
+    ) 
       return true;
     else return false;
   }
@@ -31,8 +37,8 @@ export default function LikeButton({ scream }) {
     dispatch(UnLikeScream(scream));
   }
   useEffect(() => {
-    dispatch(getLikes());
-  }, [dispatch, scream]);
+    dispatch(getLikes(screams));
+  }, [dispatch, screams]);
 
   return (
     <>
@@ -52,7 +58,7 @@ export default function LikeButton({ scream }) {
             {scream.likeCount ? scream.likeCount : 0}
           </Label>
         </Button>
-      ) : likedScream() || liked ? (
+      ) : IslikedScream()  ? (
         <Popup
           content='UnLike This'
           trigger={

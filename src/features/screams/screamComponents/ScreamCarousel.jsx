@@ -12,7 +12,9 @@ const ScreamCarousel = ({ scream }) => {
         render: () => {
           return <Image src={img} alt='img' fluid />;
         },
-      });
+      })
+    })
+    
 
   let DefaultElements = [
     {
