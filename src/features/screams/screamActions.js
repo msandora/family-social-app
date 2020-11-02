@@ -109,7 +109,7 @@ export function clearScreams() {
 export const likeScream = (scream) => async (dispatch) => {
   //  let screamFromLike = await getScreamFromLikes(scream)
   //  dispatch({ type: GET_LIKES, payload: screamFromLike });
-  // const screamData = await likeScreamService(scream);
+  const screamData = await likeScreamService(scream);
   //  console.log("screamDataFromAction",screamData)
   scream.likeCount++;
   dispatch({ type: LIKE_SCREAM, payload: scream });
@@ -122,7 +122,7 @@ export const likeScream = (scream) => async (dispatch) => {
 export const UnLikeScream = (scream) => async (dispatch) => {
   // let screamFromLike = await getScreamFromLikes(scream)
   //  dispatch({ type: GET_LIKES, payload: screamFromLike });
-  // const screamData = await unLikeScreamService(scream);
+  const screamData = await unLikeScreamService(scream);
   scream.likeCount--;
   dispatch({ type: UNLIKE_SCREAM, payload: scream });
   return {
@@ -135,11 +135,11 @@ export const getLikes = (screams) => async (dispatch) => {
   try {
     let screamsIds = [];
     screams && screams.map((scream) => screamsIds.push(scream.id));
-    console.log({screams})
-    console.log({screamsIds})
+    // console.log({screams})
+    // console.log({screamsIds})
     const likesData = await fetchLikes(screamsIds);
     // snapshot.docs.map((doc) => likesData.push(doc.data()));
-    console.log({ likesData });
+    // console.log({ likesData });
 
     // console.log({ likesData });
     dispatch({ type: GET_LIKES, payload: likesData });

@@ -4,7 +4,7 @@ import RecipeList from './RecipeList';
 import { useSelector, useDispatch } from 'react-redux';
 import RecipeListItemPlaceholder from './RecipeListItemPlaceholder';
 import RecipeFilters from './RecipeFilters';
-import { fetchRecipes } from '../recipeActions';
+import { fetchRecipes,fetchFliteredRecipes } from '../recipeActions';
 import { RETAIN_RECIPE_STATE } from '../recipeConstants';
 import CreateRecipe from './CreateRecipe';
 
@@ -26,6 +26,7 @@ export default function RecipeDashboard() {
   useEffect(() => {
     if (retainState) return;
     setLoadingInitial(true);
+    // dispatch(fetchFliteredRecipes(filter, limit)).then(() => {
     dispatch(fetchRecipes(filter, startDate, limit)).then(() => {
       setLoadingInitial(false);
     });
