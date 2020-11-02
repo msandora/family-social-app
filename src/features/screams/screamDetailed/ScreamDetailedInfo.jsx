@@ -8,12 +8,11 @@ import { deleteScreamInFirestore } from '../../../app/firestore/firestoreService
 export default function ScreamDetailedInfo({ scream, isHost }) {
   return (
     <>
-      <Segment style={{ padding: 0 }}>
-      {
-        scream.screamImages.length > 0 &&
-        <ScreamCarousel scream={scream} />
-      }
-      </Segment>
+      {scream.screamImages && scream.screamImages.length > 0 && (
+        <Segment style={{ padding: 0 }}>
+          <ScreamCarousel scream={scream} />
+        </Segment>
+      )}
       <Segment>
         <p>{scream.description}</p>
       </Segment>
@@ -31,7 +30,7 @@ export default function ScreamDetailedInfo({ scream, isHost }) {
               linkRef={null}
             />
             <MyButton
-              onClick={() => console.log('fix this', scream.id)}
+              // onClick={() => console.log('fix this', scream.id)}
               tip='Manage Post'
               color='orange'
               icon='edit'

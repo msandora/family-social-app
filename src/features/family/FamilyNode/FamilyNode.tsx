@@ -48,8 +48,8 @@ export default React.memo<Props>(function FamilyNode({
           />
         </div>
         <div className={styles.namePlate}>
-          {/* {node.firstName ? node.firstName : node.id} */}
-          {/* <br /> {node.lastName} */}
+          {/* {node.firstName ? node.firstName : node.id}
+          <br /> {node.lastName} */}
         </div>
         {/* 
         {node.hasSubTree && (

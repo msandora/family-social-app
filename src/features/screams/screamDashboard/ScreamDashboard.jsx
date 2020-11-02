@@ -6,13 +6,6 @@ import ScreamListItemPlaceholder from './ScreamListItemPlaceholder';
 import { fetchScreams } from '../screamActions';
 import { RETAIN_SCREAM_STATE } from '../screamConstants';
 import CreateScream from './CreateScream';
-import {
-  listenToScreamFromFirestore,
-  updateScreamInFirestore,
-  addScreamToFirestore,
-} from '../../../app/firestore/firestoreServices/firestoreScreamsHandler';
-
-
 
 export default function ScreamDashboard() {
   const limit = 2;
@@ -26,7 +19,7 @@ export default function ScreamDashboard() {
   useEffect(() => {
     if (retainState) return;
     setLoadingInitial(true);
-    dispatch(fetchScreams(limit,lastVisible)).then(() => {
+    dispatch(fetchScreams(limit)).then(() => {
       setLoadingInitial(false);
     });
     return () => {
@@ -43,7 +36,6 @@ export default function ScreamDashboard() {
       <CreateScream />
       <Grid>
         <Grid.Column width={6}></Grid.Column>
-
         <Grid.Column width={10}>
           {loadingInitial && (
             <>
@@ -60,6 +52,8 @@ export default function ScreamDashboard() {
             />
           )}
         </Grid.Column>
+
+        <Grid.Column width={6}></Grid.Column>
         <Grid.Column width={10}>
           <Loader active={loading} />
         </Grid.Column>
