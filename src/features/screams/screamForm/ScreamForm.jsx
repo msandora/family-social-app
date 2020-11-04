@@ -5,7 +5,6 @@ import { useSelector, useDispatch } from 'react-redux';
 import { listenToSelectedScream, clearSelectedScream } from '../screamActions';
 import { Formik, Form } from 'formik';
 import * as Yup from 'yup';
-import MyTextInput from '../../../app/common/form/MyTextInput';
 import MyTextArea from '../../../app/common/form/MyTextArea';
 import { Link } from 'react-router-dom';
 import {
@@ -32,13 +31,11 @@ export default function ScreamForm({ match, history, location }) {
   }, [dispatch, location.pathname]);
 
   const initialValues = selectedScream ?? {
-    title: '',
     description: '',
     screamImages: '',
   };
 
   const validationSchema = Yup.object({
-    title: Yup.string().required('You must provide a title'),
     description: Yup.string().required(),
     screamImages: Yup.array().of(
       Yup.string().required('You must provide a image')
@@ -135,9 +132,8 @@ export default function ScreamForm({ match, history, location }) {
                 </Link>
               ))}
 
-            <Form className='ui form'>
+            <Form className='ui form' style={{ marginTop: 20 }}>
               <Header sub color='teal' content='Post Details' />
-              <MyTextInput name='title' placeholder='Post title' />
               <MyTextArea
                 name='description'
                 placeholder='Description'

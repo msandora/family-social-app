@@ -1,0 +1,87 @@
+[
+  {
+    "user": {
+      "authenticated": true,
+      "loading": false,
+      "credentials": {
+        "lastName": "Garcia",
+        "imageUrl": "https://firebasestorage.googleapis.com/v0/b/socialfamily-d58c8.appspot.com/o/2818993141.png?alt=media",
+        "middleName": "Daniel",
+        "website": "https://www.google.com/",
+        "handle": "testUser",
+        "bio": "Hello World",
+        "firstName": "Brandon",
+        "email": "testUser@gmail.com",
+        "userId": "wjbkExEj2Lc56spVEbphJnWE4Wj1",
+        "createdAt": "2020-01-16T02:58:10.600Z",
+        "location": "Long Island, NY"
+      },
+      "likes": [
+        {
+          "postId": "76kQR0Go4pHZGE6SM6z3",
+          "userHandle": "testUser"
+        },
+        {
+          "userHandle": "testUser",
+          "postId": "geIcWH1lg1zzuHiEyoID"
+        },
+        {
+          "userHandle": "testUser",
+          "postId": "bAJV3ZSi378QoLZXGFO0"
+        },
+        {
+          "userHandle": "testUser",
+          "postId": "d7qtZkujWsS6178hSID3"
+        }
+      ],
+      "notifications": []
+    },
+    "data": {
+      "recipes": [],
+      "recipe": {},
+      "screams": [
+        {
+          "postId": "bAJV3ZSi378QoLZXGFO0",
+          "createdAt": "2020-05-18T00:40:06.169Z",
+          "body": "Line 1\nLine 2\nLine 3",
+          "userHandle": "markSandora",
+          "userImage": "https://firebasestorage.googleapis.com/v0/b/socialfamily-d58c8.appspot.com/o/442618468416.jpg?alt=media",
+          "likeCount": 1,
+          "commentCount": 0
+        },
+        {
+          "postId": "d7qtZkujWsS6178hSID3",
+          "createdAt": "2020-05-03T06:39:12.757Z",
+          "body": "Another post from User 2\nPage Break",
+          "userHandle": "testUser2",
+          "userImage": "https://firebasestorage.googleapis.com/v0/b/socialfamily-d58c8.appspot.com/o/568126574723.jpg?alt=media",
+          "likeCount": 1,
+          "commentCount": 1,
+          "images": [
+            "https://firebasestorage.googleapis.com/v0/b/socialfamily-d58c8.appspot.com/o/456463758122.jpg?alt=media",
+            "https://firebasestorage.googleapis.com/v0/b/socialfamily-d58c8.appspot.com/o/99915252624.jpg?alt=media"
+          ]
+        },
+        {
+          "postId": "geIcWH1lg1zzuHiEyoID",
+          "createdAt": "2020-04-19T08:16:36.222Z",
+          "body": "Another one",
+          "userHandle": "testUser",
+          "userImage": "https://firebasestorage.googleapis.com/v0/b/socialfamily-d58c8.appspot.com/o/2818993141.png?alt=media",
+          "likeCount": 1,
+          "commentCount": 0,
+          "images": [
+            "https://firebasestorage.googleapis.com/v0/b/socialfamily-d58c8.appspot.com/o/714536526023.jpg?alt=media",
+            "https://firebasestorage.googleapis.com/v0/b/socialfamily-d58c8.appspot.com/o/260978717728.jpg?alt=media"
+          ]
+        }
+      ],
+      "scream": {},
+      "loading": false
+    },
+    "UI": {
+      "loading": false,
+      "errors": null
+    }
+  }
+]

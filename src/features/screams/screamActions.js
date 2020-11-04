@@ -10,8 +10,8 @@ import {
   CLEAR_SELECTED_SCREAM,
   LIKE_SCREAM,
   UNLIKE_SCREAM,
-  GET_LIKES,
   GET_IMG_URL,
+  LISTEN_TO_LIKES,
 } from './screamConstants';
 import firebase from '../../app/config/firebase';
 import { dataFromSnapshot } from '../../app/firestore/firestoreService';
@@ -47,7 +47,7 @@ export function fetchScreams(limit, lastDocSnapshot, firstVisible) {
       const lastVisible = snapshot.docs[snapshot.docs.length - 1];
       const moreScreams = snapshot.docs.length >= limit;
       const screams = snapshot.docs.map((doc) => dataFromSnapshot(doc));
-      console.log({ screams });
+      // console.log({ screams });
       dispatch({
         type: FETCH_SCREAMS,
         payload: { screams, moreScreams, lastVisible, firstVisible },
@@ -131,6 +131,13 @@ export const UnLikeScream = (scream) => async (dispatch) => {
   };
 };
 
+export function listenToLikes(likes) {
+  return {
+    type: LISTEN_TO_LIKES,
+    payload: likes,
+  };
+}
+
 export const getLikes = (screams) => async (dispatch) => {
   try {
     let screamsIds = [];
@@ -142,9 +149,9 @@ export const getLikes = (screams) => async (dispatch) => {
     // console.log({ likesData });
 
     // console.log({ likesData });
-    dispatch({ type: GET_LIKES, payload: likesData });
+    dispatch({ type: LISTEN_TO_LIKES, payload: likesData });
     return {
-      type: GET_LIKES,
+      type: LISTEN_TO_LIKES,
       payload: likesData,
     };
   } catch (error) {

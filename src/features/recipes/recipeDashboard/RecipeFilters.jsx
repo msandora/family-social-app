@@ -12,6 +12,10 @@ export default function RecipeFilters({ loading }) {
     window.scrollTo(0, 0);
     dispatch(setFilter('all'));
   }
+  function handleFilterMyRecipes() {
+    window.scrollTo(0, 0);
+    dispatch(setFilter('all'));
+  }
   function handleFilterBreakfast() {
     window.scrollTo(0, 0);
     dispatch(setFilter('breakfast'));
@@ -38,6 +42,12 @@ export default function RecipeFilters({ loading }) {
             content='All Recipes'
             active={filter === 'all'}
             onClick={handleFilterAllRecipes}
+            disabled={loading}
+          />
+          <Menu.Item
+            content='My Recipes'
+            active={filter === 'all'}
+            onClick={handleFilterMyRecipes}
             disabled={loading}
           />
           <Menu.Item

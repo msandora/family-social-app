@@ -12,8 +12,8 @@ import {
   CLEAR_SELECTED_SCREAM,
   LIKE_SCREAM,
   UNLIKE_SCREAM,
-  GET_LIKES,
   GET_IMG_URL,
+  LISTEN_TO_LIKES,
 } from './screamConstants';
 
 const initialState = {
@@ -26,10 +26,18 @@ const initialState = {
   filter: 'all',
   startDate: new Date(),
   retainState: false,
+  likes: [],
 };
 
 export default function screamReducer(state = initialState, { type, payload }) {
   switch (type) {
+    case FETCH_SCREAMS:
+      return {
+        ...state,
+        screams: [...state.screams, ...payload.screams],
+        moreScreams: payload.moreScreams,
+        lastVisible: payload.lastVisible,
+      };
     case CREATE_SCREAM:
       return {
         ...state,
@@ -47,13 +55,6 @@ export default function screamReducer(state = initialState, { type, payload }) {
       return {
         ...state,
         screams: [...state.screams.filter((evt) => evt.id !== payload)],
-      };
-    case FETCH_SCREAMS:
-      return {
-        ...state,
-        screams: [...state.screams, ...payload.screams],
-        moreScreams: payload.moreScreams,
-        lastVisible: payload.lastVisible,
       };
     case LISTEN_TO_SCREAM_PHOTOS:
       return {
@@ -106,7 +107,7 @@ export default function screamReducer(state = initialState, { type, payload }) {
           }),
         ],
       };
-    case GET_LIKES:
+    case LISTEN_TO_LIKES:
       return {
         ...state,
         likes: payload,
