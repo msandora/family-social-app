@@ -8,20 +8,36 @@ import { fetchRecipes,fetchFliteredRecipes } from '../recipeActions';
 import { RETAIN_RECIPE_STATE } from '../recipeConstants';
 import CreateRecipe from './CreateRecipe';
 
+//graphql stuff
+import {FETCH_RECIPES_QUERY} from '../../../utils/graqphql'
+import { useQuery } from '@apollo/react-hooks';
+
+
 export default function RecipeDashboard() {
   const limit = 2;
   const dispatch = useDispatch();
   const {
-    recipes,
+    // recipes,
     moreRecipes,
     filter,
     startDate,
     lastVisible,
     retainState,
   } = useSelector((state) => state.recipe);
-  const { loading } = useSelector((state) => state.async);
+  // const { loading } = useSelector((state) => state.async);
   // const { authenticated } = useSelector((state) => state.auth);
   const [loadingInitial, setLoadingInitial] = useState(false);
+  const [fetchMoreResultsState, setFetchMoreResultsState] = useState([])
+  const [hasMore, setHasMore] = useState(true)
+
+  // graphql query for fetching recipes from mongodb 
+  const { fetchMore,loading, error, data:{ getRecipes: recipes }} = useQuery(FETCH_RECIPES_QUERY, {
+    variables: { category: filter ? filter : "all",skip:0 },
+  });
+  console.log("recipes", recipes)
+  // console.log(fetchMore)
+  //end graphql 
+  
 
   useEffect(() => {
     if (retainState) return;
@@ -36,9 +52,34 @@ export default function RecipeDashboard() {
   }, [dispatch, filter, startDate, retainState]);
 
   function handleFetchNextRecipes() {
-    dispatch(fetchRecipes(filter, startDate, limit, lastVisible));
+    // dispatch(fetchRecipes(filter, startDate, limit, lastVisible));
+    
   }
-
+  const getMore = () => {
+    // const { endCursor } = data.viewer.repositories.pageInfo;
+    fetchMore({
+      variables: {category: filter,skip:2 },
+      updateQuery: (prevResult, { fetchMoreResult }) => {
+        console.log({prevResult})
+        console.log({fetchMoreResult})
+        let recipesMix ;
+          if ( fetchMoreResult.getRecipes !==  prevResult.getRecipes) {
+            console.log("nextResult !== moresult")
+            recipesMix = [ ...prevResult.getRecipes,
+              ...fetchMoreResult.getRecipes ];
+              setFetchMoreResultsState(recipesMix)
+              setHasMore(true)
+          } else {
+            console.log("nextResult == moresult")
+            recipesMix =  fetchMoreResult.getRecipes;
+            setFetchMoreResultsState(recipesMix)
+            setHasMore(false);
+          }
+        return fetchMoreResultsState;
+      }
+    });
+  }
+console.log({fetchMoreResultsState})
   return (
     <>
       <CreateRecipe />
@@ -52,10 +93,11 @@ export default function RecipeDashboard() {
           )}
           {!loadingInitial && (
             <RecipeList
-              recipes={recipes}
-              getNextRecipes={handleFetchNextRecipes}
+              // recipesToLoad={recipes}
+              recipesToLoad={fetchMoreResultsState.length > 0 ? fetchMoreResultsState : recipes}
+              getNextRecipes={getMore}
               loading={loading}
-              moreRecipes={moreRecipes}
+              hasMore={hasMore}
             />
           )}
         </Grid.Column>

@@ -10,11 +10,22 @@ import { listenToRecipeFromFirestore } from '../../../app/firestore/firestoreSer
 import LoadingComponent from '../../../app/layout/LoadingComponent';
 import { listenToSelectedRecipe } from '../recipeActions';
 
+//graphql stuff
+import {FETCH_RECIPE_QUERY} from '../../../utils/graqphql'
+import { useQuery } from '@apollo/react-hooks';
+
+
 export default function RecipeDetailedPage({ match }) {
+   // graphql query for fetching recipe from mongodb 
+   const { loading, error, data:{ getRecipe: recipe }} = useQuery(FETCH_RECIPE_QUERY, {
+    variables: { recipeId: match.params.id },
+  });
+  console.log({recipe})
+
   const dispatch = useDispatch();
   const { currentUser } = useSelector((state) => state.auth);
-  const recipe = useSelector((state) => state.recipe.selectedRecipe);
-  const { loading, error } = useSelector((state) => state.async);
+  // const recipe = useSelector((state) => state.recipe.selectedRecipe);
+  // const { loading, error } = useSelector((state) => state.async);
   const isHost = recipe?.hostUid === currentUser?.uid;
 
   useFirestoreDoc({

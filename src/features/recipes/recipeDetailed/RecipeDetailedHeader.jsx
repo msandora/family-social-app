@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { formatDistance } from 'date-fns';
 import { useState } from 'react';
 import UnauthModal from '../../auth/UnauthModal';
+import moment from 'moment'
 
 const recipeImageStyle = {
   filter: 'brightness(30%)',
@@ -40,7 +41,8 @@ export default function RecipeDetailedHeader({ recipe, isHost }) {
                   content={recipe.title}
                   style={{ color: 'white' }}
                 />
-                <p>{formatDistance(recipe.createdAt, new Date())} ago</p>
+                {/* <p>{formatDistance(recipe.createdAt, new Date())} ago</p> */}
+                {moment(recipe.createdAt).fromNow(true)} ago
                 <p>
                   Posted by{' '}
                   <strong>

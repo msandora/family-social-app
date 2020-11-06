@@ -1,23 +1,26 @@
 import React, { useEffect, useState } from 'react';
 import { Button, Popup, Segment, Header, Icon, Label } from 'semantic-ui-react';
-import { useDispatch, useSelector } from 'react-redux';
-import { likeScream, UnLikeScream, getLikes } from '../screamActions';
+import { likeScream, UnLikeScream } from '../screamActions';
 import UnauthModal from '../../auth/UnauthModal';
+import { getLikes } from '../screamActions';
+import { useDispatch, useSelector } from 'react-redux';
 
-export default function LikeButton({ scream }) {
+export default function LikeScream({ scream }) {
   const dispatch = useDispatch();
+
   let [liked, setLiked] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
   const { authenticated, currentUser } = useSelector((state) => state.auth);
-  const { likes,screams } = useSelector((state) => state.scream);
-  // likes.length > 0 && console.log({likes})
-  // console.log({uid})
+  const { likes, screams,selectedScream } = useSelector((state) => state.scream);
+  //  console.log("likes",likes)
+  // console.log({uid}) 
   // console.log({screams})
   // console.log({scream})
   
   // let { uid } = currentUser;
-  // console.log("uid",uid)
-  likes?.length > 0 &&  console.log("userHandle",likes[0].userHandle)
+
+  // console.log("uid",currentUser?.uid)
+  // likes?.length > 0 &&  console.log("userHandle",likes[0].userHandle)
   // scream  && console.log("scream.id",scream.id);         
   // likes?.length > 0 &&  console.log("screamId",likes[0].screamId)  
   function IslikedScream() {
@@ -37,8 +40,9 @@ export default function LikeButton({ scream }) {
     dispatch(UnLikeScream(scream));
   }
   useEffect(() => {
-    dispatch(getLikes(screams));
-  }, [dispatch, screams]);
+    dispatch(getLikes(screams))
+  }, [dispatch,screams,selectedScream]);
+
 
   return (
     <>
@@ -58,7 +62,7 @@ export default function LikeButton({ scream }) {
             {scream.likeCount ? scream.likeCount : 0}
           </Label>
         </Button>
-      ) : IslikedScream()  ? (
+      ) : IslikedScream() || liked ? (
         <Popup
           content='UnLike This'
           trigger={

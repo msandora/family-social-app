@@ -19,11 +19,37 @@ import { toast } from 'react-toastify';
 import { useEffect } from 'react';
 import ScreamImageUpload from './ScreamImageUpload';
 
+// graphql stuff 
+import { useMutation, useQuery} from '@apollo/react-hooks';
+import gql from 'graphql-tag';
+import {
+  FETCH_POST_QUERY,
+  FETCH_POSTS_QUERY,
+  CREATE_POST_MUTATION,
+  UPDATE_POST_MUTATION } from '../../../utils/graqphql'
+import firebase from '../../../app/config/firebase';
+
+const defaultImg = "https://icon-library.com/images/no-user-image-icon/no-user-image-icon-27.jpg"
+
 export default function ScreamForm({ match, history, location }) {
+
+    // graphql query for fetching post from mongodb 
+    const { loading, error, data:{ getPost: post }} = useQuery(FETCH_POST_QUERY, {
+      variables: { postId: match.params.id },
+    });
+    // console.log({post})
+  
   const dispatch = useDispatch();
   const { selectedScream, imgUrlList } = useSelector((state) => state.scream);
-  const { loading, error } = useSelector((state) => state.async);
+  console.log({imgUrlList})
+  // const { loading, error } = useSelector((state) => state.async);
   const [valuesState, setvaluesState] = useState({});
+
+  const user = firebase.auth().currentUser;
+  console.log({user})
+  const [createPost,] = useMutation(CREATE_POST_MUTATION);
+  const [updatePost,] = useMutation(UPDATE_POST_MUTATION);
+
   // console.log({selectedScream})
   // console.log({imgUrlList})
   useEffect(() => {
@@ -31,7 +57,8 @@ export default function ScreamForm({ match, history, location }) {
     dispatch(clearSelectedScream());
   }, [dispatch, location.pathname]);
 
-  const initialValues = selectedScream ?? {
+  // const initialValues = selectedScream ?? {
+  const initialValues = post ?? {
     title: '',
     description: '',
     screamImages: '',
@@ -45,14 +72,14 @@ export default function ScreamForm({ match, history, location }) {
     ),
   });
 
-  useFirestoreDoc({
-    shouldExecute:
-      match.params.id !== selectedScream?.id &&
-      location.pathname !== '/createScream',
-    query: () => listenToScreamFromFirestore(match.params.id),
-    data: (scream) => dispatch(listenToSelectedScream(scream)),
-    deps: [match.params.id, dispatch],
-  });
+  // useFirestoreDoc({
+  //   shouldExecute:
+  //     match.params.id !== selectedScream?.id &&
+  //     location.pathname !== '/createScream',
+  //   // query: () => listenToScreamFromFirestore(match.params.id), 
+  //   // data: (scream) => dispatch(listenToSelectedScream(scream)),  
+  //   deps: [match.params.id, dispatch],
+  // });
 
   if (loading) return <LoadingComponent content='Loading scream...' />;
 
@@ -74,14 +101,39 @@ export default function ScreamForm({ match, history, location }) {
           console.log({ values });
           setvaluesState(values);
           try {
-            selectedScream
-              ? await updateScreamInFirestore(values, imgUrlList && imgUrlList)
-              : await addScreamToFirestore(values, imgUrlList && imgUrlList);
+            !match.params.id
+            ? await createPost(
+              { variables: {
+                postInput: {...values,photos:[...post.photos,...imgUrlList] ,hostUid: user?.uid,
+                  hostedBy: user?.displayName,
+                  hostPhotoURL: user?.photoURL || defaultImg,},
+              },
+              update(proxy, result) {
+                const data = proxy.readQuery({
+                  query: FETCH_POSTS_QUERY
+                });
+                data.getPosts = [result.data.createPost, ...data.getPosts];
+                proxy.writeQuery({ query: FETCH_POSTS_QUERY, data });
+              }
+            })
+            : await updatePost(
+              { variables: 
+              {...values,photos:[...post.photos,...imgUrlList] ,hostUid: user?.uid,
+              hostedBy: user?.displayName,
+              hostPhotoURL: user?.photoURL || defaultImg,
+              postId:match.params.id,
+            },
+              update(proxy, result) {
+                const data = proxy.readQuery({
+                  query: FETCH_POSTS_QUERY
+                });
+                data.getPosts = [result.data.createPost, ...data.getPosts];
+                proxy.writeQuery({ query: FETCH_POSTS_QUERY, data });
+              } });
             // selectedScream
             //   ?  dispatch(updateScreamInFirestore(values, imgUrlList && imgUrlList ))
             //   :  dispatch(addScreamToFirestore(values, imgUrlList && imgUrlList))
             setSubmitting(false);
-            // history.push('/screams');
             // history.push('/screams');
             window.location.href = 'http://localhost:3000/screams';
           } catch (error) {
@@ -98,12 +150,10 @@ export default function ScreamForm({ match, history, location }) {
               dispatch={dispatch}
             />
             {/* image List  */}
-            {selectedScream &&
-              selectedScream.screamImages &&
-              values &&
-              values.screamImages &&
-              values.screamImages.map((img, index) => (
-                <Link onClick={() => deleteImg(index, values.screamImages)}>
+            {
+              post.photos &&
+              post.photos.map((img, index) => (
+                <Link onClick={() => deleteImg(index, post.photos)}>
                   {' '}
                   <img
                     src={img}

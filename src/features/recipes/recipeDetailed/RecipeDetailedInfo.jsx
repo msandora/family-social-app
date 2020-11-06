@@ -27,7 +27,7 @@ export default function RecipeDetailedInfo({ recipe, isHost }) {
               tip='Manage Recipe'
               color='orange'
               icon='edit'
-              linkRef={`/manageRecipe/${recipe.id}`}
+              linkRef={`/manageRecipe/${recipe?.id}`}
             />
           </>
         )}

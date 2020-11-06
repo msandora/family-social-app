@@ -1,29 +1,34 @@
 import React from 'react';
 import RecipeListItem from './RecipeListItem';
 import InfiniteScroll from 'react-infinite-scroller';
-import { Button, Header, Icon, Segment } from 'semantic-ui-react';
+import { Button, Header, Icon, Segment, Loader } from 'semantic-ui-react';
+
 
 export default function RecipeList({
-  recipes,
+  recipesToLoad,
   getNextRecipes,
   loading,
-  moreRecipes,
+  hasMore,
 }) {
+console.log({hasMore})
   return (
     <>
-      {recipes.length !== 0 && (
+      {recipesToLoad?.length !== 0 && (
         <InfiniteScroll
           pageStart={0}
           loadMore={getNextRecipes}
-          hasMore={!loading && moreRecipes}
+          // hasMore={skip}
+          hasMore={hasMore}
           initialLoad={false}
+          loader={loading && <Loader active inline='centered' />}
         >
-          {recipes.map((recipe) => (
+          {recipesToLoad?.map((recipe) => (
             <RecipeListItem recipe={recipe} key={recipe.id} />
           ))}
         </InfiniteScroll>
       )}
-      {recipes.length === 0 && (
+      {/* <button onClick={getNextRecipes}>fetchMore</button> */}
+      { recipesToLoad?.length === 0 && (
         <Segment placeholder>
           <Header icon>
             <Icon name='search' />

@@ -47,7 +47,7 @@ export function fetchScreams(limit, lastDocSnapshot, firstVisible) {
       const lastVisible = snapshot.docs[snapshot.docs.length - 1];
       const moreScreams = snapshot.docs.length >= limit;
       const screams = snapshot.docs.map((doc) => dataFromSnapshot(doc));
-      console.log({ screams });
+      // console.log({ screams });
       dispatch({
         type: FETCH_SCREAMS,
         payload: { screams, moreScreams, lastVisible, firstVisible },
@@ -138,8 +138,7 @@ export const getLikes = (screams) => async (dispatch) => {
     // console.log({screams})
     // console.log({screamsIds})
     const likesData = await fetchLikes(screamsIds);
-    // snapshot.docs.map((doc) => likesData.push(doc.data()));
-    // console.log({ likesData });
+    // console.log("likesData from action", likesData);
 
     // console.log({ likesData });
     dispatch({ type: GET_LIKES, payload: likesData });

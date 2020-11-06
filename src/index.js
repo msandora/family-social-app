@@ -10,6 +10,10 @@ import { Provider } from 'react-redux';
 import { configureStore, history } from './app/store/configureStore';
 import ScrollToTop from './app/layout/ScrollToTop';
 import { ConnectedRouter } from 'connected-react-router';
+import ApolloProviderWrapper from './ApolloProvider';
+
+
+
 
 // import { loadEvents } from './features/events/eventActions';
 
@@ -23,12 +27,15 @@ const rootEl = document.getElementById('root');
 
 let render = () => {
   ReactDOM.render(
-    <Provider store={store}>
-      <ConnectedRouter history={history}>
-        <ScrollToTop />
-        <App />
-      </ConnectedRouter>
-    </Provider>,
+    <ApolloProviderWrapper>
+     <Provider store={store}>
+       <ConnectedRouter history={history}>
+         <ScrollToTop />
+         <App />
+       </ConnectedRouter>
+     </Provider>
+    </ApolloProviderWrapper>
+    ,
     rootEl
   );
 };

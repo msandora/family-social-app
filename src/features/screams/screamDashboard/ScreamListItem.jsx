@@ -5,10 +5,11 @@ import { formatDistance } from 'date-fns';
 import ScreamCarousel from '../screamComponents/ScreamCarousel';
 import LikeScream from '../screamComponents/LikeScream';
 import UnauthModal from '../../auth/UnauthModal';
+import moment from 'moment';
+
 
 function ScreamListItem({ scream }) {
   const [modalOpen, setModalOpen] = useState(false);
-
   return (
     <>
       {modalOpen && <UnauthModal setModalOpen={setModalOpen} />}
@@ -24,12 +25,13 @@ function ScreamListItem({ scream }) {
             <Header.Content>
               {scream.hostedBy}
               <Header.Subheader>
-                {formatDistance(scream.createdAt, new Date())} ago
+              {moment(scream.createdAt).fromNow(true)} ago
+                {/* {formatDistance(scream.createdAt, new Date())} ago */}
               </Header.Subheader>
             </Header.Content>
           </Header>
         </Segment>
-        {scream.screamImages && scream.screamImages.length > 0 && (
+        {scream.photos && scream.photos.length > 0 && (
           <Segment style={{ padding: 0 }}>
             <ScreamCarousel scream={scream} />
           </Segment>
@@ -45,7 +47,7 @@ function ScreamListItem({ scream }) {
             floated='right'
             content='View'
           />
-          <LikeScream scream={scream} />
+          <LikeScream scream={scream}  />
         </Segment>
       </Segment.Group>
     </>

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { Segment, Header, Button } from 'semantic-ui-react';
 import { Redirect } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
@@ -20,7 +20,26 @@ import LoadingComponent from '../../../app/layout/LoadingComponent';
 import { toast } from 'react-toastify';
 import { useEffect } from 'react';
 
+// graphql stuff 
+import { useMutation, useQuery } from '@apollo/react-hooks';
+import gql from 'graphql-tag';
+import {CREATE_RECIPE_MUTATION,UPDATE_RECIPE_MUTATION,FETCH_RECIPE_QUERY } from '../../../utils/graqphql'
+import firebase from '../../../app/config/firebase';
+
+const defaultImg = "https://icon-library.com/images/no-user-image-icon/no-user-image-icon-27.jpg"
+
 export default function RecipeForm({ match, history, location }) {
+  // graphql query for fetching recipe from mongodb 
+    // const { loading, error, data:{ getRecipe: recipe }} = useQuery(FETCH_RECIPE_QUERY, {
+    //     variables: { recipeId: match.params.id || ""},
+    //   });
+    //   console.log({recipe})
+
+  const user = firebase.auth().currentUser;
+  console.log({user})
+  const [createRecipe,] = useMutation(CREATE_RECIPE_MUTATION);
+  const [updateRecipe,] = useMutation(UPDATE_RECIPE_MUTATION);
+
   const dispatch = useDispatch();
   const { selectedRecipe } = useSelector((state) => state.recipe);
   const { loading, error } = useSelector((state) => state.async);
@@ -47,6 +66,7 @@ export default function RecipeForm({ match, history, location }) {
       match.params.id !== selectedRecipe?.id &&
       location.pathname !== '/createRecipe',
     query: () => listenToRecipeFromFirestore(match.params.id),
+    // query: () => recipe,
     data: (recipe) => dispatch(listenToSelectedRecipe(recipe)),
     deps: [match.params.id, dispatch],
   });
@@ -63,9 +83,18 @@ export default function RecipeForm({ match, history, location }) {
         validationSchema={validationSchema}
         onSubmit={async (values, { setSubmitting }) => {
           try {
-            selectedRecipe
-              ? await updateRecipeInFirestore(values)
-              : await addRecipeToFirestore(values);
+            // selectedRecipe
+            !match.params.id
+              ? await createRecipe(
+                { variables: 
+                {...values, hostUid: user?.uid,
+                hostedBy: user?.displayName,
+                hostPhotoUrl: user?.photoURL || defaultImg} })
+              : await updateRecipe(
+                { variables: 
+                {...values, hostUid: user?.uid,
+                hostedBy: user?.displayName,
+                hostPhotoUrl: user?.photoURL || defaultImg} });
             setSubmitting(false);
             history.push('/recipes');
           } catch (error) {

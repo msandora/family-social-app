@@ -1,6 +1,8 @@
-import firebase from '../../config/firebase';
 
+import firebase from '../../config/firebase';
 const db = firebase.firestore();
+
+
 
 export function fetchRecipesFromFirestore(
   filter,
@@ -11,13 +13,15 @@ export function fetchRecipesFromFirestore(
   // const user = firebase.auth().currentUser;
   let recipesRef = db
     .collection('recipes')
-    .orderBy('createdAt', )
+    .orderBy('category')
     .startAfter(lastDocSnapshot)
-    .limit(limit)
-    return recipesRef
+    .limit(limit);
+    
+    
+    // return recipesRef
   switch (filter) {
     case 'breakfast':
-      return recipesRef.where('category', '==', 'breakfast');
+    return recipesRef.where('category', '==', 'breakfast');
     case 'dinner':
       return recipesRef.where('category', '==', 'dinner');
     case 'desserts':
@@ -28,33 +32,6 @@ export function fetchRecipesFromFirestore(
       return recipesRef;
   }
 }
-// export function fetchRecipesFromFirestore(
-//   filter,
-//   startDate,
-//   limit,
-//   lastDocSnapshot = null
-// ) {
-//   // const user = firebase.auth().currentUser;
-//   let recipesRef = db
-//     .collection('recipes')
-//     .orderBy('category')
-//     .startAfter(lastDocSnapshot)
-//     .limit(limit);
-//   switch (filter) {
-//     case 'breakfast':
-//       return recipesRef.where('category', '==', 'breakfast');
-//     case 'dinner':
-//       return recipesRef.where('category', '==', 'dinner');
-//     case 'desserts':
-//       return recipesRef.where('category', '==', 'desserts');
-//     case 'beverages':
-//       return recipesRef.where('category', '==', 'beverages');
-//     default:
-//       return recipesRef;
-//   }
-// }
-
-
 
 export function listenToRecipeFromFirestore(recipeId) {
   return db.collection('recipes').doc(recipeId);

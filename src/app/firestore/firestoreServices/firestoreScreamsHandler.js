@@ -11,7 +11,7 @@ let screamsRef =
     .limit(limit);
     // .startAfter( lastDocSnapshot  )
     // .endAt( lastDocSnapshot  )
-    console.log({screamsRef})
+    // console.log({screamsRef})
   return screamsRef;
 }
 
@@ -44,9 +44,9 @@ export function deleteScreamInFirestore(screamId) {
 
 export async function updateScreamPhoto(downloadURL, filename, screamId,screamImages) {
   try {
-    console.log({screamImages})
+    // console.log({screamImages})
     let scream = await (await db.collection('screams').doc(screamId).get()).data();
-    console.log({scream})
+    // console.log({scream})
     // addScreamToFirestore(scream, downloadURL)
       let screamData = db
       .collection('screams')
@@ -57,7 +57,7 @@ export async function updateScreamPhoto(downloadURL, filename, screamId,screamIm
       //  screamImages: [...screamImages]
       });
       screamData = await screamData.get().data();
-      console.log({screamData});
+      // console.log({screamData});
       return screamData
   } catch (error) {
     throw error;
@@ -71,7 +71,7 @@ export function getScreamPhotos(screamId) {
 // Like scream 
 export const likeScreamService =  async (scream)  =>  {
   const user = firebase.auth().currentUser;
-  console.log({user})
+  // console.log({user})
   const likeDocument = db
     .collection("likes")
     .where("userHandle", "==", user.uid,)
@@ -88,14 +88,14 @@ export const likeScreamService =  async (scream)  =>  {
           screamData = doc.data();
           // screamData.screamId = doc.id;
           screamData.likeCount = screamData.likeCount ? screamData.likeCount : 0 ;
-          console.log(  "likeDocument",likeDocument.get())
+          // console.log(  "likeDocument",likeDocument.get())
           return likeDocument.get();
         } else {
           return ({ error: "Scream not found" });
         }
       })
       .then((data) => {
-        console.log({data})
+        // console.log({data})
         if (data.empty) {
           return db
             .collection("likes")
@@ -105,16 +105,16 @@ export const likeScreamService =  async (scream)  =>  {
             })
             .then(() => {
               screamData.likeCount++;
-           console.log({screamData})
+          //  console.log({screamData})
                return screamDocument.update({ likeCount: screamData.likeCount });
               
             })
              .then(() => {
-          console.log("screamDoc",screamData);
+          // console.log("screamDoc",screamData);
          return screamData;
         });
         } else {
-          console.log({error: "Scream already liked"})
+          // console.log({error: "Scream already liked"})
           return ({ error: "Scream already liked" });
         }
       })
@@ -155,18 +155,18 @@ screamDocument
     if (data.empty) {
       return ({ error: "Scream not liked" });
     } else {
-      console.log("unlikeData",data)
+      // console.log("unlikeData",data)
       return db
         .doc(`/likes/${data.docs[0].id}`)
         .delete()
         .then(() => {
           screamData.likeCount--;
-           console.log({screamData})
+          //  console.log({screamData})
            return screamDocument.update({ likeCount: screamData.likeCount });
            
         })
         .then(() => {
-          console.log("screamDoc",screamData);
+          // console.log("screamDoc",screamData);
          return screamData;
         });
     }
@@ -192,26 +192,31 @@ screamDocument
 //   console.log({screamsData})
 // }
 
-export async function fetchLikes (screamsIds) {
-  let likes = [];
+export   function fetchLikes (screamsIds) {
+
   let likesDocs = [];
-  // let scream = await (await db.collection('screams').doc(screamsIds[0]).get()).data();
-  let likesData = screamsIds.map(async id => {
-  //  return  (await db.collection('screams').doc(id).get()).data();
-   let like = (await db.collection('likes').where("screamId", "==", id).get());
-   like.docs.map(doc => likesDocs.push( doc.data() ))
-  //  console.log("likeDoc",like.docs[0].data())
-  //  console.log({like})
-   likes.push(like);
-  //  const pushLikes =  like => like.docs.map(doc => likesDocs.push(doc.data()) )
-  })
-  // likes.map(like => like.docs.map(doc =>{ likesDocs.push(doc.data())
-  // // console.log("doc.data",doc.data)
-  // } ))
-  // console.log({likesData})
-  // console.log({scream})
-  // console.log({likes})
-  // console.log("1st like",likes[0].docs[0].data())
-  // console.log({likesDocs})
-  return likesDocs
+    // let firstLike = await (await db.collection('likes').where("screamId", "==", screamsIds[0]).get()).data();
+     screamsIds.map( id => {
+        ( db.collection('likes').where("screamId", "==", id).onSnapshot(  snapShot  => {
+         snapShot.docs.map(  doc =>  {likesDocs.push(doc.data()); } )
+     }) );
+    })
+    // db.collection("likes").onSnapshot(onSnapshot => {
+    //   onSnapshot.docs.map(doc => {
+    //     console.log("docData",doc.data())
+    //     screamsIds.map(id => {
+    //       doc.screamId === id && likesDocs.push(doc.data());
+    //       doc.screamId === id && console.log({doc}) 
+    //     })
+    //   } )
+    // })
+    // // console.log("doc.data",doc.data)
+    // } ))
+    // console.log({likesData})
+    // console.log("1st like",likes[0].docs[0].data())
+    // likesDocs.length > 0 && console.log({likesDocs})
+    // console.log({firstLike})
+    //  console.log("likesDocs",likesDocs)
+    return likesDocs
+
 }

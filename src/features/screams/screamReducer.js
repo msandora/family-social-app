@@ -26,6 +26,7 @@ const initialState = {
   filter: 'all',
   startDate: new Date(),
   retainState: false,
+  likes:[]
 };
 
 export default function screamReducer(state = initialState, { type, payload }) {

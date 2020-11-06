@@ -2,6 +2,8 @@ import React from 'react';
 import { Segment, Image, Header } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 import { formatDistance } from 'date-fns';
+import moment from 'moment';
+
 
 export default function ScreamDetailedHeader({ scream }) {
   return (
@@ -16,7 +18,8 @@ export default function ScreamDetailedHeader({ scream }) {
         <Header.Content>
           {scream.hostedBy}
           <Header.Subheader>
-            {formatDistance(scream.createdAt, new Date())} ago
+          {moment(scream.createdAt).fromNow(true)} ago
+            {/* {formatDistance(scream.createdAt, new Date())} ago */}
           </Header.Subheader>
         </Header.Content>
       </Header>
