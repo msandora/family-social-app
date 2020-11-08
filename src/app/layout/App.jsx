@@ -18,6 +18,7 @@ import EventForm from '../../features/events/eventForm/EventForm';
 import ScreamDashboard from '../../features/screams/screamDashboard/ScreamDashboard';
 import ScreamDetailedPage from '../../features/screams/screamDetailed/ScreamDetailedPage';
 import ScreamForm from '../../features/screams/screamForm/ScreamForm';
+import UpdateScreamForm from '../../features/screams/screamForm/updateScreamForm';
 import RecipeDashboard from '../../features/recipes/recipeDashboard/RecipeDashboard';
 import RecipeDetailedPage from '../../features/recipes/recipeDetailed/RecipeDetailedPage';
 import RecipeForm from '../../features/recipes/recipeForm/RecipeForm';
@@ -57,11 +58,13 @@ export default function App() {
 
               <Route exact path='/screams' component={ScreamDashboard} />
               <Route path='/screams/:id' component={ScreamDetailedPage} />
-              <PrivateRoute
+              <Route path='/createScream' component={ScreamForm} />
+              <Route path='/manageScream/:id' component={UpdateScreamForm} />
+              {/* <PrivateRoute
                 path={['/createScream', '/manageScream/:id']}
                 component={ScreamForm}
                 key={`scream_${key}`}
-              />
+              /> */}
 
               <Route exact path='/recipes' component={RecipeDashboard} />
               <Route path='/recipes/:id' component={RecipeDetailedPage} />

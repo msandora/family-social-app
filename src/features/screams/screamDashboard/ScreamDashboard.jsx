@@ -18,8 +18,11 @@ export default function ScreamDashboard() {
   const { screams, moreScreams, lastVisible, retainState } = useSelector(
     (state) => state.scream
   );
-  const [postsMix, setPostsMix] = useState([])
   const [hasMore, setHasMore] = useState(true)
+  const [objToArrayA, setObjToArrayA] = useState([])
+  const [objToArrayB, setObjToArrayB] = useState([])
+  console.log({objToArrayA})
+  console.log({objToArrayB})
 
   // const { loading } = useSelector((state) => state.async);
   const [loadingInitial, setLoadingInitial] = useState(false);
@@ -35,16 +38,30 @@ export default function ScreamDashboard() {
     };
   }, [dispatch, retainState]);
 
-  function handleFetchNextScreams() {
-    dispatch(fetchScreams(limit, lastVisible));
-  }
+   
+function arrayEquals(a, b) {
+  a.every((val, index) =>{ 
+    // val === b[index]
+    let objA =  Object.keys(val).map((key) => val[key]);
+    console.log({objA})
+    setObjToArrayA([...objA])
+
+  });
+  b.every((val, index) =>{ 
+    // val === b[index]
+    let objB = Object.keys(val).map((key) => val[key]);
+    console.log({objB})
+    setObjToArrayB([...objB])
+  });
+  return objToArrayA.every((val, index) => val === objToArrayB[index] );
+}
 
   
   // graphql query for fetching recipes from mongodb 
   const { fetchMore,loading, error, data:{ getPosts: posts }} = useQuery(FETCH_POSTS_QUERY, {
     variables: {limit:2 ,skip:0},
   });
-  console.log("posts", posts)
+  // console.log("posts", posts)
   // console.log(fetchMore)
   //end graphql 
   
@@ -54,26 +71,31 @@ export default function ScreamDashboard() {
     fetchMore({
       variables: {limit:2 ,skip:2 },
       updateQuery: (prevResult, { fetchMoreResult }) => {
+        let slicedArray ;
         console.log({prevResult})
         console.log({fetchMoreResult})
-        let postsMix ;
-        
-        if( fetchMoreResult.getPosts == prevResult.getPosts ){
+        let length = prevResult.getPosts.length; 
+        console.log({length})
+        slicedArray = prevResult.getPosts.slice(length-2 , length)
+        console.log({slicedArray})
+        let isPrevEqualToNext = arrayEquals(slicedArray,fetchMoreResult.getPosts);
+        console.log({isPrevEqualToNext})
+         if(isPrevEqualToNext) {
           console.log("new == old")
-          postsMix = [...prevResult.getPosts];
-           setHasMore(false)
+           setHasMore(false) 
+          return prevResult;
         } else {
           console.log("new !== old")
-         postsMix = [ ...prevResult.getPosts,
+           prevResult.getPosts = [ ...prevResult.getPosts,
             ...fetchMoreResult.getPosts ];
-            setHasMore(true)
+            setHasMore(true) 
+            return prevResult;
         }
-        console.log({postsMix})
-        return postsMix;
-        // return fetchMoreResult;
       }
     });
   }
+
+ 
 
   return (
     <>
@@ -81,12 +103,14 @@ export default function ScreamDashboard() {
       <Grid>
         <Grid.Column width={6}></Grid.Column>
         <Grid.Column width={10}>
+          {/* {loadingInitial && ( */}
           {loadingInitial && (
             <>
               <ScreamListItemPlaceholder />
               <ScreamListItemPlaceholder />
             </>
           )}
+            {/* {loadingInitial && ( */}
           {!loadingInitial && (
             <ScreamList
               screams={posts}

@@ -4,7 +4,7 @@ import Carousel from 'semantic-ui-carousel-react';
 
 const ScreamCarousel = ({ scream }) => {
   // const defaultImg = '/assets/categoryImages/travel.jpg';
-  console.log("photos",scream.photos)
+  // console.log("photos",scream.photos)
   let elements = [];
   scream.photos &&
     scream.photos.map((img) => {

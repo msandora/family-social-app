@@ -34,14 +34,29 @@ export const FETCH_POSTS_QUERY = gql`
    query getPosts($limit: Int!,$skip:Int!){
     getPosts(limit: $limit,skip:$skip) {
         id
-		description
-		hostPhotoURL
-		hostUid
-		hostedBy
-		title
-		photos
-		createdAt
-		photos
+        description
+        hostPhotoURL
+        hostUid
+        hostedBy
+        title
+        photos
+        createdAt
+        photos
+        likeCount
+        likes {
+        id
+        userName
+        createdAt
+      }
+      likeCount
+      comments {
+        id
+        body
+        userName
+        createdAt
+      }
+      commentCount
+
     }
   }
 `;
@@ -50,20 +65,36 @@ export const FETCH_POST_QUERY = gql`
    query getPost($postId: ID!){
     getPost(postId: $postId) {
         id
-		description
-		hostPhotoURL
-		hostUid
-		hostedBy
-		title
-		photos
-		createdAt
-		photos
+        description
+        hostPhotoURL
+        hostUid
+        hostedBy
+        title
+        photos
+        createdAt
+        photos
+        likes {
+        id
+        userName
+        createdAt
+      }
+      likeCount
+      comments {
+        id
+        body
+        userName
+        createdAt
+      }
+      commentCount
+    
     }
   }
 `;
 
 
 //Mutataions
+
+// Recipes
 export const CREATE_RECIPE_MUTATION = gql`
   mutation createRecipe(
     $category: String!
@@ -128,6 +159,7 @@ export const UPDATE_RECIPE_MUTATION = gql`
   }
 `;
 
+//screams 
 export const CREATE_POST_MUTATION = gql`
   mutation createPost(
     $title: String!
@@ -155,6 +187,19 @@ export const CREATE_POST_MUTATION = gql`
       hostedBy
       photos
       createdAt
+      likes {
+        id
+        userName
+        createdAt
+      }
+      likeCount
+      comments {
+        id
+        body
+        userName
+        createdAt
+      }
+      commentCount
     }
   }
 `;
@@ -188,6 +233,19 @@ export const UPDATE_POST_MUTATION = gql`
         hostedBy
         photos
         createdAt
+        likes {
+        id
+        userName
+        createdAt
+      }
+      likeCount
+      comments {
+        id
+        body
+        userName
+        createdAt
+      }
+      commentCount
     }
   }
 `;
@@ -196,3 +254,19 @@ mutation deletePost($postId:ID!, $hostUid:ID!) {
     deletePost(postId:$postId ,hostUid:$hostUid)
 }
 `
+
+//comments
+export const SUBMIT_COMMENT_MUTATION = gql`
+  mutation($postId: String!, $body: String!,$userName:String!) {
+    createComment(postId: $postId, body: $body,userName:$userName) {
+      id
+      comments {
+        id
+        body
+        createdAt
+        userName
+      }
+      commentCount
+    }
+  }
+`;

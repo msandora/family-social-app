@@ -1,15 +1,21 @@
 import React, { useState } from 'react';
-import { Segment, Button, Header, Image } from 'semantic-ui-react';
+import { Segment, Button, Header, Image,Icon,Label, } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 import { formatDistance } from 'date-fns';
 import ScreamCarousel from '../screamComponents/ScreamCarousel';
 import LikeScream from '../screamComponents/LikeScream';
+import LikeButton from '../../../utils/LikeButton';
 import UnauthModal from '../../auth/UnauthModal';
 import moment from 'moment';
+import firebase from '../../../app/config/firebase';
+import MyPopup from '../../../utils/MyPopup'
+
 
 
 function ScreamListItem({ scream }) {
   const [modalOpen, setModalOpen] = useState(false);
+  const user = firebase.auth().currentUser;
+
   return (
     <>
       {modalOpen && <UnauthModal setModalOpen={setModalOpen} />}
@@ -26,7 +32,7 @@ function ScreamListItem({ scream }) {
               {scream.hostedBy}
               <Header.Subheader>
               {moment(scream.createdAt).fromNow(true)} ago
-                {/* {formatDistance(scream.createdAt, new Date())} ago */}
+                {/* {folrmatDistance(scream.createdAt, new Date())} ago */}
               </Header.Subheader>
             </Header.Content>
           </Header>
@@ -47,7 +53,19 @@ function ScreamListItem({ scream }) {
             floated='right'
             content='View'
           />
-          <LikeScream scream={scream}  />
+          {/* <LikeScream scream={scream}  /> */}
+           {user &&  <LikeButton user={user} scream={scream} /> }
+
+           <MyPopup content="Comment on post">
+          <Button labelPosition="right" as={Link} to={`/screams/${scream.id}`}>
+            <Button basic color="grey" >
+              <Icon name="comments" />
+            </Button>
+            <Label basic color="grey" pointing="left">
+              {scream.commentCount}
+            </Label>
+          </Button>
+        </MyPopup>
         </Segment>
       </Segment.Group>
     </>

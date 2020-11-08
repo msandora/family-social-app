@@ -20,7 +20,7 @@ export default function ScreamImageUpload({ screamId, newScream, dispatch }) {
     dispatch(getImgUrl(imgUrlList && imgUrlList));
   }, [dispatch, imgUrlList]);
   //  console.log({imgUrl})
-  console.log({ imgUrlList });
+  // console.log({ imgUrlList });
 
   function handleUploadImage() {
     setLoading(true);
@@ -47,7 +47,7 @@ export default function ScreamImageUpload({ screamId, newScream, dispatch }) {
           setImgUrlList([...imgUrlList, downloadURL]);
           updateScreamPhoto(downloadURL, filename, screamId)
             .then((doc) => {
-              console.log({ doc });
+              // console.log({ doc });
               setLoading(false);
               handleCancelCrop();
             })
@@ -64,7 +64,7 @@ export default function ScreamImageUpload({ screamId, newScream, dispatch }) {
     setFiles([]);
     setImage(null);
   }
-  console.log({ files });
+  // console.log({ files });
   return (
     <>
       <Grid>

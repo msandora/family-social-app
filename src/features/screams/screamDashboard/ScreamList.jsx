@@ -24,6 +24,7 @@ export default function ScreamList({
           ))}
         </InfiniteScroll>
       )}
+      {/* <button onClick={getNextScreams}>fetchMore</button> */}
       {screams?.length === 0 && (
         <Segment placeholder>
           <Header icon>

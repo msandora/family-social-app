@@ -18,7 +18,6 @@ import LoadingComponent from '../../../app/layout/LoadingComponent';
 import { toast } from 'react-toastify';
 import { useEffect } from 'react';
 import ScreamImageUpload from './ScreamImageUpload';
-import MyPopup from '../../../utils/MyPopup'
 
 // graphql stuff 
 import { useMutation, useQuery} from '@apollo/react-hooks';
@@ -35,11 +34,19 @@ const user = firebase.auth().currentUser;
 const defaultImg = "https://icon-library.com/images/no-user-image-icon/no-user-image-icon-27.jpg"
 
 export default function ScreamForm({ match, history, location }) {
+
+    // graphql query for fetching post from mongodb  
+    const { loading, error, data: {getPost: post}} = useQuery(FETCH_POST_QUERY, {
+      variables: { postId: match.params.id  },
+    });
+    console.log({post})
+
   
   const dispatch = useDispatch();
   const { selectedScream, imgUrlList } = useSelector((state) => state.scream);
   console.log({imgUrlList})
-  const { loading, error } = useSelector((state) => state.async);
+  // const { loading, error } = useSelector((state) => state.async);
+  const [valuesState, setvaluesState] = useState({});
 
   const user = firebase.auth().currentUser;
   console.log({user})
@@ -53,21 +60,29 @@ export default function ScreamForm({ match, history, location }) {
     dispatch(clearSelectedScream());
   }, [dispatch, location.pathname]);
 
-  const initialValues = selectedScream ?? {
-  // const initialValues = valuesState ?? {
+  // const initialValues = selectedScream ?? {
+  const initialValues = post ?? {
     title: '',
     description: '',
-    photos: '',
+    screamImages: '',
   };
 
   const validationSchema = Yup.object({
     title: Yup.string().required('You must provide a title'),
     description: Yup.string().required(),
-    photos: Yup.array().of(
+    screamImages: Yup.array().of(
       Yup.string().required('You must provide a image')
     ),
   });
 
+  // useFirestoreDoc({
+  //   shouldExecute:
+  //     match.params.id !== selectedScream?.id &&
+  //     location.pathname !== '/createScream',
+  //   // query: () => listenToScreamFromFirestore(match.params.id), 
+  //   // data: (scream) => dispatch(listenToSelectedScream(scream)),  
+  //   deps: [match.params.id, dispatch],
+  // });
 
   if (loading) return <LoadingComponent content='Loading scream...' />;
 
@@ -86,18 +101,26 @@ export default function ScreamForm({ match, history, location }) {
         initialValues={initialValues}
         validationSchema={validationSchema}
         onSubmit={async (values, { setSubmitting }) => {
-          console.log("values",values && values);
+          console.log({ values });
+          setvaluesState(values);
           try {
-            // !match.params.id
-             await createPost(
-              { variables: {
-              ...values,
-              photos:[...imgUrlList] ,hostUid: user?.uid,
-                  hostedBy: user?.displayName,
-                  hostPhotoURL: user?.photoURL || defaultImg,
-              },
-            })
+           await updatePost(
+              { variables: 
+              {...values,photos:[...post?.photos,...imgUrlList] ,hostUid: user?.uid,
+              hostedBy: user?.displayName,
+              hostPhotoURL: user?.photoURL || defaultImg,
+              postId:match.params.id,
+            },
+              // update(proxy, result) {
+              //   const data = proxy.readQuery({
+              //     query: FETCH_POSTS_QUERY
+              //   });
+              //   data.getPosts = [result.data.createPost, ...data.getPosts];
+              //   proxy.writeQuery({ query: FETCH_POSTS_QUERY, data });
+              // } 
+            });
             setSubmitting(false);
+            // history.push('/screams');
             window.location.href = 'http://localhost:3000/screams';
           } catch (error) {
             toast.error(error.message);
@@ -108,33 +131,44 @@ export default function ScreamForm({ match, history, location }) {
         {({ isSubmitting, dirty, isValid, values }) => (
           <>
             <ScreamImageUpload
-              screamId={selectedScream?.id}
-              newScream={selectedScream ? false : true}
+              screamId={post?.id}
+              newScream={post ? false : true}
               dispatch={dispatch}
             />
             {/* image List  */}
-            {imgUrlList &&
-              imgUrlList.length > 0 &&
-              imgUrlList.map((img, index) => (
-                // <Link onClick={() => deleteImg(img, imgUrlList, index)}>
-                <MyPopup content={'Delete'}>
+            {
+              post?.photos &&
+              post?.photos.map((img, index) => (
+                <Link onClick={() => deleteImg(index, post?.photos)}>
+                  {' '}
                   <img
                     src={img}
                     alt='img'
                     style={{
-                      minWidth: '6rem',
-                      minHeight: '6rem',
+                      width: '6rem',
+                      height: '6rem',
                       margin: 5,
                       border: '1px solid lightgrey',
                     }}
-                  />
-                  <Button
-                  disabled={loading}
-                  onClick={deleteImg(img, imgUrlList, index)}
-                  style={{ width: 20 }}
-                  icon='close'
-                />
-             </MyPopup >
+                  />{' '}
+                </Link>
+              ))}
+            {imgUrlList &&
+              imgUrlList.length > 0 &&
+              imgUrlList.map((img, index) => (
+                <Link onClick={() => deleteImg(img, imgUrlList, index)}>
+                  {' '}
+                  <img
+                    src={img}
+                    alt='img'
+                    style={{
+                      width: '6rem',
+                      height: '6rem',
+                      margin: 5,
+                      border: '1px solid lightgrey',
+                    }}
+                  />{' '}
+                </Link>
               ))}
 
             <Form className='ui form'>
