@@ -2,17 +2,27 @@ import firebase from '../../config/firebase';
 
 const db = firebase.firestore();
 
-export  function fetchScreamsFromFirestore(limit, lastDocSnapshot = null ) {
-
-let screamsRef =  
+export function fetchScreamsFromFirestore(limit, lastVisible=null ) {
+  if(lastVisible == null){
+    let screamsRef =
     db.collection('screams')
-    .orderBy("createdAt",  )
-    .startAfter( lastDocSnapshot  )
+    .orderBy("createdAt", "desc")
+    //.startAfter( lastVisible )
     .limit(limit);
-    // .startAfter( lastDocSnapshot  )
-    // .endAt( lastDocSnapshot  )
     console.log({screamsRef})
-  return screamsRef;
+    return screamsRef;
+  }
+  else{
+    let screamsRef =
+    db.collection('screams')
+    .orderBy("createdAt", "desc" )
+    .startAfter( lastVisible )
+    .limit(limit);
+    console.log({screamsRef})
+    return screamsRef;
+  }
+
+
 }
 
 
@@ -53,7 +63,7 @@ export async function updateScreamPhoto(downloadURL, filename, screamId,screamIm
       .doc(screamId)
       // .collection('photos')
       .update({
-       screamImages: (scream.screamImages && scream.screamImages.length > 0) ? [...scream.screamImages,downloadURL] : [downloadURL] 
+       screamImages: (scream.screamImages && scream.screamImages.length > 0) ? [...scream.screamImages,downloadURL] : [downloadURL]
       //  screamImages: [...screamImages]
       });
       screamData = await screamData.get().data();
@@ -68,7 +78,7 @@ export function getScreamPhotos(screamId) {
   return db.collection('screams').doc(screamId).collection('photos');
 }
 
-// Like scream 
+// Like scream
 export const likeScreamService =  async (scream)  =>  {
   const user = firebase.auth().currentUser;
   console.log({user})
@@ -107,7 +117,7 @@ export const likeScreamService =  async (scream)  =>  {
               screamData.likeCount++;
            console.log({screamData})
                return screamDocument.update({ likeCount: screamData.likeCount });
-              
+
             })
              .then(() => {
           console.log("screamDoc",screamData);
@@ -126,7 +136,7 @@ export const likeScreamService =  async (scream)  =>  {
 
 
 
-// Unlike Scream 
+// Unlike Scream
 export function unLikeScreamService(scream) {
   const user = firebase.auth().currentUser;
 
@@ -163,7 +173,7 @@ screamDocument
           screamData.likeCount--;
            console.log({screamData})
            return screamDocument.update({ likeCount: screamData.likeCount });
-           
+
         })
         .then(() => {
           console.log("screamDoc",screamData);
@@ -175,7 +185,7 @@ screamDocument
     console.error(err);
     return({ err });
   });
-}    
+}
 
 // export function fetchAllLikes () {
 //   let likesRef = db

@@ -13,7 +13,7 @@ import {
   GET_LIKES,
   GET_IMG_URL,
 } from './screamConstants';
-import firebase from '../../app/config/firebase';
+//import firebase from '../../app/config/firebase';
 import { dataFromSnapshot } from '../../app/firestore/firestoreService';
 import {
   asyncActionStart,
@@ -34,16 +34,15 @@ export function listenToScreamPhotos(photos) {
   };
 }
 
-export function fetchScreams(limit, lastDocSnapshot, firstVisible) {
+export function fetchScreams(limit, lastDocSnapshot) {
   return async function (dispatch) {
     dispatch(asyncActionStart());
     try {
       const snapshot = await fetchScreamsFromFirestore(
         limit,
-        lastDocSnapshot,
-        firstVisible
+        lastDocSnapshot
       ).get();
-      // const firstVisible = snapshot.docs[0];
+      const firstVisible = snapshot.docs[0];
       const lastVisible = snapshot.docs[snapshot.docs.length - 1];
       const moreScreams = snapshot.docs.length >= limit;
       const screams = snapshot.docs.map((doc) => dataFromSnapshot(doc));
