@@ -32,13 +32,11 @@ export default function ScreamForm({ match, history, location }) {
   }, [dispatch, location.pathname]);
 
   const initialValues = selectedScream ?? {
-    title: '',
     description: '',
     screamImages: '',
   };
 
   const validationSchema = Yup.object({
-    title: Yup.string().required('You must provide a title'),
     description: Yup.string().required(),
     screamImages: Yup.array().of(
       Yup.string().required('You must provide a image')
@@ -57,11 +55,9 @@ export default function ScreamForm({ match, history, location }) {
   if (loading) return <LoadingComponent content='Loading scream...' />;
 
   if (error) return <Redirect to='/error' />;
-  // console.log(selectedScream.id);
+
   const deleteImg = (imgIndex, images) => {
     return images.splice(imgIndex, 1);
-    // imgUrlList.splice(imgIndex, 1)
-    console.log('screamImages', imgUrlList);
   };
 
   return (
@@ -77,9 +73,6 @@ export default function ScreamForm({ match, history, location }) {
             selectedScream
               ? await updateScreamInFirestore(values, imgUrlList && imgUrlList)
               : await addScreamToFirestore(values, imgUrlList && imgUrlList);
-            // selectedScream
-            //   ?  dispatch(updateScreamInFirestore(values, imgUrlList && imgUrlList ))
-            //   :  dispatch(addScreamToFirestore(values, imgUrlList && imgUrlList))
             setSubmitting(false);
             // history.push('/screams');
             // history.push('/screams');
@@ -104,7 +97,6 @@ export default function ScreamForm({ match, history, location }) {
               values.screamImages &&
               values.screamImages.map((img, index) => (
                 <Link onClick={() => deleteImg(index, values.screamImages)}>
-                  {' '}
                   <img
                     src={img}
                     alt='img'
@@ -114,14 +106,13 @@ export default function ScreamForm({ match, history, location }) {
                       margin: 5,
                       border: '1px solid lightgrey',
                     }}
-                  />{' '}
+                  />
                 </Link>
               ))}
             {imgUrlList &&
               imgUrlList.length > 0 &&
               imgUrlList.map((img, index) => (
                 <Link onClick={() => deleteImg(img, imgUrlList, index)}>
-                  {' '}
                   <img
                     src={img}
                     alt='img'
@@ -131,13 +122,12 @@ export default function ScreamForm({ match, history, location }) {
                       margin: 5,
                       border: '1px solid lightgrey',
                     }}
-                  />{' '}
+                  />
                 </Link>
               ))}
 
             <Form className='ui form'>
               <Header sub color='teal' content='Post Details' />
-              <MyTextInput name='title' placeholder='Post title' />
               <MyTextArea
                 name='description'
                 placeholder='Description'

@@ -8,6 +8,7 @@ import { fetchEvents } from '../eventActions';
 import EventsFeed from './EventFeed';
 import { RETAIN_EVENT_STATE } from '../eventConstants';
 import CreateEvent from './CreateEvent';
+import { Mobile, NotMobile } from '../../../app/layout/MediaQueries';
 
 export default function EventDashboard() {
   const limit = 2;
@@ -45,29 +46,57 @@ export default function EventDashboard() {
       <CreateEvent />
 
       <Grid>
-        <Grid.Column width={10}>
-          {loadingInitial && (
-            <>
-              <EventListItemPlaceholder />
-              <EventListItemPlaceholder />
-            </>
-          )}
-          {!loadingInitial && (
-            <EventList
-              events={events}
-              getNextEvents={handleFetchNextEvents}
-              loading={loading}
-              moreEvents={moreEvents}
-            />
-          )}
-        </Grid.Column>
-        <Grid.Column width={6}>
-          {authenticated && <EventsFeed />}
-          <EventFilters loading={loading} />
-        </Grid.Column>
-        <Grid.Column width={10}>
-          <Loader active={loading} />
-        </Grid.Column>
+        <NotMobile>
+          <Grid.Column width={10}>
+            {loadingInitial && (
+              <>
+                <EventListItemPlaceholder />
+                <EventListItemPlaceholder />
+              </>
+            )}
+            {!loadingInitial && (
+              <EventList
+                events={events}
+                getNextEvents={handleFetchNextEvents}
+                loading={loading}
+                moreEvents={moreEvents}
+              />
+            )}
+          </Grid.Column>
+          <Grid.Column width={6}>
+            {authenticated && <EventsFeed />}
+            <EventFilters loading={loading} />
+          </Grid.Column>
+          <Grid.Column width={10}>
+            <Loader active={loading} />
+          </Grid.Column>
+        </NotMobile>
+
+        <Mobile>
+          <Grid.Column width={16}>
+            {authenticated && <EventsFeed />}
+            <EventFilters loading={loading} />
+          </Grid.Column>
+          <Grid.Column width={16}>
+            {loadingInitial && (
+              <>
+                <EventListItemPlaceholder />
+                <EventListItemPlaceholder />
+              </>
+            )}
+            {!loadingInitial && (
+              <EventList
+                events={events}
+                getNextEvents={handleFetchNextEvents}
+                loading={loading}
+                moreEvents={moreEvents}
+              />
+            )}
+          </Grid.Column>
+          <Grid.Column width={16}>
+            <Loader active={loading} />
+          </Grid.Column>
+        </Mobile>
       </Grid>
     </>
   );

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Popup, Segment, Header, Icon, Label } from 'semantic-ui-react';
+import { Button, Popup, Icon, Label } from 'semantic-ui-react';
 import { useDispatch, useSelector } from 'react-redux';
 import { likeScream, UnLikeScream, getLikes } from '../screamActions';
 import UnauthModal from '../../auth/UnauthModal';
@@ -9,24 +9,25 @@ export default function LikeButton({ scream }) {
   let [liked, setLiked] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
   const { authenticated, currentUser } = useSelector((state) => state.auth);
-  const { likes,screams } = useSelector((state) => state.scream);
+  const { likes, screams } = useSelector((state) => state.scream);
   // likes.length > 0 && console.log({likes})
   // console.log({uid})
   // console.log({screams})
   // console.log({scream})
-  
+
   // let { uid } = currentUser;
   // console.log("uid",uid)
-  likes?.length > 0 &&  console.log("userHandle",likes[0].userHandle)
-  // scream  && console.log("scream.id",scream.id);         
-  // likes?.length > 0 &&  console.log("screamId",likes[0].screamId)  
+  // likes?.length > 0 && console.log('userHandle', likes[0].userHandle);
+  // scream  && console.log("scream.id",scream.id);
+  // likes?.length > 0 &&  console.log("screamId",likes[0].screamId)
   function IslikedScream() {
     if (
       likes?.length > 0 &&
       likes.find(
-        (like) => like.screamId === scream.id && like.userHandle === currentUser?.uid
+        (like) =>
+          like.screamId === scream.id && like.userHandle === currentUser?.uid
       )
-    ) 
+    )
       return true;
     else return false;
   }
@@ -58,7 +59,7 @@ export default function LikeButton({ scream }) {
             {scream.likeCount ? scream.likeCount : 0}
           </Label>
         </Button>
-      ) : IslikedScream()  ? (
+      ) : IslikedScream() ? (
         <Popup
           content='UnLike This'
           trigger={

@@ -5,6 +5,8 @@ import { increment, decrement } from '../sandbox/testReducer';
 import { openModal } from '../../app/common/modals/modalReducer';
 import TestPlaceInput from './TestPlaceInput';
 import TestMap from './TestMap';
+import Example from './examples';
+import TestNavigation from './TestNavigation';
 
 export default function Sandbox() {
   const dispatch = useDispatch();
@@ -26,6 +28,8 @@ export default function Sandbox() {
 
   return (
     <>
+      <TestNavigation />
+      <Example />
       <h1>Testing 123</h1>
       <h3>The data is: {data}</h3>
       <Button

@@ -6,6 +6,7 @@ import ScreamListItemPlaceholder from './ScreamListItemPlaceholder';
 import { fetchScreams } from '../screamActions';
 import { RETAIN_SCREAM_STATE } from '../screamConstants';
 import CreateScream from './CreateScream';
+import { Mobile, NotMobile } from '../../../app/common/MediaQueries';
 
 export default function ScreamDashboard() {
   const limit = 2;
@@ -17,6 +18,7 @@ export default function ScreamDashboard() {
   const [loadingInitial, setLoadingInitial] = useState(false);
 
   useEffect(() => {
+    console.log('ScreamDashboard', screams);
     if (retainState) return;
     setLoadingInitial(true);
     console.log("lastVisible", lastVisible);
@@ -36,28 +38,51 @@ export default function ScreamDashboard() {
     <>
       <CreateScream />
       <Grid>
-        <Grid.Column width={6}></Grid.Column>
-        <Grid.Column width={10}>
-          {loadingInitial && (
-            <>
-              <ScreamListItemPlaceholder />
-              <ScreamListItemPlaceholder />
-            </>
-          )}
-          {!loadingInitial && (
-            <ScreamList
-              screams={screams}
-              getNextScreams={handleFetchNextScreams}
-              loading={loading}
-              moreScreams={moreScreams}
-            />
-          )}
-        </Grid.Column>
+        <NotMobile>
+          <Grid.Column width={6}></Grid.Column>
+          <Grid.Column width={10}>
+            {loadingInitial && (
+              <>
+                <ScreamListItemPlaceholder />
+                <ScreamListItemPlaceholder />
+              </>
+            )}
+            {!loadingInitial && (
+              <ScreamList
+                screams={screams}
+                getNextScreams={handleFetchNextScreams}
+                loading={loading}
+                moreScreams={moreScreams}
+              />
+            )}
+          </Grid.Column>
+          <Grid.Column width={6}></Grid.Column>
+          <Grid.Column width={10}>
+            <Loader active={loading} />
+          </Grid.Column>
+        </NotMobile>
 
-        <Grid.Column width={6}></Grid.Column>
-        <Grid.Column width={10}>
-          <Loader active={loading} />
-        </Grid.Column>
+        <Mobile>
+          <Grid.Column width={16}>
+            {loadingInitial && (
+              <>
+                <ScreamListItemPlaceholder />
+                <ScreamListItemPlaceholder />
+              </>
+            )}
+            {!loadingInitial && (
+              <ScreamList
+                screams={screams}
+                getNextScreams={handleFetchNextScreams}
+                loading={loading}
+                moreScreams={moreScreams}
+              />
+            )}
+          </Grid.Column>
+          <Grid.Column width={16}>
+            <Loader active={loading} />
+          </Grid.Column>
+        </Mobile>
       </Grid>
     </>
   );

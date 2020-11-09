@@ -4,6 +4,7 @@ import { Link, useHistory } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { signOutFirebase } from '../../app/firestore/firebaseService';
 import { toast } from 'react-toastify';
+import { Mobile } from '../../app/layout/MediaQueries';
 
 export default function SignedInMenu({ signOut }) {
   const { currentUserProfile } = useSelector((state) => state.profile);
@@ -18,22 +19,49 @@ export default function SignedInMenu({ signOut }) {
     }
   }
 
+  const trigger = (
+    <span>
+      <Image avatar src={currentUserProfile?.photoURL || '/assets/user.png'} />{' '}
+      {currentUserProfile?.displayName}
+    </span>
+  );
+
   return (
     <Menu.Item position='right'>
-      <Image
-        avatar
-        spaced='right'
-        src={currentUserProfile?.photoURL || '/assets/user.png'}
-      />
-      <Dropdown pointing='top right' text={currentUserProfile?.displayName}>
+      <Dropdown pointing='top right' trigger={trigger}>
         <Dropdown.Menu>
-          <Dropdown.Item text='My Events' icon='calendar' />
-          <Dropdown.Item
-            as={Link}
-            to={`/people`}
-            text='My Network'
-            icon='users'
-          />
+          <Mobile>
+            <Dropdown.Item
+              as={Link}
+              to={`/screams`}
+              text='Social Feed'
+              icon='users'
+            />
+            <Dropdown.Item
+              as={Link}
+              to={`/events`}
+              text='Events'
+              icon='calendar'
+            />
+            <Dropdown.Item
+              as={Link}
+              to={`/recipes`}
+              text='Recipes'
+              icon='food'
+            />
+            <Dropdown.Item
+              as={Link}
+              to={`/family-tree`}
+              text='Family Tree'
+              icon='users'
+            />
+            {/* <Dropdown.Item
+              as={Link}
+              to={`/sandbox`}
+              text='Sandbox'
+              icon='users'
+            /> */}
+          </Mobile>
           <Dropdown.Item
             as={Link}
             to={`/profile/${currentUserProfile?.id}`}
