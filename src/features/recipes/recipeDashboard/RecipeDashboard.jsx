@@ -7,7 +7,7 @@ import RecipeFilters from './RecipeFilters';
 import { fetchRecipes, fetchFliteredRecipes } from '../recipeActions';
 import { RETAIN_RECIPE_STATE } from '../recipeConstants';
 import CreateRecipe from './CreateRecipe';
-import { Mobile, NotMobile } from '../../../app/common/MediaQueries';
+import { Mobile, NotMobile } from '../../../app/layout/MediaQueries';
 
 export default function RecipeDashboard() {
   const limit = 2;

@@ -6,7 +6,7 @@ import ScreamListItemPlaceholder from './ScreamListItemPlaceholder';
 import { fetchScreams } from '../screamActions';
 import { RETAIN_SCREAM_STATE } from '../screamConstants';
 import CreateScream from './CreateScream';
-import { Mobile, NotMobile } from '../../../app/common/MediaQueries';
+import { Mobile, NotMobile } from '../../../app/layout/MediaQueries';
 
 export default function ScreamDashboard() {
   const limit = 2;
@@ -21,7 +21,7 @@ export default function ScreamDashboard() {
     console.log('ScreamDashboard', screams);
     if (retainState) return;
     setLoadingInitial(true);
-    console.log("lastVisible", lastVisible);
+    console.log('lastVisible', lastVisible);
     dispatch(fetchScreams(limit, lastVisible)).then(() => {
       setLoadingInitial(false);
     });
