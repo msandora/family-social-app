@@ -118,7 +118,7 @@ export default function EventDetailedHeader({ event, isHost, isGoing }) {
                 tip='Delete Event'
                 color='red'
                 icon='trash'
-                linkRef={null}
+                linkRef={`/events`}
               />
               <MyButton
                 // onClick={() => console.log('fix this', event.id)}

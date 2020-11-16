@@ -6,8 +6,11 @@ import ScreamListItemPlaceholder from './ScreamListItemPlaceholder';
 import { fetchScreams } from '../screamActions';
 import { RETAIN_SCREAM_STATE } from '../screamConstants';
 import CreateScream from './CreateScream';
+import { useMediaQuery } from 'react-responsive';
 
 export default function ScreamDashboard() {
+  const isPortrait = useMediaQuery({ query: '(orientation: portrait)' });
+
   const limit = 2;
   const dispatch = useDispatch();
   const { screams, moreScreams, lastVisible, retainState } = useSelector(
@@ -17,9 +20,10 @@ export default function ScreamDashboard() {
   const [loadingInitial, setLoadingInitial] = useState(false);
 
   useEffect(() => {
+    console.log('ScreamDashboard', screams);
     if (retainState) return;
     setLoadingInitial(true);
-    console.log("lastVisible", lastVisible);
+    console.log('lastVisible', lastVisible);
     dispatch(fetchScreams(limit, lastVisible)).then(() => {
       setLoadingInitial(false);
     });
@@ -36,8 +40,9 @@ export default function ScreamDashboard() {
     <>
       <CreateScream />
       <Grid>
-        <Grid.Column width={6}></Grid.Column>
-        <Grid.Column width={10}>
+        {isPortrait ? null : <Grid.Column width={6}></Grid.Column>}
+
+        <Grid.Column width={isPortrait ? 16 : 10}>
           {loadingInitial && (
             <>
               <ScreamListItemPlaceholder />
@@ -53,9 +58,8 @@ export default function ScreamDashboard() {
             />
           )}
         </Grid.Column>
-
-        <Grid.Column width={6}></Grid.Column>
-        <Grid.Column width={10}>
+        {isPortrait ? null : <Grid.Column width={6}></Grid.Column>}
+        <Grid.Column width={isPortrait ? 16 : 10}>
           <Loader active={loading} />
         </Grid.Column>
       </Grid>

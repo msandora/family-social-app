@@ -23,8 +23,10 @@ export default function RecipeListItem({ recipe }) {
         </Header>
       </Segment>
       <Segment>
-        <div>Category:{recipe.category}</div>
-        <div>Description:{recipe.description}</div>
+        <div>Category: {recipe.category}</div>
+        <div>Prep Time: {recipe.prepTime}</div>
+        <div>Ingredients: {recipe.ingredients}</div>
+        <div>Instructions: {recipe.steps}</div>
       </Segment>
       <Segment clearing>
         <Button

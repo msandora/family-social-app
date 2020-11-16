@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import * as Yup from 'yup';
+import { toast } from 'react-toastify';
 import { Segment, Header, Button } from 'semantic-ui-react';
 import { Redirect } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { listenToSelectedScream, clearSelectedScream } from '../screamActions';
 import { Formik, Form } from 'formik';
-import * as Yup from 'yup';
-import MyTextInput from '../../../app/common/form/MyTextInput';
 import MyTextArea from '../../../app/common/form/MyTextArea';
 import { Link } from 'react-router-dom';
 import {
@@ -15,8 +15,6 @@ import {
 } from '../../../app/firestore/firestoreServices/firestoreScreamsHandler';
 import useFirestoreDoc from '../../../app/hooks/useFirestoreDoc';
 import LoadingComponent from '../../../app/layout/LoadingComponent';
-import { toast } from 'react-toastify';
-import { useEffect } from 'react';
 import ScreamImageUpload from './ScreamImageUpload';
 
 export default function ScreamForm({ match, history, location }) {
@@ -32,13 +30,11 @@ export default function ScreamForm({ match, history, location }) {
   }, [dispatch, location.pathname]);
 
   const initialValues = selectedScream ?? {
-    title: '',
     description: '',
     screamImages: '',
   };
 
   const validationSchema = Yup.object({
-    title: Yup.string().required('You must provide a title'),
     description: Yup.string().required(),
     screamImages: Yup.array().of(
       Yup.string().required('You must provide a image')
@@ -57,11 +53,9 @@ export default function ScreamForm({ match, history, location }) {
   if (loading) return <LoadingComponent content='Loading scream...' />;
 
   if (error) return <Redirect to='/error' />;
-  // console.log(selectedScream.id);
+
   const deleteImg = (imgIndex, images) => {
     return images.splice(imgIndex, 1);
-    // imgUrlList.splice(imgIndex, 1)
-    console.log('screamImages', imgUrlList);
   };
 
   return (
@@ -77,13 +71,11 @@ export default function ScreamForm({ match, history, location }) {
             selectedScream
               ? await updateScreamInFirestore(values, imgUrlList && imgUrlList)
               : await addScreamToFirestore(values, imgUrlList && imgUrlList);
-            // selectedScream
-            //   ?  dispatch(updateScreamInFirestore(values, imgUrlList && imgUrlList ))
-            //   :  dispatch(addScreamToFirestore(values, imgUrlList && imgUrlList))
             setSubmitting(false);
             // history.push('/screams');
             // history.push('/screams');
             window.location.href = 'http://localhost:3000/screams';
+            // window.location.href = 'https://socialfamilyapp.web.app/screams';
           } catch (error) {
             toast.error(error.message);
             setSubmitting(false);
@@ -104,7 +96,6 @@ export default function ScreamForm({ match, history, location }) {
               values.screamImages &&
               values.screamImages.map((img, index) => (
                 <Link onClick={() => deleteImg(index, values.screamImages)}>
-                  {' '}
                   <img
                     src={img}
                     alt='img'
@@ -114,14 +105,13 @@ export default function ScreamForm({ match, history, location }) {
                       margin: 5,
                       border: '1px solid lightgrey',
                     }}
-                  />{' '}
+                  />
                 </Link>
               ))}
             {imgUrlList &&
               imgUrlList.length > 0 &&
               imgUrlList.map((img, index) => (
                 <Link onClick={() => deleteImg(img, imgUrlList, index)}>
-                  {' '}
                   <img
                     src={img}
                     alt='img'
@@ -131,13 +121,17 @@ export default function ScreamForm({ match, history, location }) {
                       margin: 5,
                       border: '1px solid lightgrey',
                     }}
-                  />{' '}
+                  />
                 </Link>
               ))}
 
-            <Form className='ui form'>
+            <Form
+              className='ui form'
+              style={{
+                marginTop: '1rem',
+              }}
+            >
               <Header sub color='teal' content='Post Details' />
-              <MyTextInput name='title' placeholder='Post title' />
               <MyTextArea
                 name='description'
                 placeholder='Description'

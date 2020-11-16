@@ -8,7 +8,7 @@ import UnauthModal from '../../auth/UnauthModal';
 
 function ScreamListItem({ scream }) {
   const [modalOpen, setModalOpen] = useState(false);
-
+  // console.log(scream);
   return (
     <>
       {modalOpen && <UnauthModal setModalOpen={setModalOpen} />}

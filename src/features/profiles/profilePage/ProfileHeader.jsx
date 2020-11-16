@@ -19,8 +19,11 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useEffect } from 'react';
 import { setFollowUser, setUnfollowUser } from '../profileActions';
 import { CLEAR_FOLLOWINGS } from '../profileConstants';
+import { useMediaQuery } from 'react-responsive';
 
 export default function ProfileHeader({ profile, isCurrentUser }) {
+  const isPortrait = useMediaQuery({ query: '(orientation: portrait)' });
+
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
   const { followingUser } = useSelector((state) => state.profile);
@@ -71,7 +74,7 @@ export default function ProfileHeader({ profile, isCurrentUser }) {
   return (
     <Segment>
       <Grid>
-        <Grid.Column width={12}>
+        <Grid.Column width={isPortrait ? 16 : 12}>
           <Item.Group>
             <Item>
               <Item.Image
@@ -89,8 +92,8 @@ export default function ProfileHeader({ profile, isCurrentUser }) {
             </Item>
           </Item.Group>
         </Grid.Column>
-        <Grid.Column width={4}>
-          <Statistic.Group horizontal>
+        <Grid.Column width={isPortrait ? 16 : 4}>
+          <Statistic.Group horizontal size='tiny'>
             <Statistic label='Followers' value={profile.followerCount || 0} />
             <Statistic label='Following' value={profile.followingCount || 0} />
           </Statistic.Group>

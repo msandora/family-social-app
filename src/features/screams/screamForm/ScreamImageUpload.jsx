@@ -5,11 +5,14 @@ import { Grid, Header, Button } from 'semantic-ui-react';
 import { getFileExtension } from '../../../app/common/util/util';
 import { updateScreamPhoto } from '../../../app/firestore/firestoreServices/firestoreScreamsHandler';
 import { uploadImage } from '../../../app/firestore/firebaseServices/firebaseScreamsHandler';
-import ScreamImageDropzone from './ScreamImageDropzone';
-import ScreamImageCropper from './ScreamImageCropper';
 import { getImgUrl } from './../screamActions';
+import PhotoWidgetCropper from '../../../app/common/photos/PhotoWidgetCropper';
+import PhotoWidgetDropzone from '../../../app/common/photos/PhotoWidgetDropzone';
+import { useMediaQuery } from 'react-responsive';
 
 export default function ScreamImageUpload({ screamId, newScream, dispatch }) {
+  const isPortrait = useMediaQuery({ query: '(orientation: portrait)' });
+
   const [files, setFiles] = useState([]);
   const [image, setImage] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -20,17 +23,13 @@ export default function ScreamImageUpload({ screamId, newScream, dispatch }) {
     dispatch(getImgUrl(imgUrlList && imgUrlList));
   }, [dispatch, imgUrlList]);
   //  console.log({imgUrl})
-  console.log({ imgUrlList });
+  // console.log({ imgUrlList });
 
   function handleUploadImage() {
     setLoading(true);
     const filename = cuid() + '.' + getFileExtension(files[0].name);
     const uploadTask = uploadImage(image, filename);
-    // const uploadTask = uploadScreamImageToFirebaseStorage(
-    //   image,
-    //   filename,
-    //   screamId
-    // );
+
     uploadTask.on(
       'state_changed',
       (snapshot) => {
@@ -68,28 +67,27 @@ export default function ScreamImageUpload({ screamId, newScream, dispatch }) {
   return (
     <>
       <Grid>
-        <Grid.Column width={4}>
+        <Grid.Column width={isPortrait ? 16 : 4}>
           <Header color='teal' sub content='Step 1 - Add Photo' />
-          <ScreamImageDropzone setFiles={setFiles} />
+          <PhotoWidgetDropzone setFiles={setFiles} />
         </Grid.Column>
-        <Grid.Column width={1} />
-        <Grid.Column width={4}>
+        <Grid.Column width={isPortrait ? 16 : 6}>
           <Header color='teal' sub content='Step 2 - Resize' />
           {files.length > 0 && (
-            <ScreamImageCropper
+            <PhotoWidgetCropper
               setImage={setImage}
               imagePreview={files[0].preview}
             />
           )}
         </Grid.Column>
-        <Grid.Column width={1} />
-        <Grid.Column width={4}>
+        <Grid.Column width={isPortrait ? 16 : 6}>
           <Header color='teal' sub content='Step 3 - Preview & upload' />
           {files.length > 0 && (
             <>
               <div
                 className='img-preview'
                 style={{ minHeight: 200, minWidth: 200, overflow: 'hidden' }}
+                // style={{ width: '100%', overflow: 'hidden' }}
               />
               <Button.Group>
                 <Button

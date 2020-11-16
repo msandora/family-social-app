@@ -20,7 +20,6 @@ export default function ProfileContent({ profile, isCurrentUser }) {
         <AboutTab profile={profile} isCurrentUser={isCurrentUser} />
       ),
     },
-
     { menuItem: 'Events', render: () => <EventsTab profile={profile} /> },
     {
       menuItem: 'Followers',
@@ -46,8 +45,8 @@ export default function ProfileContent({ profile, isCurrentUser }) {
 
   return (
     <Tab
-      menu={{ fluid: true, vertical: true }}
-      menuPosition='right'
+      menu={{ attached: 'top', fluid: true, vertical: false }}
+      // menuPosition='right'
       panes={panes}
       onTabChange={(e, data) => setActiveTab(data.activeIndex)}
     />

@@ -5,10 +5,9 @@ import { IFamilyNode, IFamilyExtNode } from 'relatives-tree';
 import ReactFamilyTree from 'react-family-tree';
 import FamilyNode from '../../family/FamilyNode/FamilyNode';
 import styles from '../FamilyTree/Family.module.css';
-// import nodes from '../../../app/api/family.json';
-// const myID = 'dansandora';
+// import nodes from '../../../app/api/familyAPI.json';
+// const myID = 'palmasandora';
 const myID = 'CXFkyVOXxUTT8XL1dgRh';
-
 
 const WIDTH = 70;
 const HEIGHT = 110;
@@ -20,7 +19,7 @@ export default function FamilyTree({ family }) {
   // const onResetClick = useCallback(() => setRootId(myID), []);
   // console.log('json nodes', nodes);
   // console.log('family', family);
-  
+
   const renderTree =
     nodes.length > 0 ? (
       <ReactFamilyTree

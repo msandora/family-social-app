@@ -185,7 +185,7 @@ export default class FamilyModal extends Component {
               as={Link}
               to={`/updatePerson/${person.id}`}
             />
-            <Button
+            {/* <Button
               content='Add Child'
               labelPosition='right'
               icon='child'
@@ -200,7 +200,7 @@ export default class FamilyModal extends Component {
               primary
               as={Link}
               to={`/addSpouse/${person.id}`}
-            />
+            /> */}
           </Modal.Actions>
         </Modal>
       </>

@@ -9,8 +9,11 @@ import useFirestoreDoc from '../../../app/hooks/useFirestoreDoc';
 import { listenToScreamFromFirestore } from '../../../app/firestore/firestoreServices/firestoreScreamsHandler';
 import LoadingComponent from '../../../app/layout/LoadingComponent';
 import { listenToSelectedScream } from '../screamActions';
+import { useMediaQuery } from 'react-responsive';
 
 export default function ScreamDetailedPage({ match }) {
+  const isPortrait = useMediaQuery({ query: '(orientation: portrait)' });
+
   const dispatch = useDispatch();
   const { currentUser } = useSelector((state) => state.auth);
   const scream = useSelector((state) => state.scream.selectedScream);
@@ -30,13 +33,13 @@ export default function ScreamDetailedPage({ match }) {
 
   return (
     <Grid>
-      <Grid.Column width={10}>
+      <Grid.Column width={isPortrait ? 16 : 10}>
         <Segment.Group>
           <ScreamDetailedHeader scream={scream} />
           <ScreamDetailedInfo scream={scream} isHost={isHost} />
         </Segment.Group>
       </Grid.Column>
-      <Grid.Column width={6}>
+      <Grid.Column width={isPortrait ? 16 : 6}>
         <ScreamDetailedChat screamId={scream.id} />
       </Grid.Column>
     </Grid>

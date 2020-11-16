@@ -41,6 +41,12 @@ export default function RecipeFilters({ loading }) {
             disabled={loading}
           />
           <Menu.Item
+            content='My Recipes'
+            // active={filter === 'all'}
+            onClick={() => console.log('click')}
+            // disabled={loading}
+          />
+          <Menu.Item
             content='Breakfast'
             active={filter === 'breakfast'}
             onClick={handleFilterBreakfast}

@@ -33,13 +33,15 @@ export default function RecipeForm({ match, history, location }) {
   const initialValues = selectedRecipe ?? {
     title: '',
     category: '',
-    description: '',
+    steps: '',
+    ingredients: '',
+    prepTime: '',
   };
 
   const validationSchema = Yup.object({
     title: Yup.string().required('You must provide a title'),
     category: Yup.string().required('You must provide a category'),
-    description: Yup.string().required(),
+    steps: Yup.string().required(),
   });
 
   useFirestoreDoc({
@@ -83,7 +85,9 @@ export default function RecipeForm({ match, history, location }) {
               placeholder='Recipe category'
               options={recipeCategories}
             />
-            <MyTextArea name='description' placeholder='Description' rows={3} />
+            <MyTextInput name='prepTime' placeholder='Prep Time' />
+            <MyTextArea name='ingredients' placeholder='Ingredients' rows={3} />
+            <MyTextArea name='steps' placeholder='Instructions' rows={3} />
 
             <Button
               loading={isSubmitting}

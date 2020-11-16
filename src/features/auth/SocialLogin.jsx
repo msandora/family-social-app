@@ -14,14 +14,14 @@ export default function SocialLogin() {
 
   return (
     <>
-      <Button
+      {/* <Button
         onClick={() => handleSocialLogin('facebook')}
         icon='facebook'
         fluid
         color='facebook'
         style={{ marginBottom: 10 }}
         content='Login with Facebook'
-      />
+      /> */}
       <Button
         onClick={() => handleSocialLogin('google')}
         icon='google'
