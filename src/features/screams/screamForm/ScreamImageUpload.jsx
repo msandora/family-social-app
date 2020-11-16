@@ -71,8 +71,7 @@ export default function ScreamImageUpload({ screamId, newScream, dispatch }) {
           <Header color='teal' sub content='Step 1 - Add Photo' />
           <PhotoWidgetDropzone setFiles={setFiles} />
         </Grid.Column>
-        {isPortrait ? null : <Grid.Column width={1} />}
-        <Grid.Column width={isPortrait ? 16 : 4}>
+        <Grid.Column width={isPortrait ? 16 : 6}>
           <Header color='teal' sub content='Step 2 - Resize' />
           {files.length > 0 && (
             <PhotoWidgetCropper
@@ -81,8 +80,7 @@ export default function ScreamImageUpload({ screamId, newScream, dispatch }) {
             />
           )}
         </Grid.Column>
-        {isPortrait ? null : <Grid.Column width={1} />}
-        <Grid.Column width={isPortrait ? 16 : 4}>
+        <Grid.Column width={isPortrait ? 16 : 6}>
           <Header color='teal' sub content='Step 3 - Preview & upload' />
           {files.length > 0 && (
             <>

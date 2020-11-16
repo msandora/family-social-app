@@ -74,8 +74,8 @@ export default function ScreamForm({ match, history, location }) {
             setSubmitting(false);
             // history.push('/screams');
             // history.push('/screams');
-            // window.location.href = 'http://localhost:3000/screams';
-            window.location.href = 'https://socialfamilyapp.web.app/screams';
+            window.location.href = 'http://localhost:3000/screams';
+            // window.location.href = 'https://socialfamilyapp.web.app/screams';
           } catch (error) {
             toast.error(error.message);
             setSubmitting(false);
@@ -125,7 +125,12 @@ export default function ScreamForm({ match, history, location }) {
                 </Link>
               ))}
 
-            <Form className='ui form'>
+            <Form
+              className='ui form'
+              style={{
+                marginTop: '1rem',
+              }}
+            >
               <Header sub color='teal' content='Post Details' />
               <MyTextArea
                 name='description'

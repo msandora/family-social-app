@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { toast } from 'react-toastify';
+import { useMediaQuery } from 'react-responsive';
 import cuid from 'cuid';
 import { Grid, Header, Button } from 'semantic-ui-react';
 import PhotoWidgetDropzone from './PhotoWidgetDropzone';
@@ -9,6 +10,7 @@ import { uploadToFirebaseStorage } from '../../firestore/firebaseService';
 import { updateUserProfilePhoto } from '../../firestore/firestoreService';
 
 export default function PhotoUploadWidget({ setEditMode }) {
+  const isPortrait = useMediaQuery({ query: '(orientation: portrait)' });
   const [files, setFiles] = useState([]);
   const [image, setImage] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -52,12 +54,11 @@ export default function PhotoUploadWidget({ setEditMode }) {
   return (
     <>
       <Grid>
-        <Grid.Column width={4}>
+        <Grid.Column width={isPortrait ? 16 : 4}>
           <Header color='teal' sub content='Step 1 - Add Photo' />
           <PhotoWidgetDropzone setFiles={setFiles} />
         </Grid.Column>
-        <Grid.Column width={1} />
-        <Grid.Column width={4}>
+        <Grid.Column width={isPortrait ? 16 : 6}>
           <Header color='teal' sub content='Step 2 - Resize' />
           {files.length > 0 && (
             <PhotoWidgetCropper
@@ -66,8 +67,7 @@ export default function PhotoUploadWidget({ setEditMode }) {
             />
           )}
         </Grid.Column>
-        <Grid.Column width={1} />
-        <Grid.Column width={4}>
+        <Grid.Column width={isPortrait ? 16 : 6}>
           <Header color='teal' sub content='Step 3 - Preview & upload' />
           {files.length > 0 && (
             <>
