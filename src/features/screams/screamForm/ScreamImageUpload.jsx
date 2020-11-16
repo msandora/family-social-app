@@ -8,8 +8,11 @@ import { uploadImage } from '../../../app/firestore/firebaseServices/firebaseScr
 import { getImgUrl } from './../screamActions';
 import PhotoWidgetCropper from '../../../app/common/photos/PhotoWidgetCropper';
 import PhotoWidgetDropzone from '../../../app/common/photos/PhotoWidgetDropzone';
+import { useMediaQuery } from 'react-responsive';
 
 export default function ScreamImageUpload({ screamId, newScream, dispatch }) {
+  const isPortrait = useMediaQuery({ query: '(orientation: portrait)' });
+
   const [files, setFiles] = useState([]);
   const [image, setImage] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -20,17 +23,13 @@ export default function ScreamImageUpload({ screamId, newScream, dispatch }) {
     dispatch(getImgUrl(imgUrlList && imgUrlList));
   }, [dispatch, imgUrlList]);
   //  console.log({imgUrl})
-  console.log({ imgUrlList });
+  // console.log({ imgUrlList });
 
   function handleUploadImage() {
     setLoading(true);
     const filename = cuid() + '.' + getFileExtension(files[0].name);
     const uploadTask = uploadImage(image, filename);
-    // const uploadTask = uploadScreamImageToFirebaseStorage(
-    //   image,
-    //   filename,
-    //   screamId
-    // );
+
     uploadTask.on(
       'state_changed',
       (snapshot) => {
@@ -68,12 +67,12 @@ export default function ScreamImageUpload({ screamId, newScream, dispatch }) {
   return (
     <>
       <Grid>
-        <Grid.Column width={4}>
+        <Grid.Column width={isPortrait ? 16 : 4}>
           <Header color='teal' sub content='Step 1 - Add Photo' />
           <PhotoWidgetDropzone setFiles={setFiles} />
         </Grid.Column>
-        <Grid.Column width={1} />
-        <Grid.Column width={4}>
+        {isPortrait ? null : <Grid.Column width={1} />}
+        <Grid.Column width={isPortrait ? 16 : 4}>
           <Header color='teal' sub content='Step 2 - Resize' />
           {files.length > 0 && (
             <PhotoWidgetCropper
@@ -82,14 +81,15 @@ export default function ScreamImageUpload({ screamId, newScream, dispatch }) {
             />
           )}
         </Grid.Column>
-        <Grid.Column width={1} />
-        <Grid.Column width={4}>
+        {isPortrait ? null : <Grid.Column width={1} />}
+        <Grid.Column width={isPortrait ? 16 : 4}>
           <Header color='teal' sub content='Step 3 - Preview & upload' />
           {files.length > 0 && (
             <>
               <div
                 className='img-preview'
                 style={{ minHeight: 200, minWidth: 200, overflow: 'hidden' }}
+                // style={{ width: '100%', overflow: 'hidden' }}
               />
               <Button.Group>
                 <Button

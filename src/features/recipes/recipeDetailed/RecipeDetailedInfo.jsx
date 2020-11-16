@@ -7,9 +7,10 @@ export default function RecipeDetailedInfo({ recipe, isHost }) {
   return (
     <>
       <Segment>
-        <p>Category: {recipe.category}</p>
-        <p>Title: {recipe.title}</p>
-        <p>description: {recipe.description}</p>
+        <div>Category: {recipe.category}</div>
+        <div>Prep Time: {recipe.prepTime}</div>
+        <div>Ingredients: {recipe.ingredients}</div>
+        <div>Instructions: {recipe.steps}</div>
       </Segment>
       <Segment attached='bottom' clearing>
         {isHost && (
@@ -20,7 +21,7 @@ export default function RecipeDetailedInfo({ recipe, isHost }) {
               tip='Delete Recipe'
               color='red'
               icon='trash'
-              linkRef={null}
+              linkRef={`/recipes`}
             />
             <MyButton
               // onClick={() => console.log('fix this', recipe.id)}

@@ -1,7 +1,14 @@
-import React, { useEffect, useState } from 'react';
+import React, {
+  //useEffect,
+  useState,
+} from 'react';
 import { Button, Popup, Icon, Label } from 'semantic-ui-react';
 import { useDispatch, useSelector } from 'react-redux';
-import { likeScream, UnLikeScream, getLikes } from '../screamActions';
+import {
+  likeScream,
+  UnLikeScream,
+  //getLikes
+} from '../screamActions';
 import UnauthModal from '../../auth/UnauthModal';
 
 export default function LikeButton({ scream }) {
@@ -37,9 +44,9 @@ export default function LikeButton({ scream }) {
   function handleUnLikeScream() {
     dispatch(UnLikeScream(scream));
   }
-  useEffect(() => {
-    dispatch(getLikes(screams));
-  }, [dispatch, screams]);
+  // useEffect(() => {
+  //   dispatch(getLikes(screams));
+  // }, [dispatch, screams]);
 
   return (
     <>

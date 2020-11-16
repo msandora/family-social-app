@@ -4,9 +4,11 @@ import { Link, useHistory } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { signOutFirebase } from '../../app/firestore/firebaseService';
 import { toast } from 'react-toastify';
-import { Mobile } from '../../app/layout/MediaQueries';
+import { useMediaQuery } from 'react-responsive';
 
 export default function SignedInMenu({ signOut }) {
+  const isPortrait = useMediaQuery({ query: '(orientation: portrait)' });
+
   const { currentUserProfile } = useSelector((state) => state.profile);
   const history = useHistory();
 
@@ -30,38 +32,40 @@ export default function SignedInMenu({ signOut }) {
     <Menu.Item position='right'>
       <Dropdown pointing='top right' trigger={trigger}>
         <Dropdown.Menu>
-          <Mobile>
-            <Dropdown.Item
-              as={Link}
-              to={`/screams`}
-              text='Social Feed'
-              icon='users'
-            />
-            <Dropdown.Item
-              as={Link}
-              to={`/events`}
-              text='Events'
-              icon='calendar'
-            />
-            <Dropdown.Item
-              as={Link}
-              to={`/recipes`}
-              text='Recipes'
-              icon='food'
-            />
-            <Dropdown.Item
-              as={Link}
-              to={`/family-tree`}
-              text='Family Tree'
-              icon='users'
-            />
-            {/* <Dropdown.Item
+          {isPortrait ? (
+            <>
+              <Dropdown.Item
+                as={Link}
+                to={`/screams`}
+                text='Social Feed'
+                icon='users'
+              />
+              <Dropdown.Item
+                as={Link}
+                to={`/events`}
+                text='Events'
+                icon='calendar'
+              />
+              <Dropdown.Item
+                as={Link}
+                to={`/recipes`}
+                text='Recipes'
+                icon='food'
+              />
+              <Dropdown.Item
+                as={Link}
+                to={`/family-tree`}
+                text='Family Tree'
+                icon='users'
+              />
+              {/* <Dropdown.Item
               as={Link}
               to={`/sandbox`}
               text='Sandbox'
               icon='users'
             /> */}
-          </Mobile>
+            </>
+          ) : null}
           <Dropdown.Item
             as={Link}
             to={`/profile/${currentUserProfile?.id}`}

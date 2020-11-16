@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import * as Yup from 'yup';
+import { toast } from 'react-toastify';
 import { Segment, Header, Button } from 'semantic-ui-react';
 import { Redirect } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { listenToSelectedScream, clearSelectedScream } from '../screamActions';
 import { Formik, Form } from 'formik';
-import * as Yup from 'yup';
-import MyTextInput from '../../../app/common/form/MyTextInput';
 import MyTextArea from '../../../app/common/form/MyTextArea';
 import { Link } from 'react-router-dom';
 import {
@@ -15,8 +15,6 @@ import {
 } from '../../../app/firestore/firestoreServices/firestoreScreamsHandler';
 import useFirestoreDoc from '../../../app/hooks/useFirestoreDoc';
 import LoadingComponent from '../../../app/layout/LoadingComponent';
-import { toast } from 'react-toastify';
-import { useEffect } from 'react';
 import ScreamImageUpload from './ScreamImageUpload';
 
 export default function ScreamForm({ match, history, location }) {
@@ -76,7 +74,8 @@ export default function ScreamForm({ match, history, location }) {
             setSubmitting(false);
             // history.push('/screams');
             // history.push('/screams');
-            window.location.href = 'http://localhost:3000/screams';
+            // window.location.href = 'http://localhost:3000/screams';
+            window.location.href = 'https://socialfamilyapp.web.app/screams';
           } catch (error) {
             toast.error(error.message);
             setSubmitting(false);

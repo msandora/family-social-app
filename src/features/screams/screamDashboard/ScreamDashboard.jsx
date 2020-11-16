@@ -6,9 +6,11 @@ import ScreamListItemPlaceholder from './ScreamListItemPlaceholder';
 import { fetchScreams } from '../screamActions';
 import { RETAIN_SCREAM_STATE } from '../screamConstants';
 import CreateScream from './CreateScream';
-import { Mobile, NotMobile } from '../../../app/layout/MediaQueries';
+import { useMediaQuery } from 'react-responsive';
 
 export default function ScreamDashboard() {
+  const isPortrait = useMediaQuery({ query: '(orientation: portrait)' });
+
   const limit = 2;
   const dispatch = useDispatch();
   const { screams, moreScreams, lastVisible, retainState } = useSelector(
@@ -38,51 +40,28 @@ export default function ScreamDashboard() {
     <>
       <CreateScream />
       <Grid>
-        <NotMobile>
-          <Grid.Column width={6}></Grid.Column>
-          <Grid.Column width={10}>
-            {loadingInitial && (
-              <>
-                <ScreamListItemPlaceholder />
-                <ScreamListItemPlaceholder />
-              </>
-            )}
-            {!loadingInitial && (
-              <ScreamList
-                screams={screams}
-                getNextScreams={handleFetchNextScreams}
-                loading={loading}
-                moreScreams={moreScreams}
-              />
-            )}
-          </Grid.Column>
-          <Grid.Column width={6}></Grid.Column>
-          <Grid.Column width={10}>
-            <Loader active={loading} />
-          </Grid.Column>
-        </NotMobile>
+        {isPortrait ? null : <Grid.Column width={6}></Grid.Column>}
 
-        <Mobile>
-          <Grid.Column width={16}>
-            {loadingInitial && (
-              <>
-                <ScreamListItemPlaceholder />
-                <ScreamListItemPlaceholder />
-              </>
-            )}
-            {!loadingInitial && (
-              <ScreamList
-                screams={screams}
-                getNextScreams={handleFetchNextScreams}
-                loading={loading}
-                moreScreams={moreScreams}
-              />
-            )}
-          </Grid.Column>
-          <Grid.Column width={16}>
-            <Loader active={loading} />
-          </Grid.Column>
-        </Mobile>
+        <Grid.Column width={isPortrait ? 16 : 10}>
+          {loadingInitial && (
+            <>
+              <ScreamListItemPlaceholder />
+              <ScreamListItemPlaceholder />
+            </>
+          )}
+          {!loadingInitial && (
+            <ScreamList
+              screams={screams}
+              getNextScreams={handleFetchNextScreams}
+              loading={loading}
+              moreScreams={moreScreams}
+            />
+          )}
+        </Grid.Column>
+        {isPortrait ? null : <Grid.Column width={6}></Grid.Column>}
+        <Grid.Column width={isPortrait ? 16 : 10}>
+          <Loader active={loading} />
+        </Grid.Column>
       </Grid>
     </>
   );
