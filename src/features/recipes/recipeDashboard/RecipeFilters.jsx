@@ -6,8 +6,12 @@ import { setFilter } from '../recipeActions';
 export default function RecipeFilters({ loading }) {
   const dispatch = useDispatch();
   const { authenticated } = useSelector((state) => state.auth);
-  const { filter } = useSelector((state) => state.recipe);
 
+  const { filter } = useSelector((state) => state.recipe);
+  function handleFilterMyRecipes() {
+    window.scrollTo(0, 0);
+    console.log('handleFilterMyRecipes');
+  }
   function handleFilterAllRecipes() {
     window.scrollTo(0, 0);
     dispatch(setFilter('all'));
@@ -43,7 +47,7 @@ export default function RecipeFilters({ loading }) {
           <Menu.Item
             content='My Recipes'
             // active={filter === 'all'}
-            onClick={() => console.log('click')}
+            onClick={handleFilterMyRecipes}
             // disabled={loading}
           />
           <Menu.Item

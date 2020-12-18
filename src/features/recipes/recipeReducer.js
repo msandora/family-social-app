@@ -3,12 +3,9 @@ import {
   UPDATE_RECIPE,
   DELETE_RECIPE,
   FETCH_RECIPES,
-  LISTEN_TO_RECIPE_CHAT,
-  CLEAR_COMMENTS,
   LISTEN_TO_SELECTED_RECIPE,
   CLEAR_RECIPES,
   SET_RECIPES_FILTER,
-  SET_START_DATE,
   RETAIN_RECIPE_STATE,
   CLEAR_SELECTED_RECIPE,
 } from './recipeConstants';
@@ -38,6 +35,9 @@ export default function recipeReducer(state = initialState, { type, payload }) {
           ...state.recipes.filter((evt) => evt.id !== payload.id),
           payload,
         ],
+        moreRecipes: true,
+        lastVisible: null,
+        retainState: false,
       };
     case DELETE_RECIPE:
       return {
@@ -50,16 +50,6 @@ export default function recipeReducer(state = initialState, { type, payload }) {
         recipes: [...state.recipes, ...payload.recipes],
         moreRecipes: payload.moreRecipes,
         lastVisible: payload.lastVisible,
-      };
-    case LISTEN_TO_RECIPE_CHAT:
-      return {
-        ...state,
-        comments: payload,
-      };
-    case CLEAR_COMMENTS:
-      return {
-        ...state,
-        comments: [],
       };
     case LISTEN_TO_SELECTED_RECIPE:
       return {
@@ -77,6 +67,7 @@ export default function recipeReducer(state = initialState, { type, payload }) {
         recipes: [],
         moreRecipes: true,
         lastVisible: null,
+        retainState: false,
       };
     case SET_RECIPES_FILTER:
       return {
@@ -84,13 +75,6 @@ export default function recipeReducer(state = initialState, { type, payload }) {
         retainState: false,
         moreRecipes: true,
         filter: payload,
-      };
-    case SET_START_DATE:
-      return {
-        ...state,
-        retainState: false,
-        moreRecipes: true,
-        startDate: payload,
       };
     case RETAIN_RECIPE_STATE:
       return {

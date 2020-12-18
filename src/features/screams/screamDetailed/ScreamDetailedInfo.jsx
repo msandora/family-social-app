@@ -1,8 +1,8 @@
 import React from 'react';
-import { Segment } from 'semantic-ui-react';
+import { Link } from 'react-router-dom';
+import { Segment, Button } from 'semantic-ui-react';
 import ScreamCarousel from './../screamComponents/ScreamCarousel';
 import LikeScream from './../screamComponents/LikeScream';
-import MyButton from '../../../app/common/MyButton';
 import { deleteScreamInFirestore } from '../../../app/firestore/firestoreServices/firestoreScreamsHandler';
 
 export default function ScreamDetailedInfo({ scream, isHost }) {
@@ -21,20 +21,20 @@ export default function ScreamDetailedInfo({ scream, isHost }) {
 
         {isHost && (
           <>
-            <MyButton
-              onClick={() => deleteScreamInFirestore(scream.id)}
-              // content='Delete'
-              tip='Delete Post'
+            <Button
+              type='button'
               color='red'
               icon='trash'
-              linkRef={`/screams`}
+              onClick={() => deleteScreamInFirestore(scream.id)}
+              floated='right'
             />
-            <MyButton
-              // onClick={() => console.log('fix this', scream.id)}
-              tip='Manage Post'
-              color='orange'
+            <Button
+              type='button'
+              color='teal'
               icon='edit'
-              linkRef={`/manageScream/${scream.id}`}
+              as={Link}
+              to={`/manageScream/${scream.id}`}
+              floated='right'
             />
           </>
         )}

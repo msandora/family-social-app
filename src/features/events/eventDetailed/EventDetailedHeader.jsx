@@ -112,20 +112,20 @@ export default function EventDetailedHeader({ event, isHost, isGoing }) {
 
           {isHost && (
             <>
-              <MyButton
-                onClick={() => deleteEventInFirestore(event.id)}
-                // content='Delete'
-                tip='Delete Event'
+              <Button
+                type='button'
                 color='red'
                 icon='trash'
-                linkRef={`/events`}
+                onClick={() => deleteEventInFirestore(event.id)}
+                floated='right'
               />
-              <MyButton
-                // onClick={() => console.log('fix this', event.id)}
-                tip='Manage Event'
-                color='orange'
+              <Button
+                type='button'
+                color='teal'
                 icon='edit'
-                linkRef={`/manageEvent/${event.id}`}
+                as={Link}
+                to={`/manageEvent/${event.id}`}
+                floated='right'
               />
             </>
           )}

@@ -1,9 +1,14 @@
 /* global google */
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { toast } from 'react-toastify';
 import { Segment, Header, Button, Confirm } from 'semantic-ui-react';
 import { Link, Redirect } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { listenToSelectedEvent, clearSelectedEvent } from '../eventActions';
+import {
+  listenToSelectedEvent,
+  clearSelectedEvent,
+  clearEvents,
+} from '../eventActions';
 import { Formik, Form } from 'formik';
 import * as Yup from 'yup';
 import MyTextInput from '../../../app/common/form/MyTextInput';
@@ -20,8 +25,6 @@ import {
 } from '../../../app/firestore/firestoreServices/firestoreEventsHandler';
 import useFirestoreDoc from '../../../app/hooks/useFirestoreDoc';
 import LoadingComponent from '../../../app/layout/LoadingComponent';
-import { toast } from 'react-toastify';
-import { useEffect } from 'react';
 
 export default function EventForm({ match, history, location }) {
   const dispatch = useDispatch();
@@ -100,6 +103,7 @@ export default function EventForm({ match, history, location }) {
               ? await updateEventInFirestore(values)
               : await addEventToFirestore(values);
             setSubmitting(false);
+            dispatch(clearEvents());
             history.push('/events');
           } catch (error) {
             toast.error(error.message);

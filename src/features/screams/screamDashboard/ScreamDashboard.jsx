@@ -20,17 +20,16 @@ export default function ScreamDashboard() {
   const [loadingInitial, setLoadingInitial] = useState(false);
 
   useEffect(() => {
-    console.log('ScreamDashboard', screams);
+    // console.log('ScreamDashboard', screams);
     if (retainState) return;
     setLoadingInitial(true);
-    console.log('lastVisible', lastVisible);
     dispatch(fetchScreams(limit, lastVisible)).then(() => {
       setLoadingInitial(false);
     });
     return () => {
       dispatch({ type: RETAIN_SCREAM_STATE });
     };
-  }, [dispatch, retainState]);
+  }, [dispatch, retainState, lastVisible, screams]);
 
   function handleFetchNextScreams() {
     dispatch(fetchScreams(limit, lastVisible));

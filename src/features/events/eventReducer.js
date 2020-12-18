@@ -77,6 +77,7 @@ export default function eventReducer(state = initialState, { type, payload }) {
         events: [],
         moreEvents: true,
         lastVisible: null,
+        retainState: false,
       };
     case SET_EVENTS_FILTER:
       return {

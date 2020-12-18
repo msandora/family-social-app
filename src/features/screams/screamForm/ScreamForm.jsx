@@ -4,7 +4,11 @@ import { toast } from 'react-toastify';
 import { Segment, Header, Button } from 'semantic-ui-react';
 import { Redirect } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { listenToSelectedScream, clearSelectedScream } from '../screamActions';
+import {
+  listenToSelectedScream,
+  clearSelectedScream,
+  clearScreams,
+} from '../screamActions';
 import { Formik, Form } from 'formik';
 import MyTextArea from '../../../app/common/form/MyTextArea';
 import { Link } from 'react-router-dom';
@@ -35,7 +39,7 @@ export default function ScreamForm({ match, history, location }) {
   };
 
   const validationSchema = Yup.object({
-    description: Yup.string().required(),
+    // description: Yup.string().required(),
     screamImages: Yup.array().of(
       Yup.string().required('You must provide a image')
     ),
@@ -72,10 +76,8 @@ export default function ScreamForm({ match, history, location }) {
               ? await updateScreamInFirestore(values, imgUrlList && imgUrlList)
               : await addScreamToFirestore(values, imgUrlList && imgUrlList);
             setSubmitting(false);
-            // history.push('/screams');
-            // history.push('/screams');
-            window.location.href = 'http://localhost:3000/screams';
-            // window.location.href = 'https://socialfamilyapp.web.app/screams';
+            dispatch(clearScreams());
+            history.push('/screams');
           } catch (error) {
             toast.error(error.message);
             setSubmitting(false);
@@ -103,7 +105,7 @@ export default function ScreamForm({ match, history, location }) {
                       width: '6rem',
                       height: '6rem',
                       margin: 5,
-                      border: '1px solid lightgrey',
+                      border: '3px solid red',
                     }}
                   />
                 </Link>
@@ -119,7 +121,7 @@ export default function ScreamForm({ match, history, location }) {
                       width: '6rem',
                       height: '6rem',
                       margin: 5,
-                      border: '1px solid lightgrey',
+                      border: '3px solid green',
                     }}
                   />
                 </Link>

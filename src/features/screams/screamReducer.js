@@ -86,6 +86,7 @@ export default function screamReducer(state = initialState, { type, payload }) {
         screams: [],
         moreScreams: true,
         lastVisible: null,
+        retainState: false,
       };
     case RETAIN_SCREAM_STATE:
       return {

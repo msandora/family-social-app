@@ -20,19 +20,16 @@ export function getScreamChatRef(screamId) {
 export function uploadScreamImageToFirebaseStorage(file, filename, screamId) {
   const user = firebase.auth().currentUser;
   const storageRef = firebase.storage().ref();
-  return storageRef
-    .child(`${user.uid}/scream_images/${screamId}/images/${filename}`)
-    .put(file);
+  return storageRef.child(`${user.uid}/scream_images/${filename}`).put(file);
 }
-export function uploadImage(file,filename) {
-  return firebase.storage().ref(`images/${filename}`).put(file)
+
+export function uploadImage(file, filename) {
+  return firebase.storage().ref(`images/${filename}`).put(file);
 }
 
 export function deleteScreamImageFromFirebaseStorage(filename, screamId) {
   const userUid = firebase.auth().currentUser.uid;
   const storageRef = firebase.storage().ref();
-  const photoRef = storageRef.child(
-    `${userUid}/scream_images/${screamId}/images/${filename}`
-  );
+  const photoRef = storageRef.child(`${userUid}/scream_images/${filename}`);
   return photoRef.delete();
 }

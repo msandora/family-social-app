@@ -20,7 +20,7 @@ export default function CreateRecipe() {
           content='Create Recipe'
           trigger={
             <Button
-              circular
+              // circular
               icon='add'
               size='massive'
               positive

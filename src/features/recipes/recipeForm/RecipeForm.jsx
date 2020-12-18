@@ -1,15 +1,21 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Segment, Header, Button } from 'semantic-ui-react';
 import { Redirect } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { listenToSelectedRecipe, clearSelectedRecipe } from '../recipeActions';
+import { toast } from 'react-toastify';
+
+import {
+  listenToSelectedRecipe,
+  clearSelectedRecipe,
+  updateRecipe,
+  clearRecipes,
+} from '../recipeActions';
 import { Formik, Form } from 'formik';
 import * as Yup from 'yup';
 import MyTextInput from '../../../app/common/form/MyTextInput';
 import MyTextArea from '../../../app/common/form/MyTextArea';
 import MySelectInput from '../../../app/common/form/MySelectInput';
 import { recipeCategories } from '../../../app/api/recipeCategories';
-
 import {
   listenToRecipeFromFirestore,
   updateRecipeInFirestore,
@@ -17,8 +23,6 @@ import {
 } from '../../../app/firestore/firestoreServices/firestoreRecipesHandler';
 import useFirestoreDoc from '../../../app/hooks/useFirestoreDoc';
 import LoadingComponent from '../../../app/layout/LoadingComponent';
-import { toast } from 'react-toastify';
-import { useEffect } from 'react';
 
 export default function RecipeForm({ match, history, location }) {
   const dispatch = useDispatch();
@@ -69,6 +73,7 @@ export default function RecipeForm({ match, history, location }) {
               ? await updateRecipeInFirestore(values)
               : await addRecipeToFirestore(values);
             setSubmitting(false);
+            dispatch(clearRecipes());
             history.push('/recipes');
           } catch (error) {
             toast.error(error.message);

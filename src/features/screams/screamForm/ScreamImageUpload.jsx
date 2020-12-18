@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { toast } from 'react-toastify';
 import cuid from 'cuid';
 import { Grid, Header, Button } from 'semantic-ui-react';
 import { getFileExtension } from '../../../app/common/util/util';
 import { updateScreamPhoto } from '../../../app/firestore/firestoreServices/firestoreScreamsHandler';
-import { uploadImage } from '../../../app/firestore/firebaseServices/firebaseScreamsHandler';
+import { uploadScreamImageToFirebaseStorage } from '../../../app/firestore/firebaseServices/firebaseScreamsHandler';
 import { getImgUrl } from './../screamActions';
 import PhotoWidgetCropper from '../../../app/common/photos/PhotoWidgetCropper';
 import PhotoWidgetDropzone from '../../../app/common/photos/PhotoWidgetDropzone';
@@ -28,7 +27,7 @@ export default function ScreamImageUpload({ screamId, newScream, dispatch }) {
   function handleUploadImage() {
     setLoading(true);
     const filename = cuid() + '.' + getFileExtension(files[0].name);
-    const uploadTask = uploadImage(image, filename);
+    const uploadTask = uploadScreamImageToFirebaseStorage(image, filename);
 
     uploadTask.on(
       'state_changed',
@@ -38,7 +37,8 @@ export default function ScreamImageUpload({ screamId, newScream, dispatch }) {
         console.log('Upload is ' + progress + '% done');
       },
       (error) => {
-        toast.error(error.messege);
+        console.log('error', error);
+        console.log(error.messege);
       },
       () => {
         uploadTask.snapshot.ref.getDownloadURL().then((downloadURL) => {
@@ -46,12 +46,13 @@ export default function ScreamImageUpload({ screamId, newScream, dispatch }) {
           setImgUrlList([...imgUrlList, downloadURL]);
           updateScreamPhoto(downloadURL, filename, screamId)
             .then((doc) => {
-              console.log({ doc });
+              // console.log({ doc });
               setLoading(false);
               handleCancelCrop();
             })
             .catch((error) => {
-              toast.error(error.message);
+              console.log('error', error);
+
               setLoading(false);
             });
         });
@@ -63,7 +64,7 @@ export default function ScreamImageUpload({ screamId, newScream, dispatch }) {
     setFiles([]);
     setImage(null);
   }
-  console.log({ files });
+  // console.log({ files });
   return (
     <>
       <Grid>
@@ -87,7 +88,6 @@ export default function ScreamImageUpload({ screamId, newScream, dispatch }) {
               <div
                 className='img-preview'
                 style={{ minHeight: 200, minWidth: 200, overflow: 'hidden' }}
-                // style={{ width: '100%', overflow: 'hidden' }}
               />
               <Button.Group>
                 <Button
